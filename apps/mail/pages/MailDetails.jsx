@@ -26,10 +26,13 @@ export function MailDetails() {
     if (!mail) return <div>Loading...</div>
     return (
         <section className="mail-details container">
-            <h1>{mail.subject}</h1>
-            {mail.from}
-            {mail.to}
-            {mail.body}
+            <section className="header">
+                <span className="mail-from">{mail.from}</span>
+                <span className="mail-to">{mail.to}</span>
+                <span className="mail-date">{mail.sentAt}</span>
+            </section>
+            <div className="mail-subject">{mail.subject}</div>
+            <div className="mail-body">{mail.body}</div>
             <button>Forward</button>
             <button>Reply</button>
         </section>
