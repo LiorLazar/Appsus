@@ -91,5 +91,7 @@ function _createMails() {
                 to: 'user@appsus.com'
             }
         ]
+        console.log('mails:', mails)
+        utilService.saveToStorage(MAIL_KEY, mails)
     }
 }
