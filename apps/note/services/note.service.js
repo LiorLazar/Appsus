@@ -72,8 +72,8 @@ function _createNotes() {
     
 }
 
-function _createNote(title, notetxt) {
-    const note = getEmptyNote(title, notetxt)
+function _createNote(title, info) {
+    const note = getEmptyNote(title, info)
     note.id = utilService.makeId()
     return note
 }
