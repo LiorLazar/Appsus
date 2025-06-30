@@ -92,22 +92,171 @@ function _createNotes() {
                 info: {
                     title: 'Get my stuff together',
                     todos: [
-                        {
-                            txt: 'Driving license'
-                            , doneAt: null
-                        },
+                        { txt: 'Driving license', doneAt: null },
                         { txt: 'Coding power', doneAt: 187111111 }
                     ]
+                }
+            },
+            {
+                id: 'n104',
+                createdAt: 1112225,
+                type: 'NoteTxt',
+                isPinned: false,
+                style: {
+                    backgroundColor: 'blue'
+                },
+                info: {
+                    txt: 'Learn React!'
+                }
+            },
+            {
+                id: 'n105',
+                createdAt: 1112226,
+                type: 'NoteImg',
+                isPinned: true,
+                info: {
+                    url: 'https://picsum.photos/220/150',
+                    title: 'Vacation Time'
+                },
+                style: {
+                    backgroundColor: 'yellow'
+                }
+            },
+            {
+                id: 'n106',
+                createdAt: 1112227,
+                type: 'NoteTodos',
+                isPinned: false,
+                info: {
+                    title: 'Shopping List',
+                    todos: [
+                        { txt: 'Milk', doneAt: null },
+                        { txt: 'Eggs', doneAt: null },
+                        { txt: 'Bread', doneAt: 187111111 }
+                    ]
+                }
+            },
+            {
+                id: 'n107',
+                createdAt: 1112228,
+                type: 'NoteTxt',
+                isPinned: true,
+                style: {
+                    backgroundColor: 'purple'
+                },
+                info: {
+                    txt: 'Master JavaScript!'
+                }
+            },
+            {
+                id: 'n108',
+                createdAt: 1112229,
+                type: 'NoteImg',
+                isPinned: false,
+                info: {
+                    url: 'https://picsum.photos/170/200',
+                    title: 'Nature Walk'
+                },
+                style: {
+                    backgroundColor: 'orange'
+                }
+            },
+            {
+                id: 'n109',
+                createdAt: 1112230,
+                type: 'NoteTodos',
+                isPinned: false,
+                info: {
+                    title: 'Workout Plan',
+                    todos: [
+                        { txt: 'Morning Run', doneAt: null },
+                        { txt: 'Yoga', doneAt: null },
+                        { txt: 'Strength Training', doneAt: 187111111 }
+                    ]
+                }
+            },
+            {
+                id: 'n110',
+                createdAt: 1112231,
+                type: 'NoteTxt',
+                isPinned: false,
+                style: {
+                    backgroundColor: 'pink'
+                },
+                info: {
+                    txt: 'Plan a trip!'
+                }
+            },
+            {
+                id: 'n111',
+                createdAt: 1112232,
+                type: 'NoteTxt',
+                isPinned: false,
+                style: {
+                    backgroundColor: 'cyan'
+                },
+                info: {
+                    txt: 'Read a book!'
+                }
+            },
+            {
+                id: 'n112',
+                createdAt: 1112233,
+                type: 'NoteImg',
+                isPinned: false,
+                info: {
+                    url: 'https://picsum.photos/250/250',
+                    title: 'Sunset View'
+                },
+                style: {
+                    backgroundColor: 'lightblue'
+                }
+            },
+            {
+                id: 'n113',
+                createdAt: 1112234,
+                type: 'NoteTodos',
+                isPinned: false,
+                info: {
+                    title: 'Daily Tasks',
+                    todos: [
+                        { txt: 'Exercise', doneAt: null },
+                        { txt: 'Meditate', doneAt: null },
+                        { txt: 'Work on project', doneAt: 187111111 }
+                    ]
+                }
+            },
+            {
+                id: 'n114',
+                createdAt: 1112235,
+                type: 'NoteTxt',
+                isPinned: true,
+                style: {
+                    backgroundColor: 'lime'
+                },
+                info: {
+                    txt: 'Start a new hobby!'
+                }
+            },
+            {
+                id: 'n115',
+                createdAt: 1112236,
+                type: 'NoteImg',
+                isPinned: false,
+                info: {
+                    url: 'https://picsum.photos/300/200',
+                    title: 'Mountain Adventure'
+                },
+                style: {
+                    backgroundColor: 'brown'
                 }
             }
         ]
         utilService.saveToStorage(NOTE_KEY, notes)
     }
 
-    console.log('notes:', notes);
-
+    console.log('notes:', notes)
 }
-
 // function _createNote(title, info) {
 //     const note = getEmptyNote(title, info)
 //     note.id = utilService.makeId()

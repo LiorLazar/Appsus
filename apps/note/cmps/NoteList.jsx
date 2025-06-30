@@ -56,9 +56,9 @@ export function NoteList() {
         <section className="note-list">
             <h1>Notes</h1>
             {notes.length ? (
-                <div className="note-grid">
+                <div className="note-container">
                     {notes.map(note => (
-                        <div key={note.id}>
+                        <div key={note.id} className="note-item">
                             {renderNote(note)}
                         </div>
                     ))}

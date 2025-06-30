@@ -1,54 +1,57 @@
-.note-list {
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.note-list h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    color: #333;
-}
-
-.note-grid {
+.note-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    gap: 15px; /* Space between notes */
+    justify-content: flex-start; /* Align notes to the start */
+    align-content: flex-start; /* Stack items tightly like blocks */
+    padding: 10px; /* Add padding around the grid */
+    height: auto; /* Allow the container to adjust dynamically */
+    box-sizing: border-box; /* Include padding in the layout */
 }
 
 .note-card {
     background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border: none; /* Remove border for a cleaner look */
+    border-radius: 8px; /* Rounded corners for a modern design */
+    padding: 10px; /* Adjust padding for better spacing */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    flex: 1 1 calc(200px - 20px);
-    max-width: 300px;
+    flex: 0 1 calc(250px - 15px); /* Dynamic sizing similar to Google Keep */
+    min-width: 125px; /* Ensure a minimum width */
+    min-height: 125px; /* Ensure a minimum height */
+    max-width: 250px; /* Optional: Limit maximum width */
+    height: auto; /* Allow height to adjust dynamically */
+    opacity: 0;
+    transform: translateY(100vh) rotate(10deg) scale(0.8); /* Start tilted, scaled down, and below the viewport */
+    animation: firstShowAnimation 0.4s ease-out forwards; /* Faster animation */
 }
 
 .note-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-3px); /* Slight hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.note-card:hover {
+    transform: translateY(-3px); /* Slight hover effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
 }
 
 .note-text {
     font-size: 14px;
-    color: #666;
+    color: #333; /* Darker text for better readability */
 }
 
 .note-img {
     width: 100%;
-    border-radius: 8px;
+    border-radius: 8px; /* Rounded corners for images */
     margin-bottom: 10px;
 }
 
 .note-title {
-    font-size: 18px;
+    font-size: 16px;
     margin-bottom: 10px;
-    color: #555;
+    color: #555; /* Subtle color for titles */
+    font-weight: bold; /* Bold titles for emphasis */
 }
 
 .note-todos {
@@ -76,4 +79,16 @@
     font-size: 16px;
     color: #888;
     text-align: center;
+}
+
+/* Keyframes for first-show animation */
+@keyframes firstShowAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(100vh) rotate(10deg) scale(0.8); /* Start tilted, scaled down, and below the viewport */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) scale(1); /* End upright and centered */
+    }
 }
