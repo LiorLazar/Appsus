@@ -46,4 +46,29 @@
         margin-bottom: 24px;
         white-space: pre-line;
     }
+
+    >.buttons-container {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+
+        >button {
+            background-color: #f5f7fa;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            color: #1a73e8;
+            padding: 8px 20px;
+            font-style: 1em;
+            font-family: inherit;
+            cursor: pointer;
+            transition: background 0.2s, border 0.2s, color: 0.2s;
+            outline: none;
+        }
+
+        >button:hover {
+            background-color: #e8f0fe;
+            border-color: #c6dafc;
+            color: #174ea6;
+        }
+    }
 }
