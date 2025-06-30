@@ -1,5 +1,6 @@
-import { noteService } from '../services/note.service.js'
+import { NoteList } from "../cmps/NoteList.jsx";
+
 
 export function NoteIndex() {
-    return <section className="container">Notes app</section>
+    return <NoteList />
 }
