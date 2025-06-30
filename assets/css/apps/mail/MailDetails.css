@@ -61,7 +61,7 @@
             font-style: 1em;
             font-family: inherit;
             cursor: pointer;
-            transition: background 0.2s, border 0.2s, color: 0.2s;
+            transition: background 0.2s, border 0.2s, color 0.2s;
             outline: none;
         }
 
