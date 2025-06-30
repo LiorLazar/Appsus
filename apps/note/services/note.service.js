@@ -11,16 +11,16 @@ export const noteService = {
     save,
     getEmptyNote,
     getDefaultFilter,
-    getFilterFromSearchParams
+    getFilterFromSearchParams,
 }
 
-function query(filterBy = {}) { 
+function query(filterBy = {}) {
     return storageService.query(NOTE_KEY)
         .then(notes => {
-            if (filterBy.txt) {
-                const regExp = new RegExp(filterBy.txt, 'i')
-                notes = notes.filter(note => regExp.test(note.title))
-            }
+            // if (filterBy.txt) {
+            //     const regExp = new RegExp(filterBy.txt, 'i')
+            //     notes = notes.filter(note => regExp.test(note.title))
+            // }
             // if (filterBy.minNoteTxt) {
             //     notes = notes.filter(note => note.notetxt >= filterBy.minNoteTxt)
             // }
@@ -59,28 +59,64 @@ function _createNotes() {
     let notes = utilService.loadFromStorage(NOTE_KEY)
     if (!notes || !notes.length) {
         notes = [
-            _createNote('audu', 'testttt11111'),
-            _createNote('fiak', 'testttt22222'),
-            _createNote('budi', 'testttt33333'),
-            _createNote('caca', 'testttt44444'),
-            _createNote('doni', 'testttt55555')
+            {
+                id: 'n101',
+                createdAt: 1112222,
+                type: 'NoteTxt',
+                isPinned: true,
+                style: {
+                    backgroundColor: 'green'
+                },
+                info: {
+                    txt: 'Fullstack Me Baby!'
+                }
+            },
+            {
+                id: 'n102',
+                createdAt: 1112223,
+                type: 'NoteImg',
+                isPinned: false,
+                info: {
+                    url: 'https://picsum.photos/200/200',
+                    title: 'Bobi and Me'
+                },
+                style: {
+                    backgroundColor: 'red'
+                }
+            },
+            {
+                id: 'n103',
+                createdAt: 1112224,
+                type: 'NoteTodos',
+                isPinned: false,
+                info: {
+                    title: 'Get my stuff together',
+                    todos: [
+                        {
+                            txt: 'Driving license'
+                            , doneAt: null
+                        },
+                        { txt: 'Coding power', doneAt: 187111111 }
+                    ]
+                }
+            }
         ]
         utilService.saveToStorage(NOTE_KEY, notes)
     }
 
     console.log('notes:', notes);
-    
+
 }
 
-function _createNote(title, info) {
-    const note = getEmptyNote(title, info)
-    note.id = utilService.makeId()
-    return note
-}
+// function _createNote(title, info) {
+//     const note = getEmptyNote(title, info)
+//     note.id = utilService.makeId()
+//     return note
+// }
 
 function getFilterFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''
-  
+
     return {
         txt
     }
