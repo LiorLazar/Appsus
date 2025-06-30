@@ -33,8 +33,11 @@ export function MailDetails() {
             </section>
             <div className="mail-subject">{mail.subject}</div>
             <div className="mail-body">{mail.body}</div>
-            <button>Forward</button>
-            <button>Reply</button>
+            <div className="buttons-container">
+                <button onClick={onBack}>Back</button>
+                <button>Forward</button>
+                <button>Reply</button>
+            </div>
         </section>
     )
 }
