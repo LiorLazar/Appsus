@@ -32,8 +32,23 @@
         min-width: 80px;
         text-align: right;
     }
+
+    >.fa-trash {
+        color: #5f6368;
+        background: transparent;
+        border-radius: 50%;
+        padding: 8px;
+        transition: background 0.2s, color 0.2s;
+        cursor: pointer;
+        font-size: 1.1em;
+    }
+
+    >.fa-trash:hover {
+        background: #fce8e6;
+    }
 }
 
 .mail-preview:hover {
     background: #f5f7fa;
+    color: #d93025;
 }
