@@ -2,6 +2,7 @@ import { MailList } from "../cmps/MailList.jsx"
 import { mailService } from "../services/mail.service.js"
 
 const { useState, useEffect } = React
+const { Outlet } = ReactRouterDOM
 
 export function MailIndex() {
 
@@ -24,6 +25,7 @@ export function MailIndex() {
     if (!mails) return <div className="container">Loading...</div>
     return <section className="mail-index">
         <MailList mails={mails} />
+        <Outlet />
     </section>
 }
 
