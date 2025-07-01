@@ -42,7 +42,7 @@ export function MailCompose() {
                 <input className="compose-input" type="email" name="to" placeholder="To" value={mail.to} onChange={handleChange} required />
                 <input className="compose-input" type="text" name="subject" placeholder="Subject" value={mail.subject} onChange={handleChange} />
                 <textarea className="compose-textarea" name="body" placeholder="" value={mail.body} onChange={handleChange} />
-                <button className="send-btn">שליחה</button>
+                <button className="send-btn">Send</button>
             </form>
         </section>
     )
