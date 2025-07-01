@@ -33,7 +33,7 @@
         text-align: right;
     }
 
-    >.fa-trash {
+    >.material-symbols-outlined {
         color: #5f6368;
         background: transparent;
         border-radius: 50%;
@@ -43,12 +43,11 @@
         font-size: 1.1em;
     }
 
-    >.fa-trash:hover {
-        background: #fce8e6;
+    >.material-symbols-outlined:hover {
+        background: #fff;
     }
 }
 
 .mail-preview:hover {
     background: #f5f7fa;
-    color: #d93025;
 }
