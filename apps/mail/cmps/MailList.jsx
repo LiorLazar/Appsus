@@ -36,6 +36,7 @@ export function MailList({ mails, onRemoveMail }) {
     return (
         <div className="mail-list container">
             <div>Unread Mails: {emails ? emails.filter(email => !email.isRead).length : 0}</div>
+            <Link to="compose" className="compose-btn">+ Compose</Link>
             {(emails || []).map(mail =>
                 <Link key={mail.id} to={mail.id}>
                     <section >
