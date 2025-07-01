@@ -5,14 +5,14 @@ const { useState } = React
 const { useNavigate } = ReactRouterDOM
 
 export function MailCompose() {
-    const [newMail, setNewMail] = useState(null)
+    const [mail, setMail] = useState(mailService.getEmptyMail())
     const navigate = useNavigate()
 
     function onSaveMail(ev) {
         ev.preventDefault()
-        mailService.save(newMail)
+        mailService.save(mail)
             .then(() => {
-                const { subject, body, from, to } = newMail
+                const { subject, body, from, to } = mail
                 if (!subject || !body || !from || !to) navigate('/mail')
             })
             .catch(err => {
@@ -22,23 +22,27 @@ export function MailCompose() {
 
     }
 
-    const mailFields = [
-        { name: 'from', type: 'text' },
-        { name: 'to', type: 'text' },
-        { name: 'subject', type: 'text' },
-        { name: 'body', type: 'text' },
-    ]
+    function handleChange({ target }) {
+        const field = target.name
+        let value = target.value
+        setMail(prevMail => ({ ...prevMail, [field]: value }))
+    }
+
+    function onBack() {
+        navigate('/mail')
+    }
 
     return (
         <section className="mail-compose">
-            <h1>Compose Mail</h1>
-            <form onSubmit={onSaveMail}>
-                {mailFields.map(field => {
-                    return <label key={field.name} htmlFor={field.name}>
-                        {field.name}
-                        <input type={field.type} name={field.name} />
-                    </label>
-                })}
+            <div className="header flex align-center space-between">
+                <span>New Message</span>
+                <button className="close-btn" onClick={onBack}>×</button>
+            </div>
+            <form className="compose-form" onSubmit={onSaveMail}>
+                <input className="compose-input" type="email" name="to" placeholder="To" value={mail.to} onChange={handleChange} required />
+                <input className="compose-input" type="text" name="subject" placeholder="Subject" value={mail.subject} onChange={handleChange} />
+                <textarea className="compose-textarea" name="body" placeholder="" value={mail.body} onChange={handleChange} />
+                <button className="send-btn">שליחה</button>
             </form>
         </section>
     )
