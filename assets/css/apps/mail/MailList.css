@@ -1,1 +1,12 @@
- /* mail list */
+.mail-list {
+    >.container {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 1px 8px rgba(60, 64, 67, .08), 0 1.5px 3px rgba(60, 64, 67, .08);
+        width: 100%;
+        max-width: 800px;
+        margin: 32px auto;
+        padding: 0;
+        overflow: hidden;
+    }
+}
