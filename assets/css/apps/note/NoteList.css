@@ -3,6 +3,7 @@
     width: 100%; /* Use full available width */
     box-sizing: border-box; /* Include padding in the layout */
     min-height: 200px; /* Minimum height to prevent layout jumps */
+    margin-top: 16px; /* Margin to separate from other content */
 }
 
 /* Responsive breakpoints */
