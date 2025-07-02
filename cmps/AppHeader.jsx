@@ -17,11 +17,13 @@ export function AppHeader() {
             <Link to="/" className="logo">
                 {isMail ? (
                     <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
-                ) : (
+                ) : isNote ? (
                     <div className="keep-logo">
                         <span>Keep</span>
                         <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" />
                     </div>
+                ) : (
+                    null
                 )}
             </Link>
 
