@@ -1,6 +1,3 @@
-const { Route, Routes } = ReactRouterDOM
-const Router = ReactRouterDOM.HashRouter
-
 import { AppHeader } from './cmps/AppHeader.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
 import { About } from './pages/About.jsx'
@@ -11,12 +8,18 @@ import { MailDetails } from './apps/mail/pages/MailDetails.jsx'
 import { MailCompose } from './apps/mail/cmps/MailCompose.jsx'
 import { SideMenu } from './cmps/SideMenu.jsx'
 
+const { useState } = React
+const { Route, Routes } = ReactRouterDOM
+const Router = ReactRouterDOM.HashRouter
+
 export function RootCmp() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
+
     return <Router>
         <section className="root-cmp">
-            <AppHeader />
+            <AppHeader onToggleMenu={() => setIsMenuOpen(prev => !prev)} />
             <div className="main-layout">
-                <SideMenu />
+                <SideMenu isOpen={isMenuOpen} />
                 <div className="main-content">
                     <Routes>
                         <Route path="/" element={<Home />} />

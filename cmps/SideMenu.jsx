@@ -1,21 +1,17 @@
 const { NavLink } = ReactRouterDOM
 
-export function SideMenu() {
+export function SideMenu({ isOpen }) {
     return (
-        <aside className="side-menu">
+        <aside className={`side-menu${isOpen ? ' open' : ' collapsed'}`}>
             <NavLink to="/mail/inbox" className="menu-item">
                 <span className="material-symbols-outlined">inbox</span>
-                <span>Inbox</span>
+                {isOpen && <span>Inbox</span>}
             </NavLink>
             <NavLink to="/mail/sent" className="menu-item">
                 <span className="material-symbols-outlined">send</span>
-                <span>Sent</span>
+                {isOpen && <span>Sent</span>}
             </NavLink>
-            <NavLink to="/mail/drafts" className="menu-item">
-                <span className="material-symbols-outlined">drafts</span>
-                <span>Drafts</span>
-            </NavLink>
-            {/* Add more items as needed */}
+            {/* ...other items... */}
         </aside>
     )
 }
