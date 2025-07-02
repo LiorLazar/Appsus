@@ -73,3 +73,12 @@
         }
     }
 }
+
+.main-logo {
+    height: 40px;
+    width: auto;
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+    display: block;
+    object-fit: contain;
+}
