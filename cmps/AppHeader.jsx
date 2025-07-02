@@ -13,19 +13,19 @@ export function AppHeader() {
     return (
         <header className="app-header">
             <span className="material-symbols-outlined">dehaze</span>
-            <img className="main-logo" src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
             <Link to="/" className="logo">
-                {isMail ? (
-                    <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
-                ) : isNote ? (
-                    <div className="keep-logo">
-                        <span>Keep</span>
-                        <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" />
-                    </div>
-                ) : (
-                    null
-                )}
+                <img className="main-logo" src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
             </Link>
+            {isMail ? (
+                <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
+            ) : isNote ? (
+                <div className="keep-logo">
+                    <span>Keep</span>
+                    <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" />
+                </div>
+            ) : (
+                null
+            )}
 
             <div className="header-bar">
                 <div className="search-bar">
