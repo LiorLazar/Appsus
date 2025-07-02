@@ -4,15 +4,44 @@
     border-right: 1px solid #e0e0e0;
     transition: width 0.2s;
     overflow: hidden;
-    /* Remove min-width/max-width for auto sizing */
+    padding-top: 1em;
 }
 
 .side-menu.collapsed {
     width: 60px;
-    /* Only icons visible */
+    /* or adjust to fit your icon size + padding */
+    min-width: 60px;
+    max-width: 60px;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .menu-item {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+    position: relative;
+}
+
+.unread-count {
+    background: #d93025;
+    color: #fff;
+    border-radius: 12px;
+    padding: 0 8px;
+    margin-left: auto;
+    font-size: 0.85em;
+    font-weight: bold;
+    min-width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 16px;
+}
+
+.menu-item,
+.compose-btn {
     display: flex;
     align-items: center;
     gap: 1em;
@@ -25,25 +54,20 @@
     white-space: nowrap;
 }
 
-.side-menu.collapsed .menu-item span:last-child {
+.side-menu.collapsed .menu-item span:last-child,
+.side-menu.collapsed .compose-btn span:last-child {
     display: none;
 }
 
-.unread-count {
-    background: #d93025;
-    color: #fff;
-    border-radius: 12px;
-    padding: 0 8px;
-    margin-left: 8px;
-    font-size: 0.85em;
-    font-weight: bold;
-    display: inline-block;
-    min-width: 24px;
-    text-align: center;
+.side-menu.collapsed .compose-btn {
+    justify-content: center;
+    padding: 10px 0;
+    margin-left: 0;
+    margin-right: 0;
+    width: 100%;
 }
 
 .compose-btn {
-    display: inline-block;
     background: #c2e7ff;
     color: #001d35;
     font-weight: 500;
