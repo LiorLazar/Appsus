@@ -7,6 +7,7 @@ export function AppHeader() {
 
     return (
         <header className="app-header">
+            <span className="material-symbols-outlined">dehaze</span>
             <Link to="/" className="logo">
                 {isMail ? (
                     <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
