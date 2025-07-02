@@ -1,31 +1,43 @@
 .side-menu {
-    width: 220px;
+    width: fit-content;
     background: #fff;
     border-right: 1px solid #e0e0e0;
-    padding: 1em 0;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+    transition: width 0.2s;
+    overflow: hidden;
+    /* Remove min-width/max-width for auto sizing */
+}
+
+.side-menu.collapsed {
+    width: 60px;
+    /* Only icons visible */
 }
 
 .menu-item {
     display: flex;
     align-items: center;
+    gap: 1em;
     padding: 0.75em 1.5em;
     color: #444;
     text-decoration: none;
-    font-size: 1em;
     border-radius: 0 24px 24px 0;
     transition: background 0.2s, color 0.2s;
-    gap: 1em;
+    font-size: 1em;
+    white-space: nowrap;
 }
 
-.menu-item .material-symbols-outlined {
-    font-size: 24px;
+.side-menu.collapsed .menu-item span:last-child {
+    display: none;
 }
 
-.menu-item.active,
-.menu-item:hover {
-    background: #f1f3f4;
-    color: #1a73e8;
+.unread-count {
+    background: #d93025;
+    color: #fff;
+    border-radius: 12px;
+    padding: 0 8px;
+    margin-left: 8px;
+    font-size: 0.85em;
+    font-weight: bold;
+    display: inline-block;
+    min-width: 24px;
+    text-align: center;
 }
