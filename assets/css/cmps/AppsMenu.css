@@ -1,0 +1,57 @@
+.apps-menu {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .2);
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.apps-menu-grid {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(60, 64, 67, .3);
+    padding: 1em;
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    gap: 1em;
+    width: max-content;
+    margin: 2em 2em 0 0;
+}
+
+.apps-menu-grid a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #222;
+    font-size: 0.9em;
+    transition: background 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+    padding: 0.5em 0.2em;
+    width: 80px;
+    min-height: 90px;
+}
+
+.apps-menu-grid a:hover {
+    background: #f1f3f4;
+    box-shadow: 0 2px 8px rgba(60, 64, 67, .1);
+}
+
+.apps-menu-grid .material-symbols-outlined {
+    font-size: 32px;
+    margin-bottom: 0.3em;
+    display: block;
+}
+
+.apps-menu-grid a span,
+.apps-menu-grid a div {
+    text-align: center;
+    width: 100%;
+    word-break: break-word;
+}
