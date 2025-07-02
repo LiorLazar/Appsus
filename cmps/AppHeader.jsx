@@ -28,11 +28,18 @@ export function AppHeader() {
             )}
 
             <div className="header-bar">
-                <div className="search-bar">
-                    <span className="material-symbols-outlined">search</span>
-                    <input type="text" placeholder="Search mail" />
-                    <span className="material-symbols-outlined">tune</span>
-                </div>
+                {(isMail || isNote) && (
+                    <div className="search-bar">
+                        <span className="material-symbols-outlined">search</span>
+                        <input
+                            type="text"
+                            placeholder={isMail ? "Search mail" : "Search note"}
+                        />
+                        {isMail && (
+                            <span className="material-symbols-outlined">tune</span>
+                        )}
+                    </div>
+                )}
                 <div className="header-icons">
                     <span className="material-symbols-outlined">help</span>
                     <span className="material-symbols-outlined">settings</span>
