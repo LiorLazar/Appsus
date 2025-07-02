@@ -7,6 +7,7 @@
 @import './cmps/UserMsg.css';
 @import './cmps/AppHeader.css';
 @import './cmps/AppsMenu.css';
+@import './cmps/SideMenu.css';
 
 @import './apps/note/NoteIndex.css';
 @import './apps/note/NoteList.css';
@@ -15,3 +16,28 @@
 @import './apps/mail/MailPreview.css';
 @import './apps/mail/MailDetails.css';
 @import './apps/mail/MailCompose.css';
+
+
+.root-cmp {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main-layout {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+}
+
+.side-menu {
+    min-width: 220px;
+    background: #fff;
+    border-right: 1px solid #e0e0e0;
+}
+
+.main-content {
+    flex: 1;
+    padding: 2em;
+    min-width: 0;
+}

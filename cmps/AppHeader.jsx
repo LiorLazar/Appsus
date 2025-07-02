@@ -51,6 +51,7 @@ export function AppHeader() {
                 <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
             </div>
 
+
             <nav>
                 {/* <NavLink to="/">Home</NavLink> */}
                 <NavLink to="/about">About</NavLink>
