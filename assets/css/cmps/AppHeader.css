@@ -7,10 +7,6 @@
     background-color: #fff;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
-    >.logo img {
-        height: 40px;
-    }
-
     >.keep-logo {
         display: flex;
         align-items: center;
@@ -77,8 +73,15 @@
 .main-logo {
     height: 40px;
     width: auto;
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-    display: block;
+    max-width: 120px;
+    /* Optional: limit max width */
     object-fit: contain;
+    display: block;
+}
+
+.app-header img:not(.main-logo) {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
+    max-width: 120px;
 }
