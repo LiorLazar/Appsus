@@ -1,8 +1,12 @@
+import { NoteToolBar } from './NoteToolBar.jsx'
 import { noteService } from '../services/note.service.js'
-const { useState, useEffect } = React
+import { NoteAnimate } from '../services/NoteAnimate.js'
+
+const { useState, useEffect, useRef } = React
 
 export function NoteList() {
     const [notes, setNotes] = useState([])
+    const containerRef = useRef(null)
 
     useEffect(() => {
         noteService.query()
@@ -16,6 +20,27 @@ export function NoteList() {
             })
     }, [])
 
+    useEffect(() => {
+        if (notes.length && containerRef.current) {
+            // Initialize masonry layout
+            NoteAnimate.initMasonry(containerRef.current)
+            
+            // Setup image load listeners
+            const cleanupImages = NoteAnimate.setupImageListeners(containerRef.current)
+            
+            return cleanupImages
+        }
+    }, [notes])
+
+    useEffect(() => {
+        if (containerRef.current) {
+            // Setup resize listener
+            const cleanupResize = NoteAnimate.setupResizeListener(containerRef.current)
+            
+            return cleanupResize
+        }
+    }, [notes])
+
     function renderNote(note) {
         const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff'
 
@@ -25,13 +50,21 @@ export function NoteList() {
                     <div className="note-card" style={{ backgroundColor }}>
                         <h2 className="note-title">{note.info.title}</h2>
                         <p className="note-text">{note.info.txt}</p>
+                        <NoteToolBar note={note} />
                     </div>
                 )
             case 'NoteImg':
                 return (
                     <div className="note-card" style={{ backgroundColor }}>
-                        <img src={note.info.url} alt={note.info.title} className="note-img" />
+                        <img 
+                            src={note.info.url} 
+                            alt={note.info.title} 
+                            className="note-img"
+                            onLoad={() => NoteAnimate.handleImageLoad(containerRef.current)}
+                            onError={() => NoteAnimate.handleImageLoad(containerRef.current)}
+                        />
                         <h2 className="note-title">{note.info.title}</h2>
+                        <NoteToolBar note={note} className="tool-bar"/>
                     </div>
                 )
             case 'NoteTodos':
@@ -45,6 +78,7 @@ export function NoteList() {
                                 </li>
                             ))}
                         </ul>
+                        <NoteToolBar note={note} />
                     </div>
                 )
             default:
@@ -54,9 +88,8 @@ export function NoteList() {
 
     return (
         <section className="note-list">
-            <h1>Notes</h1>
             {notes.length ? (
-                <div className="note-container">
+                <div className="note-container" ref={containerRef}>
                     {notes.map(note => (
                         <div key={note.id} className="note-item">
                             {renderNote(note)}

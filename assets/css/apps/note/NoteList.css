@@ -1,39 +1,61 @@
 .note-container {
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next line */
-    gap: 15px; /* Space between notes */
-    justify-content: flex-start; /* Align notes to the start */
-    align-content: flex-start; /* Stack items tightly like blocks */
-    padding: 10px; /* Add padding around the grid */
-    height: auto; /* Allow the container to adjust dynamically */
+    position: relative; /* Required for absolute positioning of cards */
+    width: 100%; /* Use full available width */
     box-sizing: border-box; /* Include padding in the layout */
+    min-height: 200px; /* Minimum height to prevent layout jumps */
 }
+
+/* Responsive breakpoints */
+
+
+.note-item {
+    transition: all 0.3s ease, left 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Faster transitions for position changes */
+    opacity: 0; /* Start hidden for animation */
+    transform: translateY(100vh) rotate(10deg) scale(0.8); /* Start animation state */
+    animation: noteItemAnimation 0.4s ease-out forwards; /* Animation for the container */
+}
+
+/* Animation for note items */
+@keyframes noteItemAnimation {
+    from {
+        opacity: 0;
+        transform: translateY(100vh) rotate(10deg) scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg) scale(1);
+    }
+}
+
+/* Staggered animation delays for each note */
+.note-item:nth-child(1) { animation-delay: 0ms; }
+.note-item:nth-child(2) { animation-delay: 100ms; }
+.note-item:nth-child(3) { animation-delay: 200ms; }
+.note-item:nth-child(4) { animation-delay: 300ms; }
+.note-item:nth-child(5) { animation-delay: 400ms; }
+.note-item:nth-child(6) { animation-delay: 500ms; }
+.note-item:nth-child(7) { animation-delay: 600ms; }
+.note-item:nth-child(8) { animation-delay: 700ms; }
+.note-item:nth-child(9) { animation-delay: 800ms; }
+.note-item:nth-child(n+10) { animation-delay: 900ms; }
 
 .note-card {
     background-color: #fff;
     border: none; /* Remove border for a cleaner look */
     border-radius: 8px; /* Rounded corners for a modern design */
-    padding: 10px; /* Adjust padding for better spacing */
+    padding: 16px 16px 40px 16px; /* 16px on top/left/right, 40px bottom for toolbar space */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    flex: 0 1 calc(250px - 15px); /* Dynamic sizing similar to Google Keep */
-    min-width: 125px; /* Ensure a minimum width */
-    min-height: 125px; /* Ensure a minimum height */
-    max-width: 250px; /* Optional: Limit maximum width */
-    height: auto; /* Allow height to adjust dynamically */
-    opacity: 0;
-    transform: translateY(100vh) rotate(10deg) scale(0.8); /* Start tilted, scaled down, and below the viewport */
-    animation: firstShowAnimation 0.4s ease-out forwards; /* Faster animation */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animations for hover */
+    width: 239px; /* Fixed width of 239px */
+    flex-shrink: 0; /* Prevent shrinking */
+    position: relative; /* Enable positioning for toolbar */
+    box-sizing: border-box; /* Include padding in width calculation */
+    opacity: 1; /* Always visible since parent handles animation */
 }
 
 .note-card:hover {
-    transform: translateY(-3px); /* Slight hover effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
-}
-
-.note-card:hover {
-    transform: translateY(-3px); /* Slight hover effect */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+    transform: translateY(-5px) scale(1.02); /* More pronounced hover effect */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
 }
 
 .note-text {
@@ -43,8 +65,14 @@
 
 .note-img {
     width: 100%;
+    height: auto;
+    max-height: 200px; /* Limit maximum height to prevent huge images */
+    object-fit: cover; /* Maintain aspect ratio while fitting the container */
     border-radius: 8px; /* Rounded corners for images */
     margin-bottom: 10px;
+    display: block; /* Prevent inline spacing issues */
+    min-height: 120px; /* Reserve space while loading */
+    background-color: #f5f5f5; /* Light background while loading */
 }
 
 .note-title {
@@ -91,4 +119,78 @@
         opacity: 1;
         transform: translateY(0) rotate(0deg) scale(1); /* End upright and centered */
     }
+}
+
+/* Toolbar positioning */
+.note-toolbar {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 4px; /* Small gap between buttons */
+    width: auto;
+    opacity: 0; /* Hidden by default */
+    visibility: hidden; /* Hidden by default */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Smooth show/hide animation */
+}
+
+/* Show toolbar on card hover */
+.note-card:hover .note-toolbar {
+    opacity: 1; /* Visible on hover */
+    visibility: visible; /* Visible on hover */
+}
+
+.note-toolbar .btn {
+    background: transparent; /* Clear/transparent background */
+    color: #5f6368; /* Subtle gray text color */
+    border: none; /* No border by default */
+    border-radius: 50%; /* Perfect circle shape */
+    padding: 8px; /* Equal padding for perfect circle */
+    width: 32px; /* Fixed width for circle */
+    height: 32px; /* Fixed height for circle */
+    font-size: 16px; /* Larger icon size */
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    white-space: nowrap; /* Prevent text wrapping */
+}
+
+.note-toolbar .btn:hover {
+    background: rgba(60, 64, 67, 0.08); /* Very subtle dark background on hover */
+    transform: scale(1.1); /* Slightly larger scale on hover */
+}
+
+.note-toolbar .btn:active {
+    transform: scale(0.95); /* Slight press effect */
+}
+
+
+
+/* Special class for notes that have finished initial animation */
+.note-item.positioned {
+    transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.3s ease; /* Smooth column transitions with easing */
+    animation: none; /* Remove entrance animation */
+}
+
+/* Add a subtle scale effect during repositioning */
+.note-item.repositioning {
+    transform: scale(0.98);
+    transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                top 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.2s ease;
+}
+
+/* Fast transitions during resize for immediate response */
+.note-item.fast-transition {
+    transition: left 0.2s ease-out, 
+                top 0.2s ease-out,
+                transform 0.2s ease !important;
 }
