@@ -4,19 +4,22 @@ import { mailService } from "../services/mail.service.js"
 const { useState, useEffect } = React
 const { Outlet } = ReactRouterDOM
 
-export function MailIndex() {
-
+export function MailIndex({ setUnreadCount }) {
     const [mails, setMails] = useState(null)
     const [filterBy, setFilterBy] = useState(mailService.getDefaultFilter())
-    useEffect(() => loadMails(), [filterBy])
 
-    function loadMails() {
+    useEffect(() => {
         mailService.query(filterBy)
-            .then(setMails)
+            .then(mails => {
+                setMails(mails)
+                // Calculate unread count and update parent
+                const unread = mails.filter(mail => !mail.isRead).length
+                setUnreadCount(unread)
+            })
             .catch(err => {
                 console.log('err:', err)
             })
-    }
+    }, [filterBy, setUnreadCount])
 
     function onSetFilterBy(filterBy) {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
@@ -28,4 +31,3 @@ export function MailIndex() {
         <Outlet />
     </section>
 }
-
