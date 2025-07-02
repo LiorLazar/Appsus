@@ -35,7 +35,6 @@ export function MailList({ mails, onRemoveMail }) {
 
     return (
         <div className="mail-list container">
-            <Link to="compose" className="compose-btn">+ Compose</Link>
             {(emails || []).map(mail =>
                 <Link key={mail.id} to={mail.id}>
                     <section >
