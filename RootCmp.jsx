@@ -14,17 +14,19 @@ const Router = ReactRouterDOM.HashRouter
 
 export function RootCmp() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [unreadCount, setUnreadCount] = useState(0)
+
 
     return <Router>
         <section className="root-cmp">
             <AppHeader onToggleMenu={() => setIsMenuOpen(prev => !prev)} />
             <div className="main-layout">
-                <SideMenu isOpen={isMenuOpen} />
+                <SideMenu isOpen={isMenuOpen} unreadCount={unreadCount} />
                 <div className="main-content">
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
-                        <Route path="/mail" element={<MailIndex />}>
+                        <Route path="/mail" element={<MailIndex setUnreadCount={setUnreadCount} />}>
                             <Route path="compose" element={<MailCompose />} />
                         </Route>
                         <Route path="/mail/:mailId" element={<MailDetails />} />
