@@ -65,7 +65,7 @@ function _createNotes() {
                 type: 'NoteTxt',
                 isPinned: true,
                 style: {
-                    backgroundColor: 'green'
+                    backgroundColor: '#f39f76' // google keep orange
                 },
                 info: {
                     txt: 'Fullstack Me Baby!'
@@ -81,7 +81,7 @@ function _createNotes() {
                     title: 'Bobi and Me'
                 },
                 style: {
-                    backgroundColor: 'red'
+                    backgroundColor: '#faafa8' // google keep peach
                 }
             },
             {
@@ -103,7 +103,7 @@ function _createNotes() {
                 type: 'NoteTxt',
                 isPinned: false,
                 style: {
-                    backgroundColor: 'blue'
+                    backgroundColor: '#fff8b8' // google keep yellow
                 },
                 info: {
                     txt: 'Learn React!'
@@ -119,7 +119,7 @@ function _createNotes() {
                     title: 'Vacation Time'
                 },
                 style: {
-                    backgroundColor: 'yellow'
+                    backgroundColor: '#fff8b8' // google keep yellow
                 }
             },
             {
@@ -142,7 +142,7 @@ function _createNotes() {
                 type: 'NoteTxt',
                 isPinned: true,
                 style: {
-                    backgroundColor: 'purple'
+                    backgroundColor: '#d3bfdb' // google keep purple
                 },
                 info: {
                     txt: 'Master JavaScript!'
@@ -158,7 +158,7 @@ function _createNotes() {
                     title: 'Nature Walk'
                 },
                 style: {
-                    backgroundColor: 'orange'
+                    backgroundColor: '#f39f76' // google keep orange
                 }
             },
             {
@@ -181,7 +181,7 @@ function _createNotes() {
                 type: 'NoteTxt',
                 isPinned: false,
                 style: {
-                    backgroundColor: 'pink'
+                    backgroundColor: '#f6e2dd' // google keep pink
                 },
                 info: {
                     txt: 'Plan a trip!'
@@ -193,7 +193,7 @@ function _createNotes() {
                 type: 'NoteTxt',
                 isPinned: false,
                 style: {
-                    backgroundColor: 'cyan'
+                    backgroundColor: '#d4e4ed' // google keep light blue
                 },
                 info: {
                     txt: 'Read a book!'
@@ -209,7 +209,7 @@ function _createNotes() {
                     title: 'Sunset View'
                 },
                 style: {
-                    backgroundColor: 'lightblue'
+                    backgroundColor: '#d4e4ed' // google keep light blue
                 }
             },
             {
@@ -232,7 +232,7 @@ function _createNotes() {
                 type: 'NoteTxt',
                 isPinned: true,
                 style: {
-                    backgroundColor: 'lime'
+                    backgroundColor: '#e2f6d3' // google keep light green
                 },
                 info: {
                     txt: 'Start a new hobby!'
@@ -248,7 +248,7 @@ function _createNotes() {
                     title: 'Mountain Adventure'
                 },
                 style: {
-                    backgroundColor: 'brown'
+                    backgroundColor: '#e9e3d4' // google keep light beige
                 }
             }
         ]
