@@ -1,4 +1,7 @@
-import { NoteToolBar } from './NoteToolBar.jsx'
+import { NoteTxt } from './NoteTxt.jsx'
+import { NoteImg } from './NoteImg.jsx'
+import { NoteTodos } from './NoteTodos.jsx'
+import { NoteVideo } from './NoteVideo.jsx'
 import { noteService } from '../services/note.service.js'
 import { NoteAnimate } from '../services/NoteAnimate.js'
 
@@ -42,45 +45,15 @@ export function NoteList() {
     }, [notes])
 
     function renderNote(note) {
-        const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff'
-
         switch (note.type) {
-            case 'NoteTxt':
-                return (
-                    <div className="note-card" style={{ backgroundColor }}>
-                        <h2 className="note-title">{note.info.title}</h2>
-                        <p className="note-text">{note.info.txt}</p>
-                        <NoteToolBar note={note} />
-                    </div>
-                )
-            case 'NoteImg':
-                return (
-                    <div className="note-card" style={{ backgroundColor }}>
-                        <img 
-                            src={note.info.url} 
-                            alt={note.info.title} 
-                            className="note-img"
-                            onLoad={() => NoteAnimate.handleImageLoad(containerRef.current)}
-                            onError={() => NoteAnimate.handleImageLoad(containerRef.current)}
-                        />
-                        <h2 className="note-title">{note.info.title}</h2>
-                        <NoteToolBar note={note} className="tool-bar"/>
-                    </div>
-                )
-            case 'NoteTodos':
-                return (
-                    <div className="note-card" style={{ backgroundColor }}>
-                        <h2 className="note-title">{note.info.title}</h2>
-                        <ul className="note-todos">
-                            {note.info.todos.map((todo, idx) => (
-                                <li key={idx} className={`todo-item ${todo.doneAt ? 'done' : ''}`}>
-                                    {todo.txt}
-                                </li>
-                            ))}
-                        </ul>
-                        <NoteToolBar note={note} />
-                    </div>
-                )
+            case 'NoteTxt': return ( <NoteTxt note={note}/> )
+
+            case 'NoteImg': return ( <NoteImg note={note} containerRef={containerRef}/> )
+
+            case 'NoteTodos': return ( <NoteTodos note={note}/> )
+
+            case 'NoteVideo': return ( <NoteVideo note={note} containerRef={containerRef}/>)
+
             default:
                 return null
         }
