@@ -6,7 +6,7 @@ const { useState, useEffect } = React
 const { Link } = ReactRouterDOM
 
 export function MailList({ mails, onRemoveMail }) {
-    if (!Array.isArray(mails)) return null
+    if (!mails || !mails.length) return <div>No mails</div>
 
     const [emails, setEmails] = useState(null)
     const [filterBy, setFilterBy] = useState(mailService.getDefaultFilter())
@@ -35,13 +35,13 @@ export function MailList({ mails, onRemoveMail }) {
 
     return (
         <div className="mail-list container">
-            {(emails || []).map(mail =>
-                <Link key={mail.id} to={mail.id}>
-                    <section >
-                        <MailPreview mail={mail} onRemoveMail={onRemoveMail} />
-                    </section>
-                </Link>
-            )}
+            <div className="mail-list container">
+                {mails.map(mail => (
+                    <Link key={mail.id} to={`/mail/${mail.id}`}>
+                        <MailPreview mail={mail} />
+                    </Link>
+                ))}
+            </div>
         </div>
     )
 }

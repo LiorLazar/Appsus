@@ -10,10 +10,11 @@ export function MailCompose() {
 
     function onSaveMail(ev) {
         ev.preventDefault()
-        mailService.save(mail)
+        const sentMail = { ...mail, folder: 'sent' }
+        mailService.save(sentMail)
             .then(() => {
                 const { subject, body, from, to } = mail
-                if (!subject || !body || !from || !to) navigate('/mail')
+                if (!subject || !body || !from || !to) navigate('/mail/sent')
             })
             .catch(err => {
                 console.log('Cannot save mail:', err)

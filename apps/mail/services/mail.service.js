@@ -20,6 +20,9 @@ function query(filterBy = {}) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 mails = mails.filter(mail => regExp.test(mail.subject))
             }
+            if (filterBy.folder) {
+                mails = mails.filter(mail => mail.folder === filterBy.folder)
+            }
             return mails
         })
 }
@@ -49,7 +52,7 @@ function getEmptyMail() {
 }
 
 function getDefaultFilter() {
-    return { txt: '' }
+    return { txt: '', folder: 'inbox' }
 }
 
 function _createMails() {
@@ -66,7 +69,8 @@ function _createMails() {
                 sentAt: 1551133930594,
                 removedAt: null,
                 from: 'momo@momo.com',
-                to: 'user@appsus.com'
+                to: 'user@appsus.com',
+                folder: 'sent'
             },
             {
                 id: 'e102',
@@ -77,7 +81,8 @@ function _createMails() {
                 sentAt: 1551134930594,
                 removedAt: null,
                 from: 'team@appsus.com',
-                to: 'user@appsus.com'
+                to: 'user@appsus.com',
+                folder: 'inbox'
             },
             {
                 id: 'e103',
@@ -88,7 +93,8 @@ function _createMails() {
                 sentAt: 1551135930594,
                 removedAt: null,
                 from: 'events@appsus.com',
-                to: 'user@appsus.com'
+                to: 'user@appsus.com',
+                folder: 'inbox'
             }
         ]
         console.log('mails:', mails)

@@ -26,9 +26,9 @@ export function RootCmp() {
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/about" element={<About />} />
-                        <Route path="/mail" element={<MailIndex setUnreadCount={setUnreadCount} />}>
-                            <Route path="compose" element={<MailCompose />} />
-                        </Route>
+                        <Route path="/mail/inbox" element={<MailIndex filterFolder="inbox" setUnreadCount={setUnreadCount} />} />
+                        <Route path="/mail/sent" element={<MailIndex filterFolder="sent" />} />
+                        <Route path="/mail/compose" element={<MailCompose />} />
                         <Route path="/mail/:mailId" element={<MailDetails />} />
                         <Route path="/note" element={<NoteIndex />} />
                     </Routes>
