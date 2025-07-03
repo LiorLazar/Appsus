@@ -250,6 +250,19 @@ function _createNotes() {
                 style: {
                     backgroundColor: '#e9e3d4' // google keep light beige
                 }
+            },
+            {
+                id: 'n116',
+                createdAt: 1112237,
+                type: 'NoteVideo',
+                isPinned: false,
+                style: {
+                    backgroundColor: '#d4e4ed' // google keep light blue
+                },
+                info: {
+                    title: 'Austin MAJOR 2025',
+                    url: 'https://www.youtube.com/watch?v=WdO-CyDFKeI'
+                }
             }
         ]
         utilService.saveToStorage(NOTE_KEY, notes)

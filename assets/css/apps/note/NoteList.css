@@ -3,11 +3,15 @@
     width: 100%; /* Use full available width */
     box-sizing: border-box; /* Include padding in the layout */
     min-height: 200px; /* Minimum height to prevent layout jumps */
-    margin-top: 16px; /* Margin to separate from other content */
+    margin-top: 32px; /* Margin to separate from other content */
 }
 
 /* Responsive breakpoints */
 
+.video-player {
+    display: block;
+    margin: 12px auto;
+}
 
 .note-item {
     transition: all 0.3s ease, left 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Faster transitions for position changes */
@@ -144,35 +148,6 @@
     visibility: visible; /* Visible on hover */
 }
 
-.note-toolbar .btn {
-    background: transparent; /* Clear/transparent background */
-    color: #5f6368; /* Subtle gray text color */
-    border: none; /* No border by default */
-    border-radius: 50%; /* Perfect circle shape */
-    padding: 8px; /* Equal padding for perfect circle */
-    width: 32px; /* Fixed width for circle */
-    height: 32px; /* Fixed height for circle */
-    font-size: 16px; /* Larger icon size */
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-    white-space: nowrap; /* Prevent text wrapping */
-}
-
-.note-toolbar .btn:hover {
-    background: rgba(60, 64, 67, 0.08); /* Very subtle dark background on hover */
-    transform: scale(1.1); /* Slightly larger scale on hover */
-}
-
-.note-toolbar .btn:active {
-    transform: scale(0.95); /* Slight press effect */
-}
-
-
-
 /* Special class for notes that have finished initial animation */
 .note-item.positioned {
     transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), 
@@ -195,3 +170,38 @@
                 top 0.2s ease-out,
                 transform 0.2s ease !important;
 }
+
+/* .note-create-bar-closed {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px 0 rgba(60,64,67,0.18), 0 1.5px 4px 0 rgba(60,64,67,0.15);
+    padding: 8px 16px;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto 0 auto;
+    direction: ltr;
+    border-radius: 10px;
+}
+
+.note-create-input-closed {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 1.1rem;
+    background: transparent;
+    padding: 8px 0;
+    color: #5f6368;
+}
+
+.note-create-input-closed::placeholder {
+    color: #757575;
+    opacity: 1;
+}
+
+.note-create-actions-closed {
+    display: flex;
+    gap: 16px;
+    margin-left: 12px;
+} */
