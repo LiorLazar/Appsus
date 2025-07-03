@@ -1,4 +1,3 @@
-
 const { Link } = ReactRouterDOM
 
 export function AppsMenu({ isOpen, onClose }) {
@@ -6,11 +5,11 @@ export function AppsMenu({ isOpen, onClose }) {
     return (
         <div className="apps-menu" onClick={onClose}>
             <div className="apps-menu-grid" onClick={ev => ev.stopPropagation()}>
-                <Link to="/mail">
+                <Link to="/mail" onClick={onClose}>
                     <span className="material-symbols-outlined">mail</span>
                     <span>Gmail</span>
                 </Link>
-                <Link to="/note">
+                <Link to="/note" onClick={onClose}>
                     <span className="material-symbols-outlined">lightbulb</span>
                     <span>Keep</span>
                 </Link>
