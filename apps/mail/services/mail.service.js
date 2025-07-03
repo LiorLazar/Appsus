@@ -16,13 +16,8 @@ export const mailService = {
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY)
         .then(mails => {
-            if (filterBy.txt) {
-                const regExp = new RegExp(filterBy.txt, 'i')
-                mails = mails.filter(mail => regExp.test(mail.subject))
-            }
-            if (filterBy.folder) {
-                mails = mails.filter(mail => mail.folder === filterBy.folder)
-            }
+            if (filterBy.folder) mails = mails.filter(mail => mail.folder === filterBy.folder)
+            if (filterBy.label) mails = mails.filter(mail => mail.label === filterBy.label)
             return mails
         })
 }
@@ -52,7 +47,7 @@ function getEmptyMail() {
 }
 
 function getDefaultFilter() {
-    return { txt: '', folder: 'inbox' }
+    return { txt: '', folder: 'inbox', label: '' }
 }
 
 function _createMails() {
@@ -70,7 +65,8 @@ function _createMails() {
                 removedAt: null,
                 from: 'momo@momo.com',
                 to: 'user@appsus.com',
-                folder: 'sent'
+                folder: 'sent',
+                label: 'Primary'
             },
             {
                 id: 'e102',
@@ -82,7 +78,8 @@ function _createMails() {
                 removedAt: null,
                 from: 'team@appsus.com',
                 to: 'user@appsus.com',
-                folder: 'inbox'
+                folder: 'inbox',
+                label: 'Promotions'
             },
             {
                 id: 'e103',
@@ -94,7 +91,8 @@ function _createMails() {
                 removedAt: null,
                 from: 'events@appsus.com',
                 to: 'user@appsus.com',
-                folder: 'inbox'
+                folder: 'inbox',
+                label: 'Social'
             }
         ]
         console.log('mails:', mails)
