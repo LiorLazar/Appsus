@@ -171,7 +171,7 @@
                 transform 0.2s ease !important;
 }
 
-.note-create-bar {
+/* .note-create-bar-closed {
     display: flex;
     align-items: center;
     background: #fff;
@@ -185,7 +185,7 @@
     border-radius: 10px;
 }
 
-.note-create-input {
+.note-create-input-closed {
     flex: 1;
     border: none;
     outline: none;
@@ -195,13 +195,13 @@
     color: #5f6368;
 }
 
-.note-create-input::placeholder {
+.note-create-input-closed::placeholder {
     color: #757575;
     opacity: 1;
 }
 
-.note-create-actions {
+.note-create-actions-closed {
     display: flex;
     gap: 16px;
     margin-left: 12px;
-}
+} */
