@@ -1,4 +1,5 @@
 import { NoteToolBar } from './NoteToolBar.jsx'
+import { noteService } from '../services/note.service.js'
 const { useState, useEffect, useRef } = React
 
 export function NoteTodos({ note, onHeightChange }) {
@@ -11,7 +12,13 @@ export function NoteTodos({ note, onHeightChange }) {
         const newTodos = todos.map((todo, i) => i === idx ? { ...todo, doneAt: todo.doneAt ? null : Date.now() } : todo)
         setTodos(newTodos)
         if (onHeightChange) onHeightChange()
-        // Optionally, update the note in storage here
+
+        // Update the note in the service
+        noteService.save({ ...note, info: { ...note.info, todos: newTodos } })
+        .then(() => {
+            console.log('Note updated successfully')
+            
+        })
     }
 
     const activeTodos = todos.filter(todo => !todo.doneAt)
