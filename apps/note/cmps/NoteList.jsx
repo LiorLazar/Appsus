@@ -57,15 +57,17 @@ export function NoteList() {
     function renderNote(note) {
         switch (note.type) {
             case 'NoteTxt': return (<NoteTxt note={note} />)
-
             case 'NoteImg': return (<NoteImg note={note} containerRef={containerRef} />)
-
-            case 'NoteTodos': return (<NoteTodos note={note} />)
-
+            case 'NoteTodos': return (<NoteTodos note={note} onHeightChange={handleNoteHeightChange} />)
             case 'NoteVideo': return (<NoteVideo note={note} containerRef={containerRef} />)
-
             default:
                 return null
+        }
+    }
+
+    function handleNoteHeightChange() {
+        if (containerRef.current && typeof NoteAnimate.initMasonry === 'function') {
+            NoteAnimate.initMasonry(containerRef.current)
         }
     }
 

@@ -12,15 +12,18 @@ export function NoteCreateBar() {
     function onAddNote(txt = '', title = '', isPinned = false, imgDataUrl = null) {
         let note = {}
         note.info = note.info || {}
-        note.info.txt = txt
         note.info.title = title
         note.isPinned = isPinned
         note.createdAt = Date.now()
         if (imgDataUrl) {
             note.type = 'NoteImg'
             note.info.url = imgDataUrl
+        } else if (txt.includes(',')) {
+            note.type = 'NoteTodos'
+            note.info.todos = txt.split(',').map(str => ({ txt: str.trim(), doneAt: null }))
         } else {
             note.type = 'NoteTxt'
+            note.info.txt = txt
         }
         noteService.save(note)
             .then(() => {
