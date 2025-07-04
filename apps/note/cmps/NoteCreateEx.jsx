@@ -3,19 +3,6 @@ const { forwardRef } = React;
 export const NoteCreateEx = forwardRef(function NoteCreateEx({ closeBar }, ref) {
     return (
         React.createElement(React.Fragment, null,
-            <input
-                className="note-create-title"
-                type="text"
-                placeholder="Title"
-                onClick={e => e.stopPropagation()}
-                ref={ref}
-            />,
-            <textarea
-                className="note-create-textarea"
-                placeholder="Take a note..."
-                onClick={e => e.stopPropagation()}
-                autoFocus
-            />,
             <div className="note-create-actions">
                 <button type="button" className="btn">
                     <span className="material-symbols-outlined">format_size</span>

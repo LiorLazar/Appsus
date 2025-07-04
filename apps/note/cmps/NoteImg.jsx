@@ -14,6 +14,7 @@ export function NoteImg({ note, containerRef }) {
                 onError={() => NoteAnimate.handleImageLoad(containerRef.current)}
             />
             <h2 className="note-title">{note.info.title}</h2>
+            <p className="note-text">{note.info.txt}</p>
             <NoteToolBar note={note} className="tool-bar"/>
         </div>
     )

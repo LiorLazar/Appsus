@@ -9,7 +9,6 @@ export const noteService = {
     get,
     remove,
     save,
-    getEmptyNote,
     getDefaultFilter,
     getFilterFromSearchParams,
 }
@@ -45,10 +44,6 @@ function save(note) {
     } else {
         return storageService.post(NOTE_KEY, note)
     }
-}
-
-function getEmptyNote(title = '', notetxt = '') {
-    return { title, notetxt }
 }
 
 function getDefaultFilter() {
@@ -270,11 +265,6 @@ function _createNotes() {
 
     console.log('notes:', notes)
 }
-// function _createNote(title, info) {
-//     const note = getEmptyNote(title, info)
-//     note.id = utilService.makeId()
-//     return note
-// }
 
 function getFilterFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''

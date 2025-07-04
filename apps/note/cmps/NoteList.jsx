@@ -11,7 +11,7 @@ export function NoteList() {
     const [notes, setNotes] = useState([])
     const containerRef = useRef(null)
 
-    useEffect(() => {
+    function loadNotes() {
         noteService.query()
             .then(notes => {
                 setNotes(notes)
@@ -21,38 +21,48 @@ export function NoteList() {
                 console.error('Failed to load notes', err)
                 setError('Failed to load notes')
             })
+    }
+
+    useEffect(() => {
+        loadNotes()
+
+        function handleRefreshNotes() {
+            loadNotes()
+        }
+
+        window.addEventListener('refreshNotes', handleRefreshNotes)
+        return () => {
+            window.removeEventListener('refreshNotes', handleRefreshNotes)
+        }
     }, [])
 
     useEffect(() => {
-        if (notes.length && containerRef.current) {
-            // Initialize masonry layout
-            NoteAnimate.initMasonry(containerRef.current)
-            
-            // Setup image load listeners
-            const cleanupImages = NoteAnimate.setupImageListeners(containerRef.current)
-            
-            return cleanupImages
-        }
-    }, [notes])
+        if (!containerRef.current) return
 
-    useEffect(() => {
-        if (containerRef.current) {
-            // Setup resize listener
-            const cleanupResize = NoteAnimate.setupResizeListener(containerRef.current)
-            
-            return cleanupResize
+        // Initialize masonry layout
+        NoteAnimate.initMasonry(containerRef.current)
+
+        // Setup image load listeners
+        const cleanupImages = NoteAnimate.setupImageListeners(containerRef.current)
+
+        // Setup resize listener
+        const cleanupResize = NoteAnimate.setupResizeListener(containerRef.current)
+
+        return () => {
+            if (cleanupImages) cleanupImages()
+            if (cleanupResize) cleanupResize()
         }
     }, [notes])
 
     function renderNote(note) {
         switch (note.type) {
-            case 'NoteTxt': return ( <NoteTxt note={note}/> )
+            case 'NoteTxt': return (<NoteTxt note={note} />)
 
-            case 'NoteImg': return ( <NoteImg note={note} containerRef={containerRef}/> )
+            case 'NoteImg': return (<NoteImg note={note} containerRef={containerRef} />)
 
-            case 'NoteTodos': return ( <NoteTodos note={note}/> )
+            case 'NoteTodos': return (<NoteTodos note={note} />)
 
-            case 'NoteVideo': return ( <NoteVideo note={note} containerRef={containerRef}/>)
+            case 'NoteVideo': return (<NoteVideo note={note} containerRef={containerRef} />)
 
             default:
                 return null
