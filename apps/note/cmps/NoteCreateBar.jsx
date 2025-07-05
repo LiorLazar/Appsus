@@ -52,6 +52,27 @@ export function NoteCreateBar() {
         return () => document.removeEventListener('mousedown', handleClickOutside)
     }, [inputValue, titleValue, isExpanded, isColorModalOpen])
 
+    useEffect(() => {
+        if (!isColorModalOpen) return;
+        function updateModalPos() {
+            if (colorBtnRef.current) {
+                const rect = colorBtnRef.current.getBoundingClientRect();
+                setModalPos({
+                    top: rect.bottom + window.scrollY,
+                    left: rect.left + window.scrollX
+                });
+            }
+        }
+        window.addEventListener('scroll', updateModalPos);
+        window.addEventListener('resize', updateModalPos);
+        // Update position immediately in case of scroll/resize
+        updateModalPos();
+        return () => {
+            window.removeEventListener('scroll', updateModalPos);
+            window.removeEventListener('resize', updateModalPos);
+        };
+    }, [isColorModalOpen])
+
     function openBar() { setIsExpanded(true) }
 
     function closeBar(e) {

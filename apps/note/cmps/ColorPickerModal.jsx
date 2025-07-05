@@ -4,11 +4,16 @@ const COLORS = [
   '#90caf9', '#b39ddb', '#f8bbd0', '#ffe0b2', '#d7ccc8', '#f5f5f5'
 ];
 
-export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor }) {
+export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor, modalPos }) {
   if (!isOpen) return null;
 
+  // Use absolute positioning so the modal scrolls with the content
+  const style = modalPos
+    ? { position: 'absolute', top: modalPos.top, left: modalPos.left, zIndex: 9999 }
+    : { position: 'absolute', top: '40px', left: '0', zIndex: 9999 };
+
   return (
-    <div className="color-picker-modal-abs" onClick={onClose}>
+    <div className="color-picker-modal-abs" onClick={onClose} style={style}>
       <div className="color-picker-modal" onClick={e => e.stopPropagation()}>
         <div className="color-picker-row">
           <button
