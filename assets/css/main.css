@@ -10,7 +10,6 @@
 @import './cmps/SideMenu.css';
 
 @import './apps/note/NoteIndex.css';
-@import './apps/note/NoteList.css';
 @import './apps/note/NoteCreateBar.css';
 @import './apps/note/NoteTodos.css';
 @import './apps/note/ColorPickerModal.css';
@@ -19,6 +18,7 @@
 @import './apps/mail/MailPreview.css';
 @import './apps/mail/MailDetails.css';
 @import './apps/mail/MailCompose.css';
+@import './apps/note/NoteList.css';
 
 
 .root-cmp {

@@ -13,6 +13,8 @@ export function NoteList() {
     const [isColorModalOpen, setIsColorModalOpen] = useState(false)
     const [selectedNote, setSelectedNote] = useState(null)
     const [modalPos, setModalPos] = useState({ top: 0, left: 0 })
+    // Store the color selection in state, but only save when modal closes
+    const [pendingColor, setPendingColor] = useState(null)
     const containerRef = useRef(null)
 
     function loadNotes() {
@@ -72,14 +74,38 @@ export function NoteList() {
         return () => window.removeEventListener('openColorPickerModal', handleOpenColorPickerModal);
     }, []);
 
+    function handleColorSelect(color) {
+        setPendingColor(color);
+        // Update the selectedNote's color for immediate UI feedback
+        setSelectedNote(selectedNote ? { ...selectedNote, style: { ...selectedNote.style, backgroundColor: color } } : null);
+    }
+
+    function handleCloseModal() {
+        setIsColorModalOpen(false);
+        // Save the color only when modal closes
+        if (pendingColor !== null && selectedNote) {
+            const updatedNote = { ...selectedNote, style: { ...selectedNote.style, backgroundColor: pendingColor } };
+            noteService.save(updatedNote).then(() => {
+                setNotes(notes => notes.map(n => n.id === updatedNote.id ? updatedNote : n));
+                setSelectedNote(updatedNote);
+            });
+            setPendingColor(null);
+        }
+    }
+
     function renderNote(note) {
+        // If this is the selected note, show the pending color immediately
+        const isSelected = selectedNote && note.id === selectedNote.id;
+        const color = isSelected && pendingColor !== null
+            ? pendingColor
+            : (note.style && note.style.backgroundColor) || null;
         switch (note.type) {
-            case 'NoteTxt': return (<NoteTxt note={note} />)
-            case 'NoteImg': return (<NoteImg note={note} containerRef={containerRef} />)
-            case 'NoteTodos': return (<NoteTodos note={note} onHeightChange={handleNoteHeightChange} />)
-            case 'NoteVideo': return (<NoteVideo note={note} containerRef={containerRef} />)
+            case 'NoteTxt': return (<NoteTxt note={{ ...note, style: { ...note.style, backgroundColor: color } }} />)
+            case 'NoteImg': return (<NoteImg note={{ ...note, style: { ...note.style, backgroundColor: color } }} containerRef={containerRef} />)
+            case 'NoteTodos': return (<NoteTodos note={{ ...note, style: { ...note.style, backgroundColor: color } }} onHeightChange={handleNoteHeightChange} />)
+            case 'NoteVideo': return (<NoteVideo note={{ ...note, style: { ...note.style, backgroundColor: color } }} containerRef={containerRef} />)
             default:
-                return null
+                return null;
         }
     }
 
@@ -105,9 +131,13 @@ export function NoteList() {
             {isColorModalOpen && (
                 <ColorPickerModal
                     isOpen={isColorModalOpen}
-                    onClose={() => setIsColorModalOpen(false)}
-                    onColorSelect={() => setIsColorModalOpen(false)}
-                    selectedColor={(selectedNote && selectedNote.style && selectedNote.style.backgroundColor) || null}
+                    onClose={handleCloseModal}
+                    onColorSelect={handleColorSelect}
+                    selectedColor={
+                        (pendingColor !== null)
+                            ? pendingColor
+                            : (selectedNote && selectedNote.style && selectedNote.style.backgroundColor) || null
+                    }
                     modalPos={modalPos}
                     note={selectedNote}
                 />

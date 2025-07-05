@@ -14,7 +14,7 @@
 }
 
 .note-item {
-    transition: all 0.3s ease, left 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Faster transitions for position changes */
+    transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1), top 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* Only transition position, not all properties */
     opacity: 0; /* Start hidden for animation */
     transform: translateY(100vh) rotate(10deg) scale(0.8); /* Start animation state */
     animation: noteItemAnimation 0.4s ease-out forwards; /* Animation for the container */
@@ -50,7 +50,8 @@
     border-radius: 8px; /* Rounded corners for a modern design */
     padding: 16px 16px 40px 16px; /* 16px on top/left/right, 40px bottom for toolbar space */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animations for hover */
+    transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.3s ease, box-shadow 0.3s ease; /* Smooth color and hover animations */
     width: 239px; /* Fixed width of 239px */
     flex-shrink: 0; /* Prevent shrinking */
     position: relative; /* Enable positioning for toolbar */

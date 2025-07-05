@@ -1,20 +1,38 @@
 const COLORS = [
   null, // Default color (no color)
-  '#ffab91', '#ffd54f', '#dcedc8', '#b2dfdb', '#b3e5fc',
-  '#90caf9', '#b39ddb', '#f8bbd0', '#ffe0b2', '#d7ccc8', '#f5f5f5'
+  '#faafa8', '#f39f76', '#fff8b8', '#e2f6d3', '#b4ddd3',
+  '#d4e4ed', '#aeccdc', '#d3bfdb', '#f6e2dd', '#e9e3d4', '#efeff1'
 ];
 
 export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor, modalPos }) {
+  const modalRef = React.useRef(null);
+  const [adjustedPos, setAdjustedPos] = React.useState(modalPos);
+
+  React.useLayoutEffect(() => {
+    if (!isOpen || !modalPos) return;
+    const modal = modalRef.current;
+    if (!modal) return;
+    const { innerWidth, innerHeight } = window;
+    const rect = modal.getBoundingClientRect();
+    let top = modalPos.top;
+    let left = modalPos.left;
+    // Adjust right overflow
+    if (left + rect.width > innerWidth) {
+      left = Math.max(0, innerWidth - rect.width - 8); // 8px margin
+    }
+    // Adjust bottom overflow
+    if (top + rect.height > innerHeight) {
+      top = Math.max(0, innerHeight - rect.height - 8); // 8px margin
+    }
+    setAdjustedPos({ top, left });
+  }, [isOpen, modalPos]);
+
   if (!isOpen) return null;
 
-  // Use absolute positioning for the modal so it scrolls with the page
-  const style = modalPos
-    ? { position: 'absolute', top: modalPos.top, left: modalPos.left, zIndex: 10001 }
+  const style = adjustedPos
+    ? { position: 'absolute', top: adjustedPos.top, left: adjustedPos.left, zIndex: 10001 }
     : { position: 'absolute', top: '40px', left: '0', zIndex: 10001 };
 
-  // Instead of a fixed overlay, use a transparent absolute overlay that covers the whole document
-  // This overlay will be placed at the top of the DOM tree (e.g., as a sibling to the modal)
-  // and will not interfere with the modal's absolute positioning
   return (
     <div>
       <div
@@ -29,7 +47,7 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
         }}
         onClick={onClose}
       />
-      <div className="color-picker-modal-abs" style={style} onClick={e => e.stopPropagation()}>
+      <div ref={modalRef} className="color-picker-modal-abs" style={style} onClick={e => e.stopPropagation()}>
         <div className="color-picker-modal">
           <div className="color-picker-row">
             <button
