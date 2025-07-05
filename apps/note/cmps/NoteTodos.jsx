@@ -43,7 +43,7 @@ export function NoteTodos({ note, onHeightChange }) {
     }, [showCompleted])
 
     return (
-        <div ref={cardRef} className={`note-card${showCompleted ? ' expanded-completed' : ''}`} style={{ backgroundColor, minHeight: showCompleted && completedTodos.length ? 180 : 120 }}>
+        <div ref={cardRef} className={`note-card ${note.id} ${showCompleted ? 'expanded-completed' : ''}`} style={{ backgroundColor, minHeight: showCompleted && completedTodos.length ? 180 : 120 }}>
             <h2 className="note-title">{note.info.title}</h2>
             <ul className="note-todos">
                 {activeTodos.map((todo, idx) => (

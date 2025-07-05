@@ -5,7 +5,7 @@ export function NoteImg({ note, containerRef }) {
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
 
     return (
-        <div className="note-card" style={{ backgroundColor }}>
+        <div className={`note-card ${note.id}`} style={{ backgroundColor }}>
             <img 
                 src={note.info.url} 
                 alt={note.info.title} 

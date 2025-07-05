@@ -10,9 +10,9 @@ const { useState, useEffect, useRef } = React
 
 export function NoteList() {
     const [notes, setNotes] = useState([])
-    const [isColorModalOpen, setIsColorModalOpen] = useState(false);
-    const [modalPos, setModalPos] = useState(null);
-    const [selectedNote, setSelectedNote] = useState(null);
+    const [isColorModalOpen, setIsColorModalOpen] = useState(false)
+    const [selectedNote, setSelectedNote] = useState(null)
+    const [modalPos, setModalPos] = useState({ top: 0, left: 0 })
     const containerRef = useRef(null)
 
     function loadNotes() {
@@ -58,6 +58,20 @@ export function NoteList() {
         }
     }, [notes])
 
+    useEffect(() => {
+        function handleOpenColorPickerModal(e) {
+            const { note, btnRect } = e.detail;
+            setModalPos({
+                top: btnRect.bottom + window.scrollY + 6, // 6px below the button
+                left: btnRect.left + window.scrollX
+            });
+            setSelectedNote(note);
+            setIsColorModalOpen(true);
+        }
+        window.addEventListener('openColorPickerModal', handleOpenColorPickerModal);
+        return () => window.removeEventListener('openColorPickerModal', handleOpenColorPickerModal);
+    }, []);
+
     function renderNote(note) {
         switch (note.type) {
             case 'NoteTxt': return (<NoteTxt note={note} />)
@@ -75,36 +89,28 @@ export function NoteList() {
         }
     }
 
-    function handleNoteClick(e, note) {
-        // Get the bounding rect of the clicked note
-        const rect = e.currentTarget.getBoundingClientRect();
-        setModalPos({
-            top: rect.bottom + window.scrollY,
-            left: rect.left + window.scrollX
-        });
-        setSelectedNote(note);
-        setIsColorModalOpen(true);
-    }
-
     return (
         <section className="note-list">
-            <ColorPickerModal
-                isOpen={isColorModalOpen}
-                onClose={() => setIsColorModalOpen(false)}
-                onColorSelect={() => setIsColorModalOpen(false)}
-                selectedColor={null}
-                modalPos={modalPos}
-            />
             {notes.length ? (
                 <div className="note-container" ref={containerRef}>
                     {notes.map(note => (
-                        <div key={note.id} className="note-item" onClick={e => handleNoteClick(e, note)}>
+                        <div key={note.id} className="note-item">
                             {renderNote(note)}
                         </div>
                     ))}
                 </div>
             ) : (
                 <p className="no-notes-message">No notes available</p>
+            )}
+            {isColorModalOpen && (
+                <ColorPickerModal
+                    isOpen={isColorModalOpen}
+                    onClose={() => setIsColorModalOpen(false)}
+                    onColorSelect={() => setIsColorModalOpen(false)}
+                    selectedColor={(selectedNote && selectedNote.style && selectedNote.style.backgroundColor) || null}
+                    modalPos={modalPos}
+                    note={selectedNote}
+                />
             )}
         </section>
     )
