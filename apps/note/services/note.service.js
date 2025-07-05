@@ -11,6 +11,7 @@ export const noteService = {
     save,
     getDefaultFilter,
     getFilterFromSearchParams,
+    addNote,
 }
 
 function query(filterBy = {}) {
@@ -265,6 +266,41 @@ function _createNotes() {
 
     console.log('notes:', notes)
 }
+
+function addNote(txt = '', title = '', isPinned = false, imgDataUrl = null, selectedColor = null) {
+    let note = {}
+    note.info = note.info || {}
+    note.info.title = title
+    note.info.txt = txt
+    note.isPinned = isPinned
+    note.style = note.style || {}
+    note.style.backgroundColor = selectedColor || '#fff' // Default to white if no color
+    note.createdAt = Date.now()
+    const youtubeRegex = /(https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[\w\-?&=%.]+)/gi
+    const matches = txt.match(youtubeRegex)
+
+    if (imgDataUrl) {
+        note.type = 'NoteImg'
+        note.info.url = imgDataUrl
+    } else if (matches && matches.length > 0) {
+        note.type = 'NoteVideo'
+        note.info.url = matches[0].trim()
+        // Remove the url from the text
+        const txtWithoutUrl = txt.replace(matches[0], '').trim()
+        note.info.txt = txtWithoutUrl
+    } else if (txt.includes(',')) {
+        note.type = 'NoteTodos'
+        note.info.todos = txt.split(',').map(str => ({ txt: str.trim(), doneAt: null }))
+    } else {
+        note.type = 'NoteTxt'
+    }
+
+    return save(note)
+        .then(() => {
+            window.dispatchEvent(new Event('refreshNotes'))
+        })
+}
+
 
 function getFilterFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''

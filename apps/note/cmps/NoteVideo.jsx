@@ -26,7 +26,7 @@ export function NoteVideo({ note, containerRef }) {
     }
 
     return (
-        <div className="note-card" style={{ backgroundColor }}>
+        <div className={`note-card ${note.id}`} style={{ backgroundColor }}>
             <h2 className="note-title">{note.info.title}</h2>
             <iframe
                 className="video-player" 

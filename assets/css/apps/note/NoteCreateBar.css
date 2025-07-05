@@ -15,7 +15,7 @@
   max-width: 600px;
   box-sizing: border-box;
   padding: 0 16px;
-  transition: box-shadow 0.2s, height 0.2s;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, height 0.2s;
 }
 
 .note-create-bar:not(.expanded) .note-create-input {
@@ -65,7 +65,7 @@
   height: 135px;
   min-height: 135px;
   max-height: 135px;
-  transition: box-shadow 0.2s, height 0.2s;
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, height 0.2s;
   box-sizing: border-box;
 }
 
@@ -138,5 +138,9 @@
 .note-create-bar.expanded .btn-close:hover {
   background: #fafbfc;
   box-shadow: 0 1px 4px 0 rgba(60,64,67,0.08);
+}
+
+.note-create-bar, .note-create-bar.expanded {
+  transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, height 0.2s;
 }
 

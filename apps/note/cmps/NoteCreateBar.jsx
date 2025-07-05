@@ -1,47 +1,45 @@
 const { useState, useRef, useEffect } = React
 import { noteService } from '../services/note.service.js'
-
+import { ColorPickerModal } from './ColorPickerModal.jsx';
+import { showSuccessMsg } from '../../../services/event-bus.service.js'
 
 export function NoteCreateBar() {
     const [isExpanded, setIsExpanded] = useState(false)
     const [inputValue, setInputValue] = useState("")
     const [titleValue, setTitleValue] = useState("")
+    const [isColorModalOpen, setIsColorModalOpen] = useState(false);
+    const [selectedColor, setSelectedColor] = useState(null);
     const formRef = useRef(null)
     const fileInputRef = useRef(null)
+    const colorBtnRef = useRef(null);
+    const [modalPos, setModalPos] = useState(null);
 
     function onAddNote(txt = '', title = '', isPinned = false, imgDataUrl = null) {
-        let note = {}
-        note.info = note.info || {}
-        note.info.title = title
-        note.info.txt = txt
-        note.isPinned = isPinned
-        note.createdAt = Date.now()
-        const youtubeRegex = /(https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[\w\-?&=%.]+)/gi
-        const matches = txt.match(youtubeRegex)
-        if (imgDataUrl) {
-            note.type = 'NoteImg'
-            note.info.url = imgDataUrl
-        } else if (matches && matches.length > 0) {
-            note.type = 'NoteVideo'
-            note.info.url = matches[0].trim()
-            // Remove the url from the text
-            const txtWithoutUrl = txt.replace(matches[0], '').trim()
-            note.info.txt = txtWithoutUrl
-        } else if (txt.includes(',')) {
-            note.type = 'NoteTodos'
-            note.info.todos = txt.split(',').map(str => ({ txt: str.trim(), doneAt: null }))
-        } else {
-            note.type = 'NoteTxt'
-        }
-    
-        noteService.save(note)
+        noteService.addNote(txt, title, isPinned, imgDataUrl, selectedColor)
             .then(() => {
-                window.dispatchEvent(new Event('refreshNotes'))
+                setInputValue("")
+                setTitleValue("")
+                setSelectedColor(null)
+                setIsExpanded(false)
+                console.log('Note added successfully:', { txt, title, isPinned, imgDataUrl, selectedColor });
+                
+                showSuccessMsg('Note added successfully!')
+                // Optionally, you can trigger a refresh of notes here
+                // window.dispatchEvent(new Event('refreshNotes'))
+            })
+            .catch(err => {
+                console.error('Failed to add note', err)
             })
     }
 
     useEffect(() => {
         const handleClickOutside = (e) => {
+            // Close color modal if open and click is outside the modal itself
+            const modal = document.querySelector('.color-picker-modal-abs');
+            if (isColorModalOpen && modal && !modal.contains(e.target)) {
+                setIsColorModalOpen(false);
+            }
+            // Existing logic for closing the bar
             if (formRef.current && !formRef.current.contains(e.target)) {
                 if (isExpanded && (inputValue || titleValue)) {
                     console.log('onAddNote called with:', inputValue, titleValue)
@@ -52,7 +50,7 @@ export function NoteCreateBar() {
         }
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
-    }, [inputValue, titleValue, isExpanded])
+    }, [inputValue, titleValue, isExpanded, isColorModalOpen])
 
     function openBar() { setIsExpanded(true) }
 
@@ -76,9 +74,7 @@ export function NoteCreateBar() {
             const imgDataUrl = ev.target.result
             onAddNote(inputValue, titleValue, false, imgDataUrl)
             // Close the bar and reset fields after adding image note
-            setIsExpanded(false)
-            setInputValue("")
-            setTitleValue("")
+            closeBar(e)
         }
         reader.readAsDataURL(file)
         e.target.value = ''
@@ -90,6 +86,7 @@ export function NoteCreateBar() {
             onClick={openBar}
             className={`note-create-bar${isExpanded ? ' expanded' : ''}`}
             dir="ltr"
+            style={isExpanded && selectedColor ? { backgroundColor: selectedColor, transition: 'background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1)' } : {}}
         >
             {isExpanded ? (
                 <React.Fragment>
@@ -108,7 +105,26 @@ export function NoteCreateBar() {
                     />
                     <div className="note-create-actions">
                         <button type="button" className="btn"><span className="material-symbols-outlined">format_size</span></button>
-                        <button type="button" className="btn"><span className="material-symbols-outlined">palette</span></button>
+                        <div style={{ display: 'inline-block', position: 'relative' }}>
+                            <button
+                                type="button"
+                                className="btn btn-color"
+                                ref={colorBtnRef}
+                                onMouseDown={e => {
+                                    e.stopPropagation();
+                                    if (!isColorModalOpen) {
+                                        const rect = colorBtnRef.current.getBoundingClientRect();
+                                        setModalPos({
+                                            top: rect.bottom + window.scrollY,
+                                            left: rect.left + window.scrollX
+                                        });
+                                    }
+                                    setIsColorModalOpen(prev => !prev);
+                                }}
+                            >
+                                <span className="material-symbols-outlined">palette</span>
+                            </button>
+                        </div>
                         <button type="button" className="btn"><span className="material-symbols-outlined">notifications</span></button>
                         <button type="button" className="btn"><span className="material-symbols-outlined">person_add</span></button>
                         <button type="button" className="btn" onClick={handleImageBtnClick}><span className="material-symbols-outlined">image</span></button>
@@ -118,6 +134,16 @@ export function NoteCreateBar() {
                         <button type="button" className="btn" disabled><span className="material-symbols-outlined">redo</span></button>
                         <button type="button" className="btn btn-close" onClick={closeBar}>Close</button>
                     </div>
+                    {/* Render the modal OUTSIDE the button row to avoid layout shift */}
+                    {isColorModalOpen && (
+                        <ColorPickerModal
+                            isOpen={isColorModalOpen}
+                            onClose={() => setIsColorModalOpen(false)}
+                            onColorSelect={color => { setSelectedColor(color); /* do not close modal here */ }}
+                            selectedColor={selectedColor}
+                            modalPos={modalPos}
+                        />
+                    )}
                 </React.Fragment>
             ) : (
                 <React.Fragment>

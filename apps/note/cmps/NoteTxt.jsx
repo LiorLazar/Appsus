@@ -4,7 +4,7 @@ export function NoteTxt({ note }) {
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
     
     return (
-        <div className="note-card" style={{ backgroundColor }}>
+        <div className={`note-card ${note.id}`} style={{ backgroundColor }}>
             <h2 className="note-title">{note.info.title}</h2>
             <p className="note-text">{note.info.txt}</p>
             <NoteToolBar note={note} />
