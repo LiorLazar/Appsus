@@ -80,6 +80,7 @@ export function NoteCreateBar() {
         setIsExpanded(false)
         setInputValue("")
         setTitleValue("")
+        setSelectedColor(null)
     }
 
     function handleImageBtnClick(e) {

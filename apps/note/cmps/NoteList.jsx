@@ -13,7 +13,6 @@ export function NoteList() {
     const [isColorModalOpen, setIsColorModalOpen] = useState(false)
     const [selectedNote, setSelectedNote] = useState(null)
     const [modalPos, setModalPos] = useState({ top: 0, left: 0 })
-    // Store the color selection in state, but only save when modal closes
     const [pendingColor, setPendingColor] = useState(null)
     const containerRef = useRef(null)
 
@@ -120,7 +119,7 @@ export function NoteList() {
             {notes.length ? (
                 <div className="note-container" ref={containerRef}>
                     {notes.map(note => (
-                        <div key={note.id} className="note-item">
+                        <div key={note.id} className="note-item" style={{ cursor: 'pointer' }}>
                             {renderNote(note)}
                         </div>
                     ))}
