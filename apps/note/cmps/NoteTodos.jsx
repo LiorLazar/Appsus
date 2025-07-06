@@ -2,7 +2,7 @@ import { NoteToolBar } from './NoteToolBar.jsx'
 import { noteService } from '../services/note.service.js'
 const { useState, useEffect, useRef } = React
 
-export function NoteTodos({ note, onHeightChange }) {
+export function NoteTodos({ note, onHeightChange, className = '' }) {
     const [todos, setTodos] = useState(note.info.todos)
     const [showCompleted, setShowCompleted] = useState(false)
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff'
@@ -45,36 +45,38 @@ export function NoteTodos({ note, onHeightChange }) {
     return (
         <div
             ref={cardRef}
-            className={`note-card ${note.id} ${showCompleted ? 'expanded-completed' : ''}`}
+            className={`note-card ${note.id} ${className} ${showCompleted ? 'expanded-completed' : ''}`}
             style={{ backgroundColor, minHeight: showCompleted && completedTodos.length ? 180 : 120, '--note-bg': backgroundColor }}
         >
             <h2 className="note-title">{note.info.title}</h2>
-            <ul className="note-todos">
-                {activeTodos.map((todo, idx) => (
-                    <li key={idx} className={`todo-item`}>
-                        <label className="custom-checkbox-label">
-                            <input
-                                type="checkbox"
-                                className="todo-checkbox"
-                                checked={!!todo.doneAt}
-                                onChange={() => toggleTodo(todos.indexOf(todo))}
-                                style={{ display: 'none' }}
-                            />
-                            <span
-                                className={`custom-checkbox${todo.doneAt ? ' checked' : ''}`}
-                                style={{ backgroundColor: backgroundColor, borderColor: '#444' }}
-                            >
-                                {!!todo.doneAt && (
-                                    <svg width="14" height="14" viewBox="0 0 14 14">
-                                        <polyline points="3,7 6,10 11,4" style={{ fill: 'none', stroke: '#333', strokeWidth: 2 }} />
-                                    </svg>
-                                )}
-                            </span>
-                        </label>
-                        {todo.txt}
-                    </li>
-                ))}
-            </ul>
+            <div className={`note-todos`}>
+                <ul className="note-todos">
+                    {activeTodos.map((todo, idx) => (
+                        <li key={idx} className={`todo-item`}>
+                            <label className="custom-checkbox-label">
+                                <input
+                                    type="checkbox"
+                                    className="todo-checkbox"
+                                    checked={!!todo.doneAt}
+                                    onChange={() => toggleTodo(todos.indexOf(todo))}
+                                    style={{ display: 'none' }}
+                                />
+                                <span
+                                    className={`custom-checkbox${todo.doneAt ? ' checked' : ''}`}
+                                    style={{ backgroundColor: backgroundColor, borderColor: '#444' }}
+                                >
+                                    {!!todo.doneAt && (
+                                        <svg width="14" height="14" viewBox="0 0 14 14">
+                                            <polyline points="3,7 6,10 11,4" style={{ fill: 'none', stroke: '#333', strokeWidth: 2 }} />
+                                        </svg>
+                                    )}
+                                </span>
+                            </label>
+                            {todo.txt}
+                        </li>
+                    ))}
+                </ul>
+            </div>
             {completedTodos.length > 0 && (
                 <div className="completed-section" onClick={handleCompletedSectionClick} style={{cursor:'pointer'}}>
                     <span className="material-symbols-outlined">{showCompleted ? 'expand_more' : 'chevron_right'}</span>

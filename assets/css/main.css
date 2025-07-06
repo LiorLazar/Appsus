@@ -19,7 +19,7 @@
 @import './apps/mail/MailDetails.css';
 @import './apps/mail/MailCompose.css';
 @import './apps/note/NoteList.css';
-
+@import './apps/note/NoteDetails.css';
 
 .root-cmp {
     display: flex;

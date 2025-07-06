@@ -1,7 +1,7 @@
 import { NoteToolBar } from './NoteToolBar.jsx'
 import { NoteAnimate } from '../services/NoteAnimate.js'
 
-export function NoteVideo({ note, containerRef }) {
+export function NoteVideo({ note, containerRef, className = '' }) {
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
     
     // Convert YouTube URL to embed format
@@ -26,7 +26,7 @@ export function NoteVideo({ note, containerRef }) {
     }
 
     return (
-        <div className={`note-card ${note.id}`} style={{ backgroundColor }}>
+        <div className={`note-card ${note.id} note-video ${className}`} style={{ backgroundColor }}>
             <h2 className="note-title">{note.info.title}</h2>
             <iframe
                 className="video-player" 
