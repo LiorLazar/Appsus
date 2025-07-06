@@ -42,11 +42,11 @@ img {
     /* Perfect circle shape */
     padding: 8px;
     /* Equal padding for perfect circle */
-    width: 32px;
+    /* width: 32px; */
     /* Fixed width for circle */
-    height: 32px;
+    /* height: 32px; */
     /* Fixed height for circle */
-    font-size: 16px;
+    /* font-size: 16px; */
     /* Larger icon size */
     font-weight: 500;
     cursor: pointer;
