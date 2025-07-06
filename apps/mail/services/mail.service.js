@@ -10,14 +10,25 @@ export const mailService = {
     remove,
     save,
     getEmptyMail,
-    getDefaultFilter
+    getDefaultFilter,
+    getFilterFromSearchParams
 }
 
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY)
         .then(mails => {
-            if (filterBy.folder) mails = mails.filter(mail => mail.folder === filterBy.folder)
-            if (filterBy.label) mails = mails.filter(mail => mail.label === filterBy.label)
+            if (filterBy.txt) {
+                const regExp = new RegExp(filterBy.txt, 'i')
+                mails = mails.filter(mail => regExp.test(mail.subject))
+            }
+            if (filterBy.folder) {
+                const regExp = new RegExp(filterBy.folder, 'i')
+                mails = mails.filter(mail => regExp.test(mail.folder))
+            }
+            if (filterBy.label) {
+                const regExp = new RegExp(filterBy.label, 'i')
+                mails = mails.filter(mail => regExp.test(mail.label))
+            }
             return mails
         })
 }
@@ -97,5 +108,13 @@ function _createMails() {
         ]
         console.log('mails:', mails)
         utilService.saveToStorage(MAIL_KEY, mails)
+    }
+}
+
+function getFilterFromSearchParams(searchParams) {
+    const txt = searchParams.get('txt') || ''
+
+    return {
+        txt
     }
 }

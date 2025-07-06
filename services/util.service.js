@@ -7,7 +7,9 @@ export const utilService = {
     getDayName,
     getMonthName,
     loadFromStorage,
-    saveToStorage
+    saveToStorage,
+    debounce,
+    getTruthyValues
 }
 
 function saveToStorage(key, val) {
@@ -70,4 +72,22 @@ function getMonthName(date) {
         "July", "August", "September", "October", "November", "December"
     ]
     return monthNames[date.getMonth()]
+}
+
+function debounce(func, delay) {
+    let timeoutId
+    return (...args) => {
+        clearTimeout(timeoutId)
+        timeoutId = setTimeout(() => {
+            func(...args)
+        }, delay)
+    }
+}
+
+function getTruthyValues(obj) {
+    const res = {}
+    for (const key in obj) {
+        if (obj[key]) res[key] = obj[key]
+    }
+    return res
 }

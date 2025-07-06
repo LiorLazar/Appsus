@@ -1,0 +1,30 @@
+.mail-search-bar {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 24px;
+    box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
+    padding: 0 16px;
+    height: 48px;
+    max-width: 600px;
+    width: 100%;
+    gap: 8px;
+    border: none;
+}
+
+.mail-search-bar .material-symbols-outlined {
+    color: #5f6368;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.mail-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 1rem;
+    color: #202124;
+    padding: 12px 0;
+}

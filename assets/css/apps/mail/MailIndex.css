@@ -88,5 +88,9 @@
 }
 
 .label-badge.social {
-    background: #1967d2;
+    background: #137333;
+}
+
+.label-badge.primary {
+    background: #137333;
 }

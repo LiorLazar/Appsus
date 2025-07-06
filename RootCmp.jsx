@@ -16,29 +16,32 @@ const Router = ReactRouterDOM.HashRouter
 
 export function RootCmp() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [unreadCount, setUnreadCount] = useState(0)
 
 
-    return <Router>
-        <section className="root-cmp">
-            <AppHeader onToggleMenu={() => setIsMenuOpen(prev => !prev)} />
-            <div className="main-layout">
-                <SideMenu isOpen={isMenuOpen} unreadCount={unreadCount} />
-                <div className="main-content">
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/about" element={<About />} />
-                        <Route path="/mail/inbox" element={<MailIndex filterFolder="inbox" setUnreadCount={setUnreadCount} />} />
-                        <Route path="/mail/sent" element={<MailIndex filterFolder="sent" />} />
-                        <Route path="/mail/compose" element={<MailCompose />} />
-                        <Route path="/mail/:mailId" element={<MailDetails />} />
-                        <Route path="/note" element={<NoteIndex />} />
-                        <Route path="/note/:noteId" element={<NoteDetails />} />
-                        <Route path="*" element={<NotFound />} />
-                    </Routes>
+    return (
+        <Router>
+            <section className="root-cmp">
+                <AppHeader
+                    onToggleMenu={() => setIsMenuOpen(prev => !prev)}
+                />
+                <div className="main-layout">
+                    <SideMenu isOpen={isMenuOpen} />
+                    <div className="main-content">
+                        <Routes>
+                            <Route path="/" element={<Home />} />
+                            <Route path="/about" element={<About />} />
+                            <Route path="/mail/inbox" element={<MailIndex />} />
+                            <Route path="/mail/sent" element={<MailIndex filterFolder="sent" />} />
+                            <Route path="/mail/compose" element={<MailCompose />} />
+                            <Route path="/mail/:mailId" element={<MailDetails />} />
+                            <Route path="/note" element={<NoteIndex />} />
+                            <Route path="/note/:noteId" element={<NoteDetails />} />
+                            <Route path="*" element={<NotFound />} />
+                        </Routes>
+                    </div>
                 </div>
-            </div>
-            <UserMsg />
-        </section>
-    </Router>
+                <UserMsg />
+            </section>
+        </Router>
+    )
 }

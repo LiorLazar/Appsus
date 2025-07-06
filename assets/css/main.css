@@ -13,13 +13,15 @@
 @import './apps/note/NoteCreateBar.css';
 @import './apps/note/NoteTodos.css';
 @import './apps/note/ColorPickerModal.css';
+@import './apps/note/NoteList.css';
+@import './apps/note/NoteDetails.css';
+
 @import './apps/mail/MailIndex.css';
 @import './apps/mail/MailList.css';
 @import './apps/mail/MailPreview.css';
 @import './apps/mail/MailDetails.css';
 @import './apps/mail/MailCompose.css';
-@import './apps/note/NoteList.css';
-@import './apps/note/NoteDetails.css';
+@import './apps/mail/MailSearch.css';
 
 .root-cmp {
     display: flex;
