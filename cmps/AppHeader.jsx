@@ -1,3 +1,4 @@
+import { MailSearch } from "../apps/mail/cmps/MailSearch.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
 
 const { useState } = React
@@ -28,7 +29,8 @@ export function AppHeader({ onToggleMenu }) {
             )}
 
             <div className="header-bar">
-                {(isMail || isNote) && (
+                {(isMail) && <MailSearch />}
+                {/* {(isMail || isNote) && (
                     <div className="search-bar">
                         <span className="material-symbols-outlined">search</span>
                         <input
@@ -39,7 +41,7 @@ export function AppHeader({ onToggleMenu }) {
                             <span className="material-symbols-outlined">tune</span>
                         )}
                     </div>
-                )}
+                )} */}
                 <div className="header-icons">
                     <span className="material-symbols-outlined">help</span>
                     <span className="material-symbols-outlined">settings</span>
