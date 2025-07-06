@@ -27,10 +27,6 @@ export function MailIndex() {
             .catch(err => console.log('err:', err))
     }
 
-    function onSetFilterBy(filterBy) {
-        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
-    }
-
     function loadMails() {
         mailService.query(filterBy)
             .then(setMails)
