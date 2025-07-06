@@ -114,7 +114,8 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
             )}
             <div className={`note-todos`}>
                 <ul className="note-todos">
-                    {activeTodos.length === 0 && className === 'details' && (
+                    {/* Only show editable input for first todo if there are active todos */}
+                    {activeTodos.length === 0 && className === 'details' && false && (
                         <li className="todo-item">
                             <input
                                 className="todo-text"

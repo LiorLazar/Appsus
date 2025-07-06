@@ -62,9 +62,17 @@ export function NoteList() {
     useEffect(() => {
         function handleOpenColorPickerModal(e) {
             const { note, btnRect } = e.detail;
+            let top = btnRect.bottom;
+            let left = btnRect.left;
+            if (containerRef.current) {
+                const containerRect = containerRef.current.getBoundingClientRect();
+                // Move modal down by 200px and right by 75px
+                top = btnRect.bottom - containerRect.top + 200;
+                left = btnRect.left - containerRect.left + 75;
+            }
             setModalPos({
-                top: btnRect.bottom + window.scrollY + 6, // 6px below the button
-                left: btnRect.left + window.scrollX
+                top,
+                left
             });
             setSelectedNote(note);
             setIsColorModalOpen(true);
