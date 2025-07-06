@@ -113,9 +113,14 @@ function _createMails() {
 }
 
 function getFilterFromSearchParams(searchParams) {
-    const txt = searchParams.get('txt') || ''
-
-    return {
-        txt
+    if (searchParams.get('txt')) return {
+        txt: searchParams.get('txt') || ''
+    }
+    else {
+        return {
+            txt: searchParams.get('txt') || '',
+            folder: searchParams.get('folder') || '',
+            label: searchParams.get('label') || '',
+        }
     }
 }
