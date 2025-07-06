@@ -11,7 +11,7 @@ export function NoteCreateBar() {
     const [selectedColor, setSelectedColor] = useState(null);
     const formRef = useRef(null)
     const fileInputRef = useRef(null)
-    const colorBtnRef = useRef(null);
+    const colorbtn2Ref = useRef(null);
     const [modalPos, setModalPos] = useState(null);
 
     function onAddNote(txt = '', title = '', isPinned = false, imgDataUrl = null) {
@@ -55,8 +55,8 @@ export function NoteCreateBar() {
     useEffect(() => {
         if (!isColorModalOpen) return;
         function updateModalPos() {
-            if (colorBtnRef.current) {
-                const rect = colorBtnRef.current.getBoundingClientRect();
+            if (colorbtn2Ref.current) {
+                const rect = colorbtn2Ref.current.getBoundingClientRect();
                 setModalPos({
                     top: rect.bottom + window.scrollY,
                     left: rect.left + window.scrollX
@@ -83,7 +83,7 @@ export function NoteCreateBar() {
         setSelectedColor(null)
     }
 
-    function handleImageBtnClick(e) {
+    function handleImagebtn2Click(e) {
         e.stopPropagation()
         if (fileInputRef.current) fileInputRef.current.click()
     }
@@ -126,16 +126,16 @@ export function NoteCreateBar() {
                         onChange={e => setInputValue(e.target.value)}
                     />
                     <div className="note-create-actions">
-                        <button type="button" className="btn"><span className="material-symbols-outlined">format_size</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined">format_size</span></button>
                         <div style={{ display: 'inline-block', position: 'relative' }}>
                             <button
                                 type="button"
-                                className="btn btn-color"
-                                ref={colorBtnRef}
+                                className="btn2 btn-color"
+                                ref={colorbtn2Ref}
                                 onMouseDown={e => {
                                     e.stopPropagation();
                                     if (!isColorModalOpen) {
-                                        const rect = colorBtnRef.current.getBoundingClientRect();
+                                        const rect = colorbtn2Ref.current.getBoundingClientRect();
                                         setModalPos({
                                             top: rect.bottom + window.scrollY,
                                             left: rect.left + window.scrollX
@@ -147,14 +147,14 @@ export function NoteCreateBar() {
                                 <span className="material-symbols-outlined">palette</span>
                             </button>
                         </div>
-                        <button type="button" className="btn"><span className="material-symbols-outlined">notifications</span></button>
-                        <button type="button" className="btn"><span className="material-symbols-outlined">person_add</span></button>
-                        <button type="button" className="btn" onClick={handleImageBtnClick}><span className="material-symbols-outlined">image</span></button>
-                        <button type="button" className="btn"><span className="material-symbols-outlined">file_download</span></button>
-                        <button type="button" className="btn"><span className="material-symbols-outlined">more_vert</span> </button>
-                        <button type="button" className="btn" disabled><span className="material-symbols-outlined">undo</span></button>
-                        <button type="button" className="btn" disabled><span className="material-symbols-outlined">redo</span></button>
-                        <button type="button" className="btn btn-close" onClick={closeBar}>Close</button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined">notifications</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined">person_add</span></button>
+                        <button type="button" className="btn2" onClick={handleImagebtn2Click}><span className="material-symbols-outlined">image</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined">file_download</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined">more_vert</span> </button>
+                        <button type="button" className="btn2" disabled><span className="material-symbols-outlined">undo</span></button>
+                        <button type="button" className="btn2" disabled><span className="material-symbols-outlined">redo</span></button>
+                        <button type="button" className="btn2 btn-close" onClick={closeBar}>Close</button>
                     </div>
                     {/* Render the modal OUTSIDE the button row to avoid layout shift */}
                     {isColorModalOpen && (
@@ -177,9 +177,9 @@ export function NoteCreateBar() {
                         readOnly
                     />
                     <div className="note-create-actions">
-                        <button type="button" className="btn"><span className="material-symbols-outlined">check_box</span></button>
-                        <button type="button" className="btn"><span className="material-symbols-outlined">brush</span></button>
-                        <button type="button" className="btn" onClick={handleImageBtnClick}><span className="material-symbols-outlined">image</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined">check_box</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined">brush</span></button>
+                        <button type="button" className="btn2" onClick={handleImagebtn2Click}><span className="material-symbols-outlined">image</span></button>
                     </div>
                 </React.Fragment>
             )}
