@@ -69,6 +69,9 @@
 .note-text {
     font-size: 14px;
     color: #333; /* Darker text for better readability */
+    word-break: break-word;
+    white-space: pre-line;
+    overflow-wrap: break-word;
 }
 
 .note-img {
@@ -94,6 +97,9 @@
     margin-bottom: 10px;
     color: #555; /* Subtle color for titles */
     font-weight: bold; /* Bold titles for emphasis */
+    word-break: break-word;
+    white-space: pre-line;
+    overflow-wrap: break-word;
 }
 
 .note-todos {

@@ -98,12 +98,13 @@ export function NoteVideo({ note, containerRef, className = 'note-card', onUpdat
                     value={txt}
                     placeholder="add txt note here..."
                     onChange={handleTextChange}
+                    onFocus={() => setIsEditingText(true)}
                     onBlur={handleTextBlur}
                     autoFocus
                     style={{ background: 'transparent', border: 'none', outline: 'none', fontSize: '1.2rem', color: '#333', width: '100%', minHeight: 60, padding: 0, resize: 'none' }}
                 />
             ) : (
-                txt && <p className="note-content" onClick={handleTextClick} style={className === 'details' ? { cursor: 'text' } : {}}>{txt}</p>
+                txt && <p className="note-content" onClick={handleTextClick} style={className === 'details' ? { cursor: 'text' } : {}}>{className === 'details' ? txt : (txt.length > 100 ? txt.slice(0, 100) + '…' : txt)}</p>
             )}
             <NoteToolBar note={note} />
         </div>

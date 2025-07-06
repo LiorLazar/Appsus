@@ -10,12 +10,27 @@
     >.keep-logo {
         display: flex;
         align-items: center;
-        font-weight: bold;
-        font-size: 1.2em;
+        background: none !important;
+        border-radius: 4px;
+        box-shadow: none !important;
+        padding: 4px 16px 4px 12px;
+        height: 48px;
+        margin-left: 16px;
+        border: none;
 
         >img {
-            height: 32px;
-            margin-left: 0.5em;
+            height: 40px !important;
+            width: 40px !important;
+            margin-right: 8px;
+        }
+
+        >.keep-title {
+            font-family: 'Product Sans', Arial, sans-serif;
+            font-size: 22px;
+            color: #5f6368;
+            line-height: 1;
+            font-weight: 400;
+            letter-spacing: .1px;
         }
     }
 

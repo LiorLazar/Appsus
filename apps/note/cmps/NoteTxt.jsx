@@ -78,7 +78,7 @@ export function NoteTxt({ note, className = 'note-card' }) {
                         style={{ background: 'transparent', border: 'none', outline: 'none', fontSize: '1.2rem', color: '#333', width: '100%', minHeight: 60, padding: 0, resize: 'none' }}
                     />
                 ) : (
-                    txt && <p className="note-text" onClick={handleTextClick} style={className === 'details' ? { cursor: 'text' } : {}}>{txt}</p>
+                    txt && <p className="note-text" onClick={handleTextClick} style={className === 'details' ? { cursor: 'text' } : {}}>{className === 'details' ? txt : (txt.length > 100 ? txt.slice(0, 100) + '…' : txt)}</p>
                 )}
             </div>
             <NoteToolBar note={note} />

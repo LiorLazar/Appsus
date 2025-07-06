@@ -51,13 +51,13 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
         <div className="color-picker-modal">
           <div className="color-picker-row">
             <button
-              className={`color-circle color-default${!selectedColor ? ' selected' : ''}`}
-              style={{ backgroundColor: '#fff', border: selectedColor ? '2.5px solid #e0e0e0' : undefined }}
-              onClick={() => onColorSelect(null)}
+              className={`color-circle color-default${selectedColor === '#ffffff' || !selectedColor ? ' selected' : ''}`}
+              style={{ backgroundColor: '#ffffff', border: selectedColor === '#ffffff' ? '2.5px solid #e0e0e0' : undefined }}
+              onClick={() => onColorSelect('#ffffff')}
               aria-label="Default color"
             >
               <span className="material-symbols-outlined color-default-icon">format_color_reset</span>
-              {!selectedColor && (
+              {(selectedColor === '#ffffff' || !selectedColor) && (
                 <span className="color-check">✔</span>
               )}
             </button>
