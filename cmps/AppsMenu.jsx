@@ -5,7 +5,7 @@ export function AppsMenu({ isOpen, onClose }) {
     return (
         <div className="apps-menu" onClick={onClose}>
             <div className="apps-menu-grid" onClick={ev => ev.stopPropagation()}>
-                <Link to="/mail" onClick={onClose}>
+                <Link to="/mail/inbox" onClick={onClose}>
                     <span className="material-symbols-outlined">mail</span>
                     <span>Gmail</span>
                 </Link>

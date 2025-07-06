@@ -12,7 +12,7 @@ export function AppHeader({ onToggleMenu }) {
 
     return (
         <header className="app-header">
-            <span className="material-symbols-outlined" onClick={onToggleMenu} style={{ cursor: 'pointer' }}>dehaze</span>
+            <span className="material-symbols-outlined burger-manu" onClick={onToggleMenu} style={{ cursor: 'pointer' }}>dehaze</span>
             <Link to="/" className="logo">
                 <img className="main-logo" src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
             </Link>
