@@ -20,14 +20,15 @@ function query(filterBy = {}) {
             if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 mails = mails.filter(mail => regExp.test(mail.subject))
+            } else {
+                if (filterBy.label) {
+                    const regExp = new RegExp(filterBy.label, 'i')
+                    mails = mails.filter(mail => regExp.test(mail.label))
+                }
             }
             if (filterBy.folder) {
                 const regExp = new RegExp(filterBy.folder, 'i')
                 mails = mails.filter(mail => regExp.test(mail.folder))
-            }
-            if (filterBy.label) {
-                const regExp = new RegExp(filterBy.label, 'i')
-                mails = mails.filter(mail => regExp.test(mail.label))
             }
             return mails
         })
@@ -112,9 +113,14 @@ function _createMails() {
 }
 
 function getFilterFromSearchParams(searchParams) {
-    const txt = searchParams.get('txt') || ''
-
-    return {
-        txt
+    if (searchParams.get('txt')) return {
+        txt: searchParams.get('txt') || ''
+    }
+    else {
+        return {
+            txt: searchParams.get('txt') || '',
+            folder: searchParams.get('folder') || '',
+            label: searchParams.get('label') || '',
+        }
     }
 }
