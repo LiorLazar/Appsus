@@ -1,0 +1,111 @@
+.color-picker-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.color-picker-modal {
+  width: 450px;
+  height: 50px;
+  min-width: unset;
+  min-height: unset;
+  max-width: 450px;
+  max-height: 50px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-picker-row {
+  display: flex;
+  justify-content: center; /* Center the color circles horizontally */
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  gap: 6px; /* Set gap between circles to 6px */
+}
+
+.color-circle {
+  width: 30px; /* Smaller size */
+  height: 30px;
+  border-radius: 50%;
+  aspect-ratio: 1 / 1;
+  border: 2px solid transparent;
+  outline: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border 0.2s;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0; /* Remove any default margin */
+  padding: 0; /* Remove any default padding */
+}
+
+.color-circle:hover {
+  border: 2px solid #222 !important;
+  box-shadow: 0 0 0 2.5px #fff, 0 0 0 2px #222;
+  z-index: 2;
+}
+
+.color-circle.selected {
+  border: 2.5px solid #a259f7;
+  /* box-shadow: 0 0 0 2px #e1d8fa; */
+}
+
+.color-check {
+  color: #a259f7;
+  font-size: 1.5rem;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.color-circle.color-default {
+  background: none;
+  position: relative;
+  border: 2.5px solid #e0e0e0;
+}
+
+.color-circle.color-default.selected {
+  border: 2.5px solid #a259f7; /* Only purple border when selected */
+  box-shadow: 0 0 0 2px #e1d8fa;
+}
+
+.color-default-bg {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  left: 2px;
+  top: 2px;
+  z-index: 0;
+  border: 2px solid #e0e0e0;
+}
+
+.color-default-icon {
+  position: relative;
+  z-index: 1;
+  color: #222;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
