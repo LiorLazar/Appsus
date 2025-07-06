@@ -78,24 +78,8 @@ img {
 
 .btn:hover {
     background: rgba(60, 64, 67, 0.08);
-    /* Very subtle dark background on hover */
-    transform: scale(1.1);
-    /* Slightly larger scale on hover */
-}
-
-.btn:active {
-    transform: scale(0.95);
-    /* Slight press effect */
 }
 
 .btn2:hover {
     background: rgba(60, 64, 67, 0.08);
-    /* Very subtle dark background on hover */
-    transform: scale(1.1);
-    /* Slightly larger scale on hover */
-}
-
-.btn2:active {
-    transform: scale(0.95);
-    /* Slight press effect */
 }
