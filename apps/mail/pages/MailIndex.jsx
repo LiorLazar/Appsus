@@ -1,79 +1,98 @@
-import { showSuccessMsg } from "../../../services/event-bus.service.js"
+import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
+import { utilService } from "../../../services/util.service.js"
 import { MailList } from "../cmps/MailList.jsx"
 import { mailService } from "../services/mail.service.js"
 
 const { useState, useEffect } = React
-const { Outlet } = ReactRouterDOM
+const { useSearchParams } = ReactRouterDOM
 
-export function MailIndex({ setUnreadCount, filterFolder }) {
+export function MailIndex() {
     const [mails, setMails] = useState(null)
-    const [filterBy, setFilterBy] = useState(() => ({
-        txt: '',
-        folder: filterFolder || 'inbox'
-    }))
-    const [allInboxMails, setAllInboxMails] = useState([])
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
+    const truthyFilter = utilService.getTruthyValues(filterBy)
 
     useEffect(() => {
-        mailService.query({ folder: 'inbox' }).then(setAllInboxMails)
-    }, [])
+        setSearchParams(truthyFilter)
+        loadMails()
+        console.log('filterBy:', filterBy)
+    }, [filterBy])
 
     useEffect(() => {
-        const filter = { ...filterBy }
-        if (filterFolder) filter.folder = filterFolder
-        mailService.query(filter)
-            .then(mails => {
-                setMails(mails)
-                const unread = mails.filter(mail => !mail.isRead).length
-                if (setUnreadCount) setUnreadCount(unread)
-            })
+        const filter = mailService.getFilterFromSearchParams(searchParams)
+        setFilterBy(prev => ({
+            ...prev,
+            ...filter,
+            folder: filter.folder || prev.folder || 'inbox',
+            label: filter.label || prev.label || 'Primary',
+            txt: filter.txt || prev.txt || ''
+        }))
+    }, [searchParams])
+
+    function loadMails() {
+        mailService.query(filterBy)
+            .then(mails => setMails(mails))
+            .catch(err => console.log('err:', err))
+    }
+
+    function onSetFilterBy(filterBy) {
+        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+    }
+
+    function loadMails() {
+        mailService.query(filterBy)
+            .then(setMails)
             .catch(err => {
                 console.log('err:', err)
+                showErrorMsg('Problem Load Mails')
             })
-    }, [filterBy, setUnreadCount, filterFolder])
-
-    useEffect(() => {
-        setFilterBy(prev => ({ ...prev, folder: filterFolder || 'inbox' }))
-    }, [filterFolder])
+    }
 
     if (!mails) return <div className="container">Loading...</div>
     const unreadCounts = {
-        primary: allInboxMails.filter(mail => mail.label === 'Primary' && !mail.isRead).length,
-        promotions: allInboxMails.filter(mail => mail.label === 'Promotions' && !mail.isRead).length,
-        social: allInboxMails.filter(mail => mail.label === 'Social' && !mail.isRead).length,
+        primary: mails.filter(mail => mail.label === 'Primary' && !mail.isRead).length,
+        promotions: mails.filter(mail => mail.label === 'Promotions' && !mail.isRead).length,
+        social: mails.filter(mail => mail.label === 'Social' && !mail.isRead).length,
     }
-    return <section className="mail-index">
-        {(filterFolder === 'inbox' || !filterFolder) && (
-            <div className="labels">
-                <div
-                    className={`label${filterBy.label === 'Primary' ? ' active' : ''}`}
-                    onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Primary' }))}
-                >
-                    <span className="material-symbols-outlined">inbox</span>
-                    Primary
-                </div>
-                <div
-                    className={`label${filterBy.label === 'Promotions' ? ' active' : ''}`}
-                    onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Promotions' }))}
-                >
-                    <span className="material-symbols-outlined">local_offer</span>
-                    Promotions
-                    {unreadCounts.promotions > 0 && (
-                        <span className="label-badge promotions">{unreadCounts.promotions} new</span>
-                    )}
-                </div>
-                <div
-                    className={`label${filterBy.label === 'Social' ? ' active' : ''}`}
-                    onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Social' }))}
-                >
-                    <span className="material-symbols-outlined">group</span>
-                    Social
-                    {unreadCounts.social > 0 && (
-                        <span className="label-badge social">{unreadCounts.social} new</span>
-                    )}
-                </div>
-            </div>
-        )}
-        <MailList mails={mails} setMails={setMails} />
-        <Outlet />
-    </section>
+    return (
+        <section className="mail-index">
+            {
+                (filterBy.folder === 'inbox' || !filterBy.folder) && (
+                    <div className="labels">
+                        <div
+                            className={`label${filterBy.label === 'Primary' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Primary' }))}
+                        >
+                            <span className="material-symbols-outlined">inbox</span>
+                            Primary
+                            {unreadCounts.primary > 0 && (
+                                <span className="label-badge primary">{unreadCounts.primary} new</span>
+                            )}
+                        </div>
+                        <div
+                            className={`label${filterBy.label === 'Promotions' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Promotions' }))}
+                        >
+                            <span className="material-symbols-outlined">local_offer</span>
+                            Promotions
+                            {unreadCounts.promotions > 0 && (
+                                <span className="label-badge promotions">{unreadCounts.promotions} new</span>
+                            )}
+                        </div>
+                        <div
+                            className={`label${filterBy.label === 'Social' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Social' }))}
+                        >
+                            <span className="material-symbols-outlined">group</span>
+                            Social
+                            {unreadCounts.social > 0 && (
+                                <span className="label-badge social">{unreadCounts.social} new</span>
+                            )}
+                        </div>
+                    </div>
+                )
+            }
+            <MailList mails={mails} setMails={setMails} />
+        </section >
+    )
 }

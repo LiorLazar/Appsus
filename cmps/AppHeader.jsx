@@ -1,15 +1,29 @@
-import { MailSearch } from "../apps/mail/cmps/MailSearch.jsx";
+import { MailFilter } from "../apps/mail/cmps/MailFilter.jsx";
+import { mailService } from "../apps/mail/services/mail.service.js";
+import { utilService } from "../services/util.service.js";
 import { AppsMenu } from "./AppsMenu.jsx";
 
-const { useState } = React
-const { Link, NavLink, useLocation } = ReactRouterDOM
+const { useState, useEffect } = React
+const { Link, NavLink, useLocation, useSearchParams } = ReactRouterDOM
 
 export function AppHeader({ onToggleMenu }) {
     const location = useLocation()
-    const isMail = location.pathname.includes("/mail");
-    const isNote = location.pathname.includes("/note");
+    const isMail = location.pathname.includes("/mail")
+    const isNote = location.pathname.includes("/note")
 
     const [isAppsOpen, setIsAppsOpen] = useState(false)
+
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
+    const truthyFilter = utilService.getTruthyValues(filterBy)
+
+    useEffect(() => {
+        setSearchParams(truthyFilter)
+    }, [filterBy])
+
+    function onSetFilterBy(filterBy) {
+        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+    }
 
     return (
         <header className="app-header">
@@ -29,7 +43,10 @@ export function AppHeader({ onToggleMenu }) {
             )}
 
             <div className="header-bar">
-                {(isMail) && <MailSearch />}
+                {isMail && <MailFilter
+                    defaultFilter={filterBy}
+                    onSetFilterBy={onSetFilterBy}
+                />}
                 {/* {(isMail || isNote) && (
                     <div className="search-bar">
                         <span className="material-symbols-outlined">search</span>
