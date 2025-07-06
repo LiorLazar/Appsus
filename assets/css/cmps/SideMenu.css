@@ -1,10 +1,10 @@
 .side-menu {
-    width: fit-content;
+    width: 240px;
+    min-width: 200px;
     background: #fff;
     border-right: 1px solid #e0e0e0;
-    transition: width 0.2s;
-    overflow: hidden;
-    padding-top: 1em;
+    transition: transform 0.3s;
+    z-index: 10;
 }
 
 .side-menu.collapsed {
