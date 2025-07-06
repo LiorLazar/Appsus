@@ -2,7 +2,7 @@ export function NoteToolBar({ note }) {
     return (
         <div className="note-toolbar">
             <button
-                className="btn btn-color"
+                className="btn2 btn-color"
                 onClick={function(e) {
                     var btnRect = e.target.getBoundingClientRect();
                     window.dispatchEvent(new CustomEvent('openColorPickerModal', {
@@ -12,7 +12,7 @@ export function NoteToolBar({ note }) {
             >
                 <span className="material-symbols-outlined">palette</span>
             </button>
-            <button className="btn btn-pin">
+            <button className="btn2 btn-pin">
                 {note.isPinned ? 
                     <span className="material-symbols-outlined">keep</span> : 
                     <span className="material-symbols-outlined">keep</span>
