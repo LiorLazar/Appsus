@@ -16,11 +16,11 @@ export function MailPreview({ mail, onRemoveMail }) {
             {isHovered ? (
                 <div className="mail-actions">
                     <span
-                        className="material-symbols-outlined"
+                        className="material-symbols-outlined btn"
                         title="Archive"> archive
                     </span>
                     <span
-                        className="material-symbols-outlined"
+                        className="material-symbols-outlined btn"
                         title="Delete"
                         onClick={ev => {
                             ev.stopPropagation()
@@ -30,19 +30,19 @@ export function MailPreview({ mail, onRemoveMail }) {
                     </span>
                     {mail.isRead ? (
                         <span
-                            className="material-symbols-outlined"
+                            className="material-symbols-outlined btn"
                             title="Mark As Unread">mark_email_unread
                         </span>
 
                     ) : (
                         <span
-                            className="material-symbols-outlined"
+                            className="material-symbols-outlined btn"
                             title="Mark As Read">mark_email_read
                         </span>
                     )
                     }
                     <span
-                        className="material-symbols-outlined"
+                        className="material-symbols-outlined btn"
                         title="Snooze">schedule
                     </span>
                 </div>
