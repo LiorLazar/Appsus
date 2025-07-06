@@ -1,3 +1,4 @@
+import { showSuccessMsg } from "../../../services/event-bus.service.js"
 import { MailList } from "../cmps/MailList.jsx"
 import { mailService } from "../services/mail.service.js"
 
@@ -12,12 +13,10 @@ export function MailIndex({ setUnreadCount, filterFolder }) {
     }))
     const [allInboxMails, setAllInboxMails] = useState([])
 
-    // Fetch all inbox mails for badge counts
     useEffect(() => {
         mailService.query({ folder: 'inbox' }).then(setAllInboxMails)
     }, [])
 
-    // Fetch filtered mails for display
     useEffect(() => {
         const filter = { ...filterBy }
         if (filterFolder) filter.folder = filterFolder
@@ -74,7 +73,7 @@ export function MailIndex({ setUnreadCount, filterFolder }) {
                 </div>
             </div>
         )}
-        <MailList mails={mails} />
+        <MailList mails={mails} setMails={setMails} />
         <Outlet />
     </section>
 }

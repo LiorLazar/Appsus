@@ -21,7 +21,12 @@ export function MailPreview({ mail, onRemoveMail }) {
                     </span>
                     <span
                         className="material-symbols-outlined"
-                        title="Delete">delete
+                        title="Delete"
+                        onClick={ev => {
+                            ev.stopPropagation()
+                            ev.preventDefault()
+                            onRemoveMail(mail.id)
+                        }}>delete
                     </span>
                     {mail.isRead ? (
                         <span
