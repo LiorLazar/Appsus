@@ -15,18 +15,10 @@ export function MailIndex() {
     useEffect(() => {
         setSearchParams(truthyFilter)
         loadMails()
-        console.log('filterBy:', filterBy)
     }, [filterBy])
 
     useEffect(() => {
-        const filter = mailService.getFilterFromSearchParams(searchParams)
-        setFilterBy(prev => ({
-            ...prev,
-            ...filter,
-            folder: filter.folder || prev.folder || 'inbox',
-            label: filter.label || prev.label || 'Primary',
-            txt: filter.txt || prev.txt || ''
-        }))
+        setFilterBy(mailService.getFilterFromSearchParams(searchParams))
     }, [searchParams])
 
     function loadMails() {

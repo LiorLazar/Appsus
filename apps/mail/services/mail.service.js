@@ -20,14 +20,15 @@ function query(filterBy = {}) {
             if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 mails = mails.filter(mail => regExp.test(mail.subject))
+            } else {
+                if (filterBy.label) {
+                    const regExp = new RegExp(filterBy.label, 'i')
+                    mails = mails.filter(mail => regExp.test(mail.label))
+                }
             }
             if (filterBy.folder) {
                 const regExp = new RegExp(filterBy.folder, 'i')
                 mails = mails.filter(mail => regExp.test(mail.folder))
-            }
-            if (filterBy.label) {
-                const regExp = new RegExp(filterBy.label, 'i')
-                mails = mails.filter(mail => regExp.test(mail.label))
             }
             return mails
         })
