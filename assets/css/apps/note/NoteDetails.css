@@ -6,9 +6,88 @@
   font-size: clamp(1rem, 2vw, 2.5rem);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  align-items: flex-start;
+  justify-content: flex-start;
   box-sizing: border-box;
   border-radius: 10px;
-  margin: 0 auto;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+  padding: 32px 32px 56px 32px;
+  position: relative;
+  overflow: hidden; /* Added to remove scrollbar/slider */
+}
+
+.details .note-title,
+.details input.note-title {
+  font-size: 2.5rem;
+  color: #555;
+  font-weight: bold;
+  text-align: left;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  font-family: inherit;
+  padding: 0;
+}
+
+.details .note-title::placeholder,
+.details input.note-title::placeholder {
+  color: #bbb;
+  font-weight: normal;
+}
+
+.details .note-text,
+.details textarea.note-text {
+  font-size: 1.5rem;
+  color: #333;
+  text-align: left;
+  background: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+  padding: 0;
+  resize: none;
+}
+
+.details .note-text::placeholder,
+.details textarea.note-text::placeholder {
+  color: #bbb;
+}
+
+.details .note-img,
+.details .note-video {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  max-height: 50vh;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  display: block;
+  background-color: #f5f5f5;
+}
+
+.note-details {
+  position: relative;
+  width: 100vw;
+  max-width: 800px;
+  margin: 16px auto;
+  background: transparent;
+  min-height: 100vh;
+  overflow: hidden; /* Added to remove scrollbar/slider */
+}
+
+.note-container {
+  width: 100%;
+  min-height: 80vh;
+  box-sizing: border-box;
+}
+
+.note-details .note-toolbar {
+    opacity: 1; /* Visible on hover */
+    visibility: visible; /* Visible on hover */
 }

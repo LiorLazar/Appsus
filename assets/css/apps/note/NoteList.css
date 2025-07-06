@@ -61,6 +61,7 @@
 }
 
 .note-card:hover {
+    cursor: default;
     transform: translateY(-5px) scale(1.02); /* More pronounced hover effect */
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25); /* Enhanced shadow on hover */
 }
@@ -80,10 +81,16 @@
     display: block; /* Prevent inline spacing issues */
     min-height: 120px; /* Reserve space while loading */
     background-color: #f5f5f5; /* Light background while loading */
+    background: transparent !important;
+}
+
+.note-img img {
+    background: transparent !important;
 }
 
 .note-title {
     font-size: 16px;
+    margin-top: 0px;
     margin-bottom: 10px;
     color: #555; /* Subtle color for titles */
     font-weight: bold; /* Bold titles for emphasis */
