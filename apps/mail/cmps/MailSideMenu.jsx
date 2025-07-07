@@ -1,5 +1,7 @@
+import { utilService } from "../../../services/util.service.js"
+
 const { NavLink } = ReactRouterDOM
-const { useState } = React
+const { useState, useEffect, useRef } = React
 
 const folders = [
     { name: 'Inbox', icon: 'inbox' },
@@ -18,9 +20,48 @@ const categories = [
 ]
 
 
-export function MailSideMenu({ isOpen, unreadCount = 0 }) {
+export function MailSideMenu({ isOpen, unreadCount = 0, defaultFilter, onSetFilterBy }) {
     const [showMore, setShowMore] = useState(false)
     const [showCategories, setShowCategories] = useState(false)
+
+    const [filterByToEdit, setFilterByToEdit] = useState({ ...defaultFilter })
+    const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy, 500)).current
+
+    const { folder } = filterByToEdit
+
+    useEffect(() => {
+        onSetFilterByDebounce(filterByToEdit)
+    }, [filterByToEdit])
+
+    function handleChange({ target }) {
+        const field = target.name
+        let value = target.value
+        switch (target.type) {
+            case 'range':
+                value = +value
+                break;
+            case 'checkbox':
+                value = target.checked
+                break
+        }
+        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+    }
+
+    function handleFolderClick(folderName) {
+        setFilterByToEdit(prevFilter => ({
+            ...prevFilter,
+            folder: folderName.toLowerCase(),
+            category: ''
+        }))
+    }
+
+    function handleCategoryClick(categoryName) {
+        setFilterByToEdit(prevFilter => ({
+            ...prevFilter,
+            category: categoryName,
+            folder: 'inbox'
+        }))
+    }
 
     return (
         <aside className={`side-menu${isOpen ? ' open' : ' collapsed'}`}>
@@ -29,10 +70,14 @@ export function MailSideMenu({ isOpen, unreadCount = 0 }) {
                 <span>Compose</span>
             </NavLink>
             {folders.map(folder =>
-                <NavLink to={`/mail/${folder.name}`} className="menu-item">
+                <div
+                    key={folder.name}
+                    className="menu-item"
+                    onClick={() => handleFolderClick(folder.name)}
+                >
                     <span className="material-symbols-outlined">{folder.icon}</span>
                     <span>{folder.name}</span>
-                </NavLink>
+                </div>
             )}
             {isOpen && (
                 <div>
@@ -56,11 +101,15 @@ export function MailSideMenu({ isOpen, unreadCount = 0 }) {
                         </span>
                         <span>Categories</span>
                     </div>
-                    {showCategories && categories.map(folder =>
-                        <NavLink key={folder.name} to={`/mail/${folder.name}`} className="menu-item category-link">
-                            <span className="material-symbols-outlined">{folder.icon}</span>
-                            <span className="category-name">{folder.name}</span>
-                        </NavLink>
+                    {showCategories && categories.map(category =>
+                        <div
+                            key={category.name}
+                            className="menu-item category-link"
+                            onClick={() => handleCategoryClick(category.name)}
+                        >
+                            <span className="material-symbols-outlined">{category.icon}</span>
+                            <span className="category-name">{category.name}</span>
+                        </div>
                     )}
                 </div>
             )}
@@ -79,11 +128,15 @@ export function MailSideMenu({ isOpen, unreadCount = 0 }) {
                 >expand_more</span>
                 <span style={{ marginLeft: '8px' }}>{showMore ? 'Less' : 'More'}</span>
             </div>
-            {showMore && categories.map(folder =>
-                <NavLink key={folder.name} to={`/mail/${folder.name}`} className="menu-item">
-                    <span className="material-symbols-outlined">{folder.icon}</span>
-                    <span className="more">{folder.name}</span>
-                </NavLink>
+            {showMore && categories.map(category =>
+                <div
+                    key={category.name}
+                    className="menu-item"
+                    onClick={() => handleCategoryClick(category.name)}
+                >
+                    <span className="material-symbols-outlined">{category.icon}</span>
+                    <span className="more">{category.name}</span>
+                </div>
             )}
         </aside>
     )
