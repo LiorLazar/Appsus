@@ -27,12 +27,14 @@ export function MailDetails() {
     return (
         <section className="mail-details container">
             <section className="header">
-                <span className="mail-from">{mail.from}</span>
-                <span className="mail-to">{mail.to}</span>
-                <span className="mail-date">{mail.sentAt}</span>
+                <div className="mail-subject">{mail.subject}</div>
             </section>
-            <div className="mail-subject">{mail.subject}</div>
-            <div className="mail-body">{mail.body}</div>
+            <div className="sender-details">
+                <span className="mail-from">{mail.from}</span>
+                <span className="mail-date">{mail.sentAt}</span>
+            </div>
+            <span className="mail-to">{mail.to}</span>
+            <p className="mail-body">{mail.body}</p>
             <div className="buttons-container">
                 <button onClick={onBack}>Back</button>
                 <button>Forward</button>
