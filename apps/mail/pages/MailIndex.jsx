@@ -47,36 +47,36 @@ export function MailIndex() {
         <section className="mail-index">
             {
                 (filterBy.folder === 'inbox' || !filterBy.folder) && (
-                    <div className="labels">
+                    <div className="categories">
                         <div
-                            className={`label${filterBy.category === 'Primary' ? ' active' : ''}`}
+                            className={`category ${filterBy.category === 'Primary' ? ' active' : ''}`}
                             onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Primary' }))}
                         >
                             <span className="material-symbols-outlined">inbox</span>
                             Primary
-                            {unreadCounts.primary > 0 && (
-                                <span className="label-badge primary">{unreadCounts.primary} new</span>
-                            )}
+                            {/* {unreadCounts.primary > 0 && (
+                                <span className="category-badge primary">{unreadCounts.primary} new</span>
+                            )} */}
                         </div>
                         <div
-                            className={`label${filterBy.category === 'Promotions' ? ' active' : ''}`}
+                            className={`category ${filterBy.category === 'Promotions' ? ' active' : ''}`}
                             onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Promotions' }))}
                         >
                             <span className="material-symbols-outlined">local_offer</span>
                             Promotions
-                            {unreadCounts.promotions > 0 && (
-                                <span className="label-badge promotions">{unreadCounts.promotions} new</span>
-                            )}
+                            {/* {unreadCounts.promotions > 0 && (
+                                <span className="category-badge promotions">{unreadCounts.promotions} new</span>
+                            )} */}
                         </div>
                         <div
-                            className={`label${filterBy.category === 'Social' ? ' active' : ''}`}
+                            className={`category ${filterBy.category === 'Social' ? ' active' : ''}`}
                             onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Social' }))}
                         >
                             <span className="material-symbols-outlined">group</span>
                             Social
-                            {unreadCounts.social > 0 && (
-                                <span className="label-badge social">{unreadCounts.social} new</span>
-                            )}
+                            {/* {unreadCounts.social > 0 && (
+                                <span className="category-badge social">{unreadCounts.social} new</span>
+                            )} */}
                         </div>
                     </div>
                 )
