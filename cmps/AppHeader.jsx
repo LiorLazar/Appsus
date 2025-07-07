@@ -1,4 +1,5 @@
 import { MailFilter } from "../apps/mail/cmps/MailFilter.jsx";
+import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
 import { mailService } from "../apps/mail/services/mail.service.js";
 import { utilService } from "../services/util.service.js";
 import { AppsMenu } from "./AppsMenu.jsx";
@@ -43,22 +44,7 @@ export function AppHeader({ onToggleMenu }) {
             )}
 
             <div className="header-bar">
-                {isMail && <MailFilter
-                    defaultFilter={filterBy}
-                    onSetFilterBy={onSetFilterBy}
-                />}
-                {/* {(isMail || isNote) && (
-                    <div className="search-bar">
-                        <span className="material-symbols-outlined">search</span>
-                        <input
-                            type="text"
-                            placeholder={isMail ? "Search mail" : "Search note"}
-                        />
-                        {isMail && (
-                            <span className="material-symbols-outlined">tune</span>
-                        )}
-                    </div>
-                )} */}
+                {isMail && <MailHeader />}
                 <div className="header-icons">
                     <span className="material-symbols-outlined btn">help</span>
                     <span className="material-symbols-outlined btn">settings</span>
@@ -72,10 +58,7 @@ export function AppHeader({ onToggleMenu }) {
 
 
             <nav>
-                {/* <NavLink to="/">Home</NavLink> */}
                 <NavLink to="/about" className="btn2">About</NavLink>
-                {/* <NavLink to="/mail">Mail</NavLink>
-                <NavLink to="/note">Note</NavLink> */}
             </nav>
         </header >
     )
