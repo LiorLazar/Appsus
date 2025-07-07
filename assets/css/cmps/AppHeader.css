@@ -19,12 +19,6 @@
         border: none;
         cursor: pointer;
 
-        >img {
-            height: 40px !important;
-            width: 40px !important;
-            margin-right: 8px;
-        }
-
         >.keep-title {
             font-family: 'Product Sans', Arial, sans-serif;
             font-size: 22px;
@@ -36,12 +30,6 @@
     }
 
     >.header-bar {
-        display: flex;
-        flex: 1;
-        justify-content: space-between;
-        align-items: center;
-        margin: 0 2em;
-
         >.header-icons {
             display: flex;
             align-items: center;

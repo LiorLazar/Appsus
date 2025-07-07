@@ -1,0 +1,13 @@
+img {
+    height: 40px;
+    width: 40px;
+    margin-right: 8px;
+}
+
+.mail-header-bar {
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 2em;
+}
