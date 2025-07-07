@@ -2,7 +2,7 @@ import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
 
 const { useState, useEffect } = React
-const { Link, NavLink, useLocation, useSearchParams } = ReactRouterDOM
+const { Link, NavLink, useLocation } = ReactRouterDOM
 
 export function AppHeader({ onToggleMenu }) {
     const location = useLocation()
