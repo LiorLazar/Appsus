@@ -8,4 +8,12 @@
     background: none;
     cursor: pointer;
     text-indent: initial;
+    box-sizing: border-box;
+}
+
+.mail-actions .btn {
+    font-size: 20px;
+    margin: 0 4px;
+    padding: 0;
+    line-height: 1;
 }
