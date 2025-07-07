@@ -13,7 +13,7 @@ export function MailIndex() {
     const truthyFilter = utilService.getTruthyValues(filterBy)
 
     useEffect(() => {
-        console.log(filterBy)
+        // console.log(filterBy)
         setSearchParams(truthyFilter)
         loadMails()
     }, [filterBy])
