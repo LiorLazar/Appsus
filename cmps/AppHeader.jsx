@@ -17,9 +17,8 @@ export function AppHeader({ onToggleMenu }) {
             <Link to="/" className="logo">
                 <img className="main-logo" src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
             </Link>
-            {isMail ? (
-                <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
-            ) : isNote ? (
+            {isMail && <MailHeader />}
+            {isNote ? (
                 <div className="keep-logo" onClick={() => navigate('/note')}>
                     <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" style={{ height: 40, width: 40, marginRight: 8 }} />
                     <span className="keep-title">Keep</span>
@@ -29,7 +28,6 @@ export function AppHeader({ onToggleMenu }) {
             )}
 
             <div className="header-bar">
-                {isMail && <MailHeader />}
                 <div className="header-icons">
                     <span className="material-symbols-outlined btn">help</span>
                     <span className="material-symbols-outlined btn">settings</span>
