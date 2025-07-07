@@ -23,6 +23,7 @@
 @import './apps/mail/MailCompose.css';
 @import './apps/mail/MailFilter.css';
 @import './apps/mail/MailHeader.css';
+@import './apps/mail/MailSideMenu.css';
 
 .root-cmp {
     display: flex;
