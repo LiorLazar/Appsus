@@ -21,9 +21,9 @@ function query(filterBy = {}) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 mails = mails.filter(mail => regExp.test(mail.subject))
             } else {
-                if (filterBy.label) {
-                    const regExp = new RegExp(filterBy.label, 'i')
-                    mails = mails.filter(mail => regExp.test(mail.label))
+                if (filterBy.category) {
+                    const regExp = new RegExp(filterBy.category, 'i')
+                    mails = mails.filter(mail => regExp.test(mail.category))
                 }
             }
             if (filterBy.folder) {
@@ -53,13 +53,16 @@ function getEmptyMail() {
         body: '',
         from: '',
         to: '',
+        folder: '',
+        category: '',
+        label: '',
         isRead: false,
         removedAt: null
     }
 }
 
 function getDefaultFilter() {
-    return { txt: '', folder: 'inbox', label: '' }
+    return { txt: '', folder: 'inbox', category: '' }
 }
 
 function _createMails() {
@@ -78,7 +81,7 @@ function _createMails() {
                 from: 'momo@momo.com',
                 to: 'user@appsus.com',
                 folder: 'sent',
-                label: 'Primary'
+                category: 'Primary'
             },
             {
                 id: 'e102',
@@ -91,7 +94,7 @@ function _createMails() {
                 from: 'team@appsus.com',
                 to: 'user@appsus.com',
                 folder: 'inbox',
-                label: 'Promotions'
+                category: 'Promotions'
             },
             {
                 id: 'e103',
@@ -104,7 +107,7 @@ function _createMails() {
                 from: 'events@appsus.com',
                 to: 'user@appsus.com',
                 folder: 'inbox',
-                label: 'Social'
+                category: 'Social'
             }
         ]
         console.log('mails:', mails)
@@ -120,7 +123,7 @@ function getFilterFromSearchParams(searchParams) {
         return {
             txt: searchParams.get('txt') || '',
             folder: searchParams.get('folder') || '',
-            label: searchParams.get('label') || '',
+            category: searchParams.get('category') || '',
         }
     }
 }

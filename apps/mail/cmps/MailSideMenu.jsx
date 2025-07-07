@@ -19,6 +19,6 @@ export function MailSideMenu({ isOpen, unreadCount = 0 }) {
                 <span>Sent</span>
             </NavLink>
         </aside>
-    )
+)
 
 }

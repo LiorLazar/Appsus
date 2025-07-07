@@ -13,6 +13,7 @@ export function MailIndex() {
     const truthyFilter = utilService.getTruthyValues(filterBy)
 
     useEffect(() => {
+        console.log(filterBy)
         setSearchParams(truthyFilter)
         loadMails()
     }, [filterBy])
@@ -38,9 +39,9 @@ export function MailIndex() {
 
     if (!mails) return <div className="container">Loading...</div>
     const unreadCounts = {
-        primary: mails.filter(mail => mail.label === 'Primary' && !mail.isRead).length,
-        promotions: mails.filter(mail => mail.label === 'Promotions' && !mail.isRead).length,
-        social: mails.filter(mail => mail.label === 'Social' && !mail.isRead).length,
+        primary: mails.filter(mail => mail.category === 'Primary' && !mail.isRead).length,
+        promotions: mails.filter(mail => mail.category === 'Promotions' && !mail.isRead).length,
+        social: mails.filter(mail => mail.category === 'Social' && !mail.isRead).length,
     }
     return (
         <section className="mail-index">
@@ -48,8 +49,8 @@ export function MailIndex() {
                 (filterBy.folder === 'inbox' || !filterBy.folder) && (
                     <div className="labels">
                         <div
-                            className={`label${filterBy.label === 'Primary' ? ' active' : ''}`}
-                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Primary' }))}
+                            className={`label${filterBy.category === 'Primary' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Primary' }))}
                         >
                             <span className="material-symbols-outlined">inbox</span>
                             Primary
@@ -58,8 +59,8 @@ export function MailIndex() {
                             )}
                         </div>
                         <div
-                            className={`label${filterBy.label === 'Promotions' ? ' active' : ''}`}
-                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Promotions' }))}
+                            className={`label${filterBy.category === 'Promotions' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Promotions' }))}
                         >
                             <span className="material-symbols-outlined">local_offer</span>
                             Promotions
@@ -68,8 +69,8 @@ export function MailIndex() {
                             )}
                         </div>
                         <div
-                            className={`label${filterBy.label === 'Social' ? ' active' : ''}`}
-                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Social' }))}
+                            className={`label${filterBy.category === 'Social' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Social' }))}
                         >
                             <span className="material-symbols-outlined">group</span>
                             Social
