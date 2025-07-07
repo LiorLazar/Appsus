@@ -20,7 +20,7 @@ export function MailHeader() {
     }
 
     return (
-        <section className="header-bar" >
+        <section className="mail-header-bar">
             <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
             <MailFilter
                 defaultFilter={filterBy}
