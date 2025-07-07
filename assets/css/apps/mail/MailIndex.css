@@ -40,57 +40,31 @@
     white-space: nowrap;
 }
 
-.labels {
+.categories {
     display: flex;
+    width: 100%;
+    justify-content: flex-start;
     align-items: center;
-    background: #fff;
-    border-bottom: 1.5px solid #e0e0e0;
-    padding: 0 16px;
-    height: 48px;
-    gap: 8px;
+    color: rgb(32, 33, 36);
 }
 
-.label {
+.category {
     display: flex;
+    width: 251px;
     align-items: center;
-    gap: 8px;
-    padding: 0 18px;
-    font-size: 1rem;
-    color: #5f6368;
+    justify-content: flex-start;
+    height: 56px;
+    float: none;
     cursor: pointer;
-    height: 100%;
     position: relative;
-    border-bottom: 2.5px solid transparent;
-    transition: color 0.2s, border-bottom 0.2s;
+
 }
 
-.label.active {
-    color: #1a73e8;
-    font-weight: 500;
-    border-bottom: 2.5px solid #1a73e8;
-    background: #fff;
-    z-index: 1;
+.category.active {
+    border-bottom: 3px solid #0b57d0;
 }
 
-.label-badge {
-    margin-left: 8px;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.85em;
-    font-weight: 500;
-    color: #fff;
-    background: #1a73e8;
-    line-height: 1.2;
-}
-
-.label-badge.promotions {
-    background: #137333;
-}
-
-.label-badge.social {
-    background: #137333;
-}
-
-.label-badge.primary {
-    background: #137333;
+.category-icon.active,
+.category.active .material-symbols-outlined {
+    color: #0b57d0;
 }
