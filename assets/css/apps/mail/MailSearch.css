@@ -6,7 +6,7 @@
     box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08);
     padding: 0 16px;
     height: 48px;
-    max-width: 600px;
+    max-width: 720px;
     width: 100%;
     gap: 8px;
     border: none;
@@ -17,6 +17,7 @@
     font-size: 24px;
     cursor: pointer;
     user-select: none;
+    margin-right: 8px;
 }
 
 .mail-search-input {
@@ -27,4 +28,11 @@
     font-size: 1rem;
     color: #202124;
     padding: 12px 0;
+    margin-left: 8px;
+}
+
+.mail-search-input::placeholder {
+    color: #5f6368;
+    opacity: 1;
+    font-weight: 400;
 }

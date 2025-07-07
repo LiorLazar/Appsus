@@ -20,7 +20,7 @@ export function MailHeader() {
     }
 
     return (
-        < section className="app-header" >
+        <section className="header-bar" >
             <MailFilter
                 defaultFilter={filterBy}
                 onSetFilterBy={onSetFilterBy}

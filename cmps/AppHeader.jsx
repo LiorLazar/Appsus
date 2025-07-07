@@ -1,7 +1,4 @@
-import { MailFilter } from "../apps/mail/cmps/MailFilter.jsx";
 import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
-import { mailService } from "../apps/mail/services/mail.service.js";
-import { utilService } from "../services/util.service.js";
 import { AppsMenu } from "./AppsMenu.jsx";
 
 const { useState, useEffect } = React
@@ -13,18 +10,6 @@ export function AppHeader({ onToggleMenu }) {
     const isNote = location.pathname.includes("/note")
 
     const [isAppsOpen, setIsAppsOpen] = useState(false)
-
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
-    const truthyFilter = utilService.getTruthyValues(filterBy)
-
-    useEffect(() => {
-        setSearchParams(truthyFilter)
-    }, [filterBy])
-
-    function onSetFilterBy(filterBy) {
-        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
-    }
 
     return (
         <header className="app-header">
