@@ -10,12 +10,12 @@ export function NoteToolBar({ note }) {
                     }));
                 }}
             >
-                <span className="material-symbols-outlined">palette</span>
+                <span className="material-symbols-outlined btn-small">palette</span>
             </button>
             <button className="btn2 btn-pin">
                 {note.isPinned ? 
-                    <span className="material-symbols-outlined">keep</span> : 
-                    <span className="material-symbols-outlined">keep</span>
+                    <span className="material-symbols-outlined btn-small">keep</span> : 
+                    <span className="material-symbols-outlined btn-small">keep</span>
                 }
             </button>
         </div>
