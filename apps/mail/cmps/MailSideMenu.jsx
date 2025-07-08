@@ -34,18 +34,33 @@ export function MailSideMenu({ isOpen, defaultFilter, onSetFilterBy }) {
     const [filterByToEdit, setFilterByToEdit] = useState({ ...defaultFilter })
     const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy, 500)).current
 
-    const { folder } = filterByToEdit
-
     useEffect(() => {
         onSetFilterByDebounce(filterByToEdit)
     }, [filterByToEdit])
 
     function handleFolderClick(folderName) {
-        setFilterByToEdit(prevFilter => ({
-            ...prevFilter,
-            folder: folderName.toLowerCase(),
-            category: ''
-        }))
+        console.log('handleFolderClick called with:', folderName)
+        console.log('Is "All Mail"?', folderName === 'All Mail')
+
+        if (folderName === 'All Mail') {
+            console.log('Setting filter for All Mail')
+            setFilterByToEdit(prevFilter => {
+                const newFilter = {
+                    ...prevFilter,
+                    folder: 'inbox',
+                    category: ''
+                }
+                console.log('New filter for All Mail:', newFilter)
+                return newFilter
+            })
+        } else {
+            console.log('Setting filter for regular folder:', folderName.toLowerCase())
+            setFilterByToEdit(prevFilter => ({
+                ...prevFilter,
+                folder: folderName.toLowerCase(),
+                category: ''
+            }))
+        }
     }
 
     function handleCategoryClick(categoryName) {
@@ -121,14 +136,14 @@ export function MailSideMenu({ isOpen, defaultFilter, onSetFilterBy }) {
                 >expand_more</span>
                 <span style={{ marginLeft: '8px' }}>{showMore ? 'Less' : 'More'}</span>
             </div>
-            {showMore && options.map(category =>
+            {showMore && options.map(option =>
                 <div
-                    key={category.name}
+                    key={option.name}
                     className="menu-item"
-                    onClick={() => handleCategoryClick(category.name)}
+                    onClick={() => handleFolderClick(option.name)}
                 >
-                    <span className="material-symbols-outlined">{category.icon}</span>
-                    <span className="more">{category.name}</span>
+                    <span className="material-symbols-outlined">{option.icon}</span>
+                    <span className="more">{option.name}</span>
                 </div>
             )}
         </aside>
