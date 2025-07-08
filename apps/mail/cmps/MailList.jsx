@@ -2,7 +2,6 @@ import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.servic
 import { mailService } from "../services/mail.service.js"
 import { MailPreview } from "./MailPreview.jsx"
 
-const { useState, useEffect } = React
 const { Link } = ReactRouterDOM
 
 export function MailList({ mails, setMails }) {
