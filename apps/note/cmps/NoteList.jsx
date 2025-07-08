@@ -4,11 +4,16 @@ import { NoteTodos } from './NoteTodos.jsx'
 import { NoteVideo } from './NoteVideo.jsx'
 import { noteService } from '../services/note.service.js'
 import { NoteAnimate } from '../services/NoteAnimate.js'
+import { utilService } from '../../../services/util.service.js'
 import { ColorPickerModal } from './ColorPickerModal.jsx'
 
 const { useState, useEffect, useRef } = React
+const { useSearchParams } = ReactRouterDOM
 
 export function NoteList() {
+    const [searchParams, setSearchParams] = useSearchParams()
+    const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
+    const truthyFilter = utilService.getTruthyValues(filterBy)
     const [notes, setNotes] = useState([])
     const [isColorModalOpen, setIsColorModalOpen] = useState(false)
     const [selectedNote, setSelectedNote] = useState(null)
@@ -16,8 +21,8 @@ export function NoteList() {
     const [pendingColor, setPendingColor] = useState(null)
     const containerRef = useRef(null)
 
-    function loadNotes() {
-        noteService.query()
+    function loadNotes(filterBy) {
+        noteService.query(filterBy)
             .then(notes => {
                 setNotes(notes)
                 console.log('Notes loaded:', notes)
@@ -29,10 +34,19 @@ export function NoteList() {
     }
 
     useEffect(() => {
+        setSearchParams(truthyFilter)
+        loadNotes(filterBy)
+    }, [filterBy])
+
+    useEffect(() => {
+        setFilterBy(noteService.getFilterFromSearchParams(searchParams))
+    }, [searchParams])
+
+    useEffect(() => {
         loadNotes()
 
         function handleRefreshNotes() {
-            loadNotes()
+            loadNotes(filterBy)
         }
 
         window.addEventListener('refreshNotes', handleRefreshNotes)
