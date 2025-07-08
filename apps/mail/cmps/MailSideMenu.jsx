@@ -19,8 +19,15 @@ const categories = [
     { name: 'Promotions', icon: 'local_offer' },
 ]
 
-
-export function MailSideMenu({ isOpen, unreadCount = 0, defaultFilter, onSetFilterBy }) {
+const options = [
+    { name: 'Chats', icon: 'chat' },
+    { name: 'Scheduled', icon: 'schedule_send' },
+    { name: 'All Mail', icon: 'stacked_email' },
+    { name: 'Spam', icon: 'report' },
+    { name: 'Bin', icon: 'delete' },
+    { name: 'Manage Labels', icon: 'settings' },
+]
+export function MailSideMenu({ isOpen, defaultFilter, onSetFilterBy }) {
     const [showMore, setShowMore] = useState(false)
     const [showCategories, setShowCategories] = useState(false)
 
@@ -32,20 +39,6 @@ export function MailSideMenu({ isOpen, unreadCount = 0, defaultFilter, onSetFilt
     useEffect(() => {
         onSetFilterByDebounce(filterByToEdit)
     }, [filterByToEdit])
-
-    function handleChange({ target }) {
-        const field = target.name
-        let value = target.value
-        switch (target.type) {
-            case 'range':
-                value = +value
-                break;
-            case 'checkbox':
-                value = target.checked
-                break
-        }
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
-    }
 
     function handleFolderClick(folderName) {
         setFilterByToEdit(prevFilter => ({
@@ -128,7 +121,7 @@ export function MailSideMenu({ isOpen, unreadCount = 0, defaultFilter, onSetFilt
                 >expand_more</span>
                 <span style={{ marginLeft: '8px' }}>{showMore ? 'Less' : 'More'}</span>
             </div>
-            {showMore && categories.map(category =>
+            {showMore && options.map(category =>
                 <div
                     key={category.name}
                     className="menu-item"
