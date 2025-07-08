@@ -1,53 +1,19 @@
 .mail-preview {
-    padding: 12px 20px;
-    border-bottom: 1px solid #f0f0f0;
-    background-color: #fff;
+    display: flex;
+    position: relative;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    box-shadow: rgba(100, 121, 143, 0.12) 0px -1px 0px 0px inset;
+    color: rgb(32, 33, 36);
+    background: none;
     cursor: pointer;
-    transition: background 0.2s;
-    font-family: "Google Sans", Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-
-    >.mail-from {
-        font-weight: 500;
-        color: #202124;
-        flex: 1;
-        margin-right: 16px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-    }
-
-    >.mail-subject {
-        font-weight: 500;
-        color: #202124;
-        flex: 2;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        font-size: 1.05em;
-    }
-
-    >.mail-date {
-        color: #5f6368;
-        font-size: 0.95em;
-        min-width: 80px;
-        text-align: right;
-    }
-
-    >.material-symbols-outlined {
-        color: #5f6368;
-        background: transparent;
-        border-radius: 50%;
-        padding: 8px;
-        transition: background 0.2s, color 0.2s;
-        cursor: pointer;
-        font-size: 1.1em;
-    }
-
-    >.material-symbols-outlined:hover {
-        background: #fff;
-    }
+    text-indent: initial;
+    box-sizing: border-box;
 }
 
-.mail-preview:hover {
-    background: #f5f7fa;
+.mail-actions .btn {
+    font-size: 20px;
+    margin: 0 4px;
+    padding: 0;
+    line-height: 1;
 }

@@ -12,7 +12,7 @@ export function MailPreview({ mail, onRemoveMail }) {
             onMouseLeave={() => setIsHovered(false)}
         >
             <div className={`mail-from ${!isRead ? 'bold' : ''}`}>{from}</div>
-            <div className={`mail-subject ${!isRead ? 'bold' : ''}`}>{subject}</div>
+            <div className={`subject ${!isRead ? 'bold' : ''}`}>{subject}</div>
             {isHovered ? (
                 <div className="mail-actions">
                     <span

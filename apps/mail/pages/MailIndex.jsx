@@ -13,6 +13,7 @@ export function MailIndex() {
     const truthyFilter = utilService.getTruthyValues(filterBy)
 
     useEffect(() => {
+        // console.log(filterBy)
         setSearchParams(truthyFilter)
         loadMails()
     }, [filterBy])
@@ -38,44 +39,44 @@ export function MailIndex() {
 
     if (!mails) return <div className="container">Loading...</div>
     const unreadCounts = {
-        primary: mails.filter(mail => mail.label === 'Primary' && !mail.isRead).length,
-        promotions: mails.filter(mail => mail.label === 'Promotions' && !mail.isRead).length,
-        social: mails.filter(mail => mail.label === 'Social' && !mail.isRead).length,
+        primary: mails.filter(mail => mail.category === 'Primary' && !mail.isRead).length,
+        promotions: mails.filter(mail => mail.category === 'Promotions' && !mail.isRead).length,
+        social: mails.filter(mail => mail.category === 'Social' && !mail.isRead).length,
     }
     return (
         <section className="mail-index">
             {
                 (filterBy.folder === 'inbox' || !filterBy.folder) && (
-                    <div className="labels">
+                    <div className="categories">
                         <div
-                            className={`label${filterBy.label === 'Primary' ? ' active' : ''}`}
-                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Primary' }))}
+                            className={`category ${filterBy.category === 'Primary' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Primary' }))}
                         >
                             <span className="material-symbols-outlined">inbox</span>
                             Primary
-                            {unreadCounts.primary > 0 && (
-                                <span className="label-badge primary">{unreadCounts.primary} new</span>
-                            )}
+                            {/* {unreadCounts.primary > 0 && (
+                                <span className="category-badge primary">{unreadCounts.primary} new</span>
+                            )} */}
                         </div>
                         <div
-                            className={`label${filterBy.label === 'Promotions' ? ' active' : ''}`}
-                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Promotions' }))}
+                            className={`category ${filterBy.category === 'Promotions' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Promotions' }))}
                         >
                             <span className="material-symbols-outlined">local_offer</span>
                             Promotions
-                            {unreadCounts.promotions > 0 && (
-                                <span className="label-badge promotions">{unreadCounts.promotions} new</span>
-                            )}
+                            {/* {unreadCounts.promotions > 0 && (
+                                <span className="category-badge promotions">{unreadCounts.promotions} new</span>
+                            )} */}
                         </div>
                         <div
-                            className={`label${filterBy.label === 'Social' ? ' active' : ''}`}
-                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', label: 'Social' }))}
+                            className={`category ${filterBy.category === 'Social' ? ' active' : ''}`}
+                            onClick={() => setFilterBy(prev => ({ ...prev, folder: 'inbox', category: 'Social' }))}
                         >
                             <span className="material-symbols-outlined">group</span>
                             Social
-                            {unreadCounts.social > 0 && (
-                                <span className="label-badge social">{unreadCounts.social} new</span>
-                            )}
+                            {/* {unreadCounts.social > 0 && (
+                                <span className="category-badge social">{unreadCounts.social} new</span>
+                            )} */}
                         </div>
                     </div>
                 )
