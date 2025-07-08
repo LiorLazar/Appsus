@@ -1,3 +1,4 @@
+import { MailAdvancedSearch } from "../apps/mail/cmps/MailAdvancedSearch.jsx";
 import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
 
@@ -37,6 +38,7 @@ export function AppHeader({ onToggleMenu }) {
                     <img className="avatar" src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
                 </div>
                 <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
+                <MailAdvancedSearch isOpen={true} />
             </div>
 
 
