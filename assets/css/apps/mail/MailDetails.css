@@ -64,3 +64,7 @@
 .container {
     background-color: white;
 }
+
+.buttons-container {
+    display: flex;
+}
