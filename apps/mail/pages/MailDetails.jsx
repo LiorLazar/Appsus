@@ -37,8 +37,14 @@ export function MailDetails() {
             <p className="mail-body">{mail.body}</p>
             <div className="buttons-container">
                 <button onClick={onBack}>Back</button>
-                <button>Forward</button>
-                <button>Reply</button>
+                <button>
+                    <span className="material-symbols-outlined">forward</span>
+                    Forward
+                </button>
+                <button>
+                    <span className="material-symbols-outlined">reply</span>
+                    Reply
+                </button>
             </div>
         </section>
     )
