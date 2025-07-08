@@ -1,0 +1,57 @@
+/* Modal overlay for editing a note */
+.note-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(30, 30, 30, 0.25);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s;
+}
+
+.note-modal-center {
+    animation: scaleIn 0.3s;
+    transition: transform 0.3s cubic-bezier(.4,0,.2,1);
+    will-change: transform;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0.85); opacity: 0; }
+    to   { transform: scale(1); opacity: 1; }
+}
+
+.note-item.note-hidden-for-modal {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.1s !important;
+  z-index: 0 !important;
+}
+
+/* Transparent input fields for editable text, title, and todos in NoteEditor */
+.note-editor-root .note-title,
+.note-editor-root .note-text,
+.note-editor-root .note-todos .todo-text {
+  background: transparent !important;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  color: #222;
+  font-size: 1rem;
+  width: 100%;
+  resize: none;
+}
+
+/* Optional: placeholder color for better UX */
+.note-editor-root .note-title::placeholder,
+.note-editor-root .note-text::placeholder,
+.note-editor-root .note-todos .todo-text::placeholder {
+  color: #888;
+  opacity: 1;
+}

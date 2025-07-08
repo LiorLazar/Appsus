@@ -4,6 +4,7 @@ import { NoteImg } from '../cmps/NoteImg.jsx'
 import { NoteTodos } from '../cmps/NoteTodos.jsx'
 import { NoteVideo } from '../cmps/NoteVideo.jsx'
 import { ColorPickerModal } from '../cmps/ColorPickerModal.jsx'
+import { NoteEditor } from '../cmps/NoteEditor.jsx'
 
 export function NoteDetails() {
     const { noteId } = ReactRouterDOM.useParams()
@@ -102,20 +103,7 @@ export function NoteDetails() {
 
     return (
         <section className="note-details">
-            <h1>Note Details</h1>
-            <div className="note-container">
-                {renderNote(note)}
-            </div>
-            {isColorModalOpen && (
-                <ColorPickerModal
-                    isOpen={isColorModalOpen}
-                    onClose={handleCloseModal}
-                    onColorSelect={handleColorSelect}
-                    selectedColor={pendingColor !== null ? pendingColor : (note && note.style && note.style.backgroundColor) || null}
-                    modalPos={modalPos}
-                    note={note}
-                />
-            )}
+            <NoteEditor note={note} onSave={setNote} />
         </section>
     )
 }

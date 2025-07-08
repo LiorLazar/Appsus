@@ -4,12 +4,9 @@ import { noteService } from '../services/note.service.js'
 const { useNavigate } = ReactRouterDOM
 const { useState, useEffect, useRef } = React
 
-export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpdate }) {
+export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpdate, onCardClick }) {
     const [todos, setTodos] = useState(note.info.todos)
     const [showCompleted, setShowCompleted] = useState(false)
-    const [isEditingTitle, setIsEditingTitle] = useState(false)
-    const [isEditingTodo, setIsEditingTodo] = useState(null)
-    const [title, setTitle] = useState(note.info.title)
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff'
     const cardRef = useRef(null)
     const navigate = useNavigate();
@@ -39,47 +36,8 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
     }
 
     function handleCardClick(e) {
-        // Prevent navigation if clicking on interactive elements, todo list, completed section, or checkbox
-        if (
-            e.target.closest('button, .note-toolbar, input[type="checkbox"], a, select, textarea, [tabindex], [role="button"], .completed-section, .note-todos, .custom-checkbox-label')
-        ) return;
-        navigate(`/note/${note.id}`);
-    }
-
-    function handleTitleClick(e) {
-        if (className === 'details') setIsEditingTitle(true)
-    }
-    function handleTitleChange(e) {
-        setTitle(e.target.value)
-    }
-    function handleTitleBlur() {
-        console.log('Title blur event triggered');
-
-        setIsEditingTitle(false)
-        // Only update if not empty and changed
-
-        console.log('Updating note title:', title);
-
-        const updatedNote = { ...note, info: { ...note.info, title } }
-        noteService.save(updatedNote).then(() => {
-            console.log('Note title updated successfully')
-        }
-        ).catch(err => {
-            console.error('Error updating note title:', err)
-        })
-
-    }
-    function handleTodoClick(idx) {
-        if (className === 'details') setIsEditingTodo(idx)
-    }
-    function handleTodoChange(e, idx) {
-        const newTodos = todos.map((todo, i) => i === idx ? { ...todo, txt: e.target.value } : todo)
-        setTodos(newTodos)
-    }
-    function handleTodoBlur(idx) {
-        setIsEditingTodo(null)
-        const updatedNote = { ...note, info: { ...note.info, todos } }
-        noteService.save(updatedNote)
+        if (e.target.closest('button, [role="button"], a, input, textarea, select, label')) return;
+        if (onCardClick) onCardClick(note, e);
     }
 
     useEffect(() => {
@@ -99,35 +57,9 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
             style={{ backgroundColor, minHeight: showCompleted && completedTodos.length ? 180 : 120, '--note-bg': backgroundColor }}
             onClick={handleCardClick}
         >
-            {(isEditingTitle && className === 'details') || (!title && className === 'details') ? (
-                <input
-                    className="note-title"
-                    value={title}
-                    placeholder={className === 'details' ? "add title here..." : "Title"}
-                    onChange={handleTitleChange}
-                    onBlur={handleTitleBlur}
-                    autoFocus={isEditingTitle || !title}
-                    style={{ background: 'transparent', border: 'none', outline: 'none', font: 'inherit', color: 'inherit', width: '100%', padding: 0, marginBottom: 10 }}
-                />
-            ) : (
-                title && <h2 className="note-title" onClick={handleTitleClick} style={className === 'details' ? { cursor: 'text' } : {}}>{title}</h2>
-            )}
+            {note.info.title && <h2 className="note-title">{note.info.title}</h2>}
             <div className={`note-todos`}>
                 <ul className="note-todos">
-                    {/* Only show editable input for first todo if there are active todos */}
-                    {activeTodos.length === 0 && className === 'details' && false && (
-                        <li className="todo-item">
-                            <input
-                                className="todo-text"
-                                value={(todos[0] && todos[0].txt) ? todos[0].txt : ''}
-                                placeholder="add txt note here..."
-                                onChange={e => handleTodoChange(e, 0)}
-                                onBlur={() => handleTodoBlur(0)}
-                                autoFocus
-                                style={{ background: 'transparent', border: 'none', outline: 'none', font: 'inherit', color: 'inherit', width: '100%', padding: 0 }}
-                            />
-                        </li>
-                    )}
                     {activeTodos.map((todo, idx) => (
                         <li key={idx} className={`todo-item`}>
                             <label className="custom-checkbox-label">
@@ -135,7 +67,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                                     type="checkbox"
                                     className="todo-checkbox"
                                     checked={!!todo.doneAt}
-                                    onChange={() => toggleTodo(todos.indexOf(todo))}
+                                    readOnly
                                     style={{ display: 'none' }}
                                 />
                                 <span
@@ -149,24 +81,13 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                                     )}
                                 </span>
                             </label>
-                            {isEditingTodo === idx && className === 'details' ? (
-                                <input
-                                    className="todo-text"
-                                    value={todos[idx].txt}
-                                    onChange={e => handleTodoChange(e, idx)}
-                                    onBlur={() => handleTodoBlur(idx)}
-                                    autoFocus
-                                    style={{ background: 'transparent', border: 'none', outline: 'none', font: 'inherit', color: 'inherit', width: '100%', padding: 0 }}
-                                />
-                            ) : (
-                                <span className="todo-text" onClick={() => handleTodoClick(idx)} style={className === 'details' ? { cursor: 'text' } : {}}>{todos[idx].txt}</span>
-                            )}
+                            <span className="todo-text">{todo.txt}</span>
                         </li>
                     ))}
                 </ul>
             </div>
             {completedTodos.length > 0 && (
-                <div className="completed-section" onClick={handleCompletedSectionClick}>
+                <div className="completed-section">
                     <span className="material-symbols-outlined">{showCompleted ? 'expand_more' : 'chevron_right'}</span>
                     {completedTodos.length} completed item{completedTodos.length > 1 ? 's' : ''}
                 </div>
@@ -179,9 +100,9 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                                 type="checkbox"
                                 className="todo-checkbox"
                                 checked={!!todo.doneAt}
-                                onChange={() => toggleTodo(todos.indexOf(todo))}
+                                readOnly
                             />
-                            <span className="todo-text" onClick={() => navigate(`/note/${note.id}`)}>{todo.txt}</span>
+                            <span className="todo-text">{todo.txt}</span>
                         </li>
                     ))}
                 </ul>
