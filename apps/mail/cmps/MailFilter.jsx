@@ -1,14 +1,15 @@
 import { utilService } from "../../../services/util.service.js"
+import { mailService } from "../services/mail.service.js"
 import { MailAdvancedSearch } from "./MailAdvancedSearch.jsx"
 
 const { useState, useEffect, useRef } = React
 
 export function MailFilter({ defaultFilter, onSetFilterBy }) {
 
-    const [filterByToEdit, setFilterByToEdit] = useState({ ...defaultFilter })
+    const [filterByToEdit, setFilterByToEdit] = useState(defaultFilter || mailService.getDefaultFilter())
 
     const onSetFilterByDebounce = useRef(utilService.debounce(onSetFilterBy, 500)).current
-    const { txt } = filterByToEdit
+    const { txt } = filterByToEdit || {}
 
     useEffect(() => {
         onSetFilterByDebounce(filterByToEdit)
@@ -17,6 +18,7 @@ export function MailFilter({ defaultFilter, onSetFilterBy }) {
     const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false)
 
     function handleChange({ target }) {
+        console.log('handleChange target:', target)
         const field = target.name
         let value = target.value
         switch (target.type) {
@@ -30,6 +32,22 @@ export function MailFilter({ defaultFilter, onSetFilterBy }) {
                 break
         }
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+    }
+
+    function handleAdvancedSearch(advancedFilter) {
+        console.log('handleAdvancedSearch filter:', advancedFilter)
+        // For advanced search, we want to search across all folders and categories
+        // So we clear the folder and category filters and only use the advanced search fields
+        const globalSearchFilter = {
+            txt: advancedFilter.txt || '',
+            from: advancedFilter.from || '',
+            to: advancedFilter.to || '',
+            subject: advancedFilter.subject || '',
+            folder: '', // Clear folder filter to search all folders
+            category: '' // Clear category filter to search all categories
+        }
+        console.log('Global search filter:', globalSearchFilter)
+        setFilterByToEdit(globalSearchFilter)
     }
     return (
         <section className="mail-search-bar-container">
@@ -50,6 +68,7 @@ export function MailFilter({ defaultFilter, onSetFilterBy }) {
             </form>
             <MailAdvancedSearch
                 isOpen={isAdvancedSearchOpen}
+                onSetFilterBy={handleAdvancedSearch}
             />
         </section>
     )
