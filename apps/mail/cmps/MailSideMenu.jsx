@@ -47,7 +47,7 @@ export function MailSideMenu({ isOpen, defaultFilter, onSetFilterBy }) {
             setFilterByToEdit(prevFilter => {
                 const newFilter = {
                     ...prevFilter,
-                    folder: 'inbox',
+                    folder: '',
                     category: ''
                 }
                 console.log('New filter for All Mail:', newFilter)
