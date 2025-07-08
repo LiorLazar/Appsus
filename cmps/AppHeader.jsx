@@ -3,7 +3,7 @@ import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
 import { NoteHeader } from "../apps/note/cmps/NoteHeader.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
 
-const { useState } = React
+const { useState, Fragment} = React
 const { Link, NavLink, useLocation } = ReactRouterDOM
 
 export function AppHeader({ onToggleMenu }) {
@@ -23,15 +23,19 @@ export function AppHeader({ onToggleMenu }) {
             </Link>
             {isMail && <MailHeader />}
             {isNote && <NoteHeader />}
-            <div className="header-bar">
-                <span className="material-symbols-outlined btn"
-                    onClick={() => setIsAppsOpen(prev => !prev)}
-                >apps</span>
-                <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
-            </div>
-            <nav>
-                <NavLink to="/about" className="btn2">About</NavLink>
-            </nav>
+            {!isNote && (
+                <Fragment>
+                    <div className="header-bar">
+                        <span className="material-symbols-outlined btn"
+                            onClick={() => setIsAppsOpen(prev => !prev)}
+                        >apps</span>
+                        <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
+                    </div>
+                    <nav>
+                        <NavLink to="/about" className="btn2">About</NavLink>
+                    </nav>
+                </Fragment>
+            )}
         </header >
     )
 }
