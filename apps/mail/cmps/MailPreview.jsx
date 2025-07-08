@@ -2,7 +2,7 @@ import { mailService } from "../services/mail.service.js"
 
 const { useState } = React
 
-export function MailPreview({ mail, onRemoveMail, onArchiveMail }) {
+export function MailPreview({ mail, onRemoveMail, onArchiveMail, onMarkMail }) {
     // console.log('mail', mail)
     const [isHovered, setIsHovered] = useState(false)
     const { from, subject, sentAt, isRead } = mail
@@ -13,10 +13,17 @@ export function MailPreview({ mail, onRemoveMail, onArchiveMail }) {
         onRemoveMail(mailId)
     }
 
-    function handleArchiveMail(ev, mailId) {
+    function onHandleArchiveMail(ev, mailId) {
         ev.stopPropagation()
         ev.preventDefault()
         onArchiveMail(mailId)
+    }
+
+    function onHandleMarkMail(ev, mailId) {
+        // console.log(mailId)
+        ev.stopPropagation()
+        ev.preventDefault()
+        onMarkMail(mailId)
     }
 
     return (
@@ -32,7 +39,7 @@ export function MailPreview({ mail, onRemoveMail, onArchiveMail }) {
                     <span
                         className="material-symbols-outlined btn"
                         title="Archive"
-                        onClick={(ev) => { handleArchiveMail(ev, mail.id) }}> archive
+                        onClick={ev => { onHandleArchiveMail(ev, mail.id) }}> archive
                     </span>
                     <span
                         className="material-symbols-outlined btn"
@@ -44,13 +51,19 @@ export function MailPreview({ mail, onRemoveMail, onArchiveMail }) {
                     {mail.isRead ? (
                         <span
                             className="material-symbols-outlined btn"
-                            title="Mark As Unread">mark_email_unread
+                            title="Mark As Unread"
+                            onClick={ev => onHandleMarkMail(ev, mail.id)}
+                        >
+                            mark_email_unread
                         </span>
 
                     ) : (
                         <span
                             className="material-symbols-outlined btn"
-                            title="Mark As Read">mark_email_read
+                            title="Mark As Read"
+                            onClick={ev => onHandleMarkMail(ev, mail.id)}
+                        >
+                            mark_email_read
                         </span>
                     )
                     }
