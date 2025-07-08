@@ -39,7 +39,14 @@ export function NoteFilter({ defaultFilter, onSetFilterBy = () => {} }) {
                 type="text"
                 placeholder="Search"
             />
-            <span className="material-symbols-outlined note-search-close btn">close</span>
+            {txt && (
+                <span
+                    className="material-symbols-outlined note-search-close btn"
+                    onClick={() => setFilterByToEdit(prev => ({ ...prev, txt: '' }))}
+                >
+                    close
+                </span>
+            )}
         </form>
     )
 }

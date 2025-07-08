@@ -14,20 +14,13 @@ export function AppHeader({ onToggleMenu }) {
     const [isAppsOpen, setIsAppsOpen] = useState(false)
 
     return (
-        <header className="app-header">
+        <header className={isNote ? "note-header app-header" : "app-header"}>
             <span className="material-symbols-outlined burger-manu btn" onClick={onToggleMenu} style={{ cursor: 'pointer' }}>dehaze</span>
             <Link to="/" className="logo">
-                <img className="main-logo" src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
+                <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
             </Link>
             {isMail && <MailHeader />}
-            {isNote &&
-                <Fragment>
-                    <div className="keep-logo" onClick={() => navigate('/note')}>
-                        <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" style={{ height: 40, width: 40, marginRight: 8 }} />
-                        <span className="keep-title">Keep</span>
-                    </div>
-                    <NoteHeader />
-                </Fragment>}
+            {isNote && <NoteHeader />}
             {isMail &&
                 <Fragment>
                     <div className="header-bar">
@@ -48,22 +41,6 @@ export function AppHeader({ onToggleMenu }) {
                     </nav>
                 </Fragment>
             }
-            {isNote &&
-                <div className="header-bar">
-                    <div className="header-icons">
-                    <span class="material-symbols-outlined btn">refresh</span>
-                        <span className="material-symbols-outlined btn">settings</span>
-                        <span className="material-symbols-outlined btn"
-                            onClick={() => setIsAppsOpen(prev => !prev)}
-                        >apps</span>
-                        <div className="avatar">
-                            <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
-                        </div>
-                    </div>
-                    <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
-                </div>
-            }
-
         </header >
     )
 }

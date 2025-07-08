@@ -7,6 +7,7 @@
     height: 48px;
     width: 722px;
     border: none;
+    margin-left: 80px;
 }
 
 .note-search-bar .material-symbols-outlined {
@@ -32,6 +33,7 @@
 
 .note-search-bar .note-search-close {
     margin-right: 11px;
+    cursor: pointer;
 }
 
 .note-search-input::placeholder {
