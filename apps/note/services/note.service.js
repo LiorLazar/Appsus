@@ -17,10 +17,16 @@ export const noteService = {
 function query(filterBy = {}) {
     return storageService.query(NOTE_KEY)
         .then(notes => {
-            // if (filterBy.txt) {
-            //     const regExp = new RegExp(filterBy.txt, 'i')
-            //     notes = notes.filter(note => regExp.test(note.title))
-            // }
+            console.log('filterBy:', filterBy);
+            
+            if (filterBy.txt) {
+                console.log('filterBy.txt:', filterBy.txt);
+                const regExp = new RegExp(filterBy.txt, 'i')
+                notes = notes.filter(note =>
+                    (note.info.title && regExp.test(note.info.title)) ||
+                    (note.info.txt && regExp.test(note.info.txt))
+                )
+            }
             // if (filterBy.minNoteTxt) {
             //     notes = notes.filter(note => note.notetxt >= filterBy.minNoteTxt)
             // }

@@ -34,15 +34,47 @@
             display: flex;
             align-items: center;
             gap: 0.3em;
-
-            >.avatar {
-                height: 32px;
-                width: 32px;
-                border-radius: 50%;
-            }
-
         }
     }
+}
+
+.avatar {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+}
+
+.avatar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: conic-gradient(
+        #ea4335 0deg 60deg,  
+        #4285f4 60deg 140deg, 
+        #34a853 140deg 250deg,
+        #fbbc04 250deg 312deg, 
+        #ea4335 312deg 60deg  
+    );
+    z-index: 1;
+    width: 40px;
+    height: 40px;
+}
+
+.avatar img {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+    z-index: 2;
+    box-shadow: 0 0 0 2px #fff;
+    object-fit: cover;
+    display: block;
 }
 
 .main-logo {
