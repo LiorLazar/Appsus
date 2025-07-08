@@ -5,7 +5,7 @@ import { utilService } from "../services/util.service.js"
 const { NavLink, useLocation, useSearchParams } = ReactRouterDOM
 const { useState, useEffect } = React
 
-export function SideMenu({ isOpen, unreadCount = 0 }) {
+export function SideMenu({ isOpen }) {
     const location = useLocation()
     const isMail = location.pathname.includes('/mail')
 
@@ -24,7 +24,6 @@ export function SideMenu({ isOpen, unreadCount = 0 }) {
     if (isMail) return (
         <MailSideMenu
             isOpen={isOpen}
-            unreadCount={unreadCount}
             defaultFilter={filterBy}
             onSetFilterBy={onSetFilterBy}
         />
