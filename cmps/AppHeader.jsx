@@ -1,7 +1,8 @@
 import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
+import { NoteHeader } from "../apps/note/cmps/NoteHeader.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
 
-const { useState, useEffect } = React
+const { useState, Fragment } = React
 const { Link, NavLink, useLocation } = ReactRouterDOM
 
 export function AppHeader({ onToggleMenu }) {
@@ -18,14 +19,14 @@ export function AppHeader({ onToggleMenu }) {
                 <img className="main-logo" src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
             </Link>
             {isMail && <MailHeader />}
-            {isNote ? (
-                <div className="keep-logo" onClick={() => navigate('/note')}>
-                    <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" style={{ height: 40, width: 40, marginRight: 8 }} />
-                    <span className="keep-title">Keep</span>
-                </div>
-            ) : (
-                null
-            )}
+            {isNote &&
+                <Fragment>
+                    <div className="keep-logo" onClick={() => navigate('/note')}>
+                        <img src="https://www.gstatic.com/images/branding/product/1x/keep_2020q4_48dp.png" style={{ height: 40, width: 40, marginRight: 8 }} />
+                        <span className="keep-title">Keep</span>
+                    </div>
+                    <NoteHeader />
+                </Fragment>}
 
             <div className="header-bar">
                 <div className="header-icons">
