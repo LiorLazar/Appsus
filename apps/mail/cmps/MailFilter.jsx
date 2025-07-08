@@ -1,4 +1,5 @@
 import { utilService } from "../../../services/util.service.js"
+import { MailAdvancedSearch } from "./MailAdvancedSearch.jsx"
 
 const { useState, useEffect, useRef } = React
 
@@ -12,6 +13,8 @@ export function MailFilter({ defaultFilter, onSetFilterBy }) {
     useEffect(() => {
         onSetFilterByDebounce(filterByToEdit)
     }, [filterByToEdit])
+
+    const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false)
 
     function handleChange({ target }) {
         const field = target.name
@@ -29,17 +32,25 @@ export function MailFilter({ defaultFilter, onSetFilterBy }) {
         setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
     }
     return (
-        <form className="mail-search-bar" autoComplete="off" onSubmit={ev => ev.preventDefault()}>
-            <span className="material-symbols-outlined search-icon btn">search</span>
-            <input
-                className="mail-search-input"
-                onChange={handleChange}
-                value={txt}
-                name="txt"
-                type="text"
-                placeholder="Search mail"
+        <section className="mail-search-bar-container">
+            <form className="mail-search-bar" autoComplete="off" onSubmit={ev => ev.preventDefault()}>
+                <span className="material-symbols-outlined search-icon btn">search</span>
+                <input
+                    className="mail-search-input"
+                    onChange={handleChange}
+                    value={txt}
+                    name="txt"
+                    type="text"
+                    placeholder="Search mail"
+                />
+                <span
+                    className="material-symbols-outlined tune-icon btn"
+                    onClick={() => setIsAdvancedSearchOpen(prev => !prev)}
+                >tune</span>
+            </form>
+            <MailAdvancedSearch
+                isOpen={isAdvancedSearchOpen}
             />
-            <span className="material-symbols-outlined tune-icon btn">tune</span>
-        </form>
+        </section>
     )
 }

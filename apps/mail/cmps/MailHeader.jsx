@@ -1,5 +1,6 @@
 import { utilService } from "../../../services/util.service.js";
 import { mailService } from "../services/mail.service.js";
+import { MailAdvancedSearch } from "./MailAdvancedSearch.jsx";
 import { MailFilter } from "./MailFilter.jsx";
 
 const { useState, useEffect } = React
@@ -10,6 +11,7 @@ export function MailHeader() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
     const truthyFilter = utilService.getTruthyValues(filterBy)
+
 
     useEffect(() => {
         setSearchParams(truthyFilter)

@@ -1,8 +1,8 @@
-export function MailAdvancedSearch({ isOpen, onClose }) {
+export function MailAdvancedSearch({ isOpen }) {
     if (!isOpen) return null
     return (
         <div className="mail-advanced-search">
-            <form action="">
+            <form>
                 <label htmlFor="from">From</label>
                 <input type="text" name='from' id='from' />
 
