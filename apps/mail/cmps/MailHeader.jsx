@@ -28,6 +28,13 @@ export function MailHeader() {
                 defaultFilter={filterBy}
                 onSetFilterBy={onSetFilterBy}
             />
+            <div className="header-icons flex">
+                <span className="material-symbols-outlined btn">help</span>
+                <span className="material-symbols-outlined btn">settings</span>
+                <div className="avatar">
+                    <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
+                </div>
+            </div>
         </section >
     )
 }
