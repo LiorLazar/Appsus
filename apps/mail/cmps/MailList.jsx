@@ -30,6 +30,24 @@ export function MailList({ mails, setMails }) {
             })
     }
 
+    function onMarkMail(mailId) {
+        mailService.get(mailId)
+            .then(mail => {
+                mail.isRead = !mail.isRead
+                return mailService.save(mail)
+            })
+            .then(updatedMail => {
+                showSuccessMsg(`Mail marked as ${updatedMail.isRead ? 'read' : 'unread'}`)
+                setMails(mails => mails.map(mail => 
+                    mail.id === mailId ? { ...mail, isRead: updatedMail.isRead } : mail
+                ))
+            })
+            .catch(err => {
+                console.log('Error marking mail:', err)
+                showErrorMsg('Error updating mail')
+            })
+    }
+
     return (
         <div className="mail-list container">
             {mails.map(mail => (
@@ -38,6 +56,7 @@ export function MailList({ mails, setMails }) {
                         mail={mail}
                         onRemoveMail={onRemoveMail}
                         onArchiveMail={onArchiveMail}
+                        onMarkMail={onMarkMail}
                     />
                 </Link>
             ))}
