@@ -16,6 +16,7 @@
 @import './apps/note/NoteList.css';
 @import './apps/note/NoteDetails.css';
 @import './apps/note/NoteFilter.css';
+@import './apps/note/NoteHeader.css';
 
 @import './apps/mail/MailIndex.css';
 @import './apps/mail/MailList.css';

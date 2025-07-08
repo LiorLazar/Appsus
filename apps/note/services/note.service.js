@@ -24,7 +24,8 @@ function query(filterBy = {}) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 notes = notes.filter(note =>
                     (note.info.title && regExp.test(note.info.title)) ||
-                    (note.info.txt && regExp.test(note.info.txt))
+                    (note.info.txt && regExp.test(note.info.txt)) ||
+                    (note.info.todos && note.info.todos.some(todo => regExp.test(todo.txt)))
                 )
             }
             // if (filterBy.minNoteTxt) {

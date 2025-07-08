@@ -1,0 +1,22 @@
+.note-header-bar {
+    display: flex;
+}
+
+.apps-btn {
+    margin-left: 32px;
+}
+
+.note-main-logo {
+    padding-left: 5px;
+    margin: 0px;
+}
+
+.note-header {
+    justify-content: start;
+    gap: 0px;
+}
+.header-bar.note-header-ba {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
