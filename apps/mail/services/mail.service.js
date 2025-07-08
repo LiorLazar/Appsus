@@ -19,16 +19,31 @@ function query(filterBy = {}) {
         .then(mails => {
             if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
+                mails = mails.filter(mail =>
+                    regExp.test(mail.subject) ||
+                    regExp.test(mail.from) ||
+                    regExp.test(mail.to)
+                )
+            }
+            if (filterBy.from) {
+                const regExp = new RegExp(filterBy.from, 'i')
+                mails = mails.filter(mail => regExp.test(mail.from))
+            }
+            if (filterBy.to) {
+                const regExp = new RegExp(filterBy.to, 'i')
+                mails = mails.filter(mail => regExp.test(mail.to))
+            }
+            if (filterBy.subject) {
+                const regExp = new RegExp(filterBy.subject, 'i')
                 mails = mails.filter(mail => regExp.test(mail.subject))
-            } else {
-                if (filterBy.category) {
-                    const regExp = new RegExp(filterBy.category, 'i')
-                    mails = mails.filter(mail => regExp.test(mail.category))
-                }
             }
             if (filterBy.folder) {
                 const regExp = new RegExp(filterBy.folder, 'i')
                 mails = mails.filter(mail => regExp.test(mail.folder))
+            }
+            if (filterBy.category) {
+                const regExp = new RegExp(filterBy.category, 'i')
+                mails = mails.filter(mail => regExp.test(mail.category))
             }
             return mails
         })
@@ -62,7 +77,15 @@ function getEmptyMail() {
 }
 
 function getDefaultFilter() {
-    return { txt: '', folder: 'inbox', category: '' }
+    return {
+        txt: '',
+        from: '',
+        to: '',
+        subject: '',
+        folder: 'inbox',
+        category: '',
+
+    }
 }
 
 function _createMails() {
