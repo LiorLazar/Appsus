@@ -27,23 +27,42 @@ export function AppHeader({ onToggleMenu }) {
                     </div>
                     <NoteHeader />
                 </Fragment>}
-
-            <div className="header-bar">
-                <div className="header-icons">
-                    <span className="material-symbols-outlined btn">help</span>
-                    <span className="material-symbols-outlined btn">settings</span>
-                    <span className="material-symbols-outlined btn"
-                        onClick={() => setIsAppsOpen(prev => !prev)}
-                    >apps</span>
-                    <img className="avatar" src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
+            {isMail &&
+                <Fragment>
+                    <div className="header-bar">
+                        <div className="header-icons">
+                            <span className="material-symbols-outlined btn">help</span>
+                            <span className="material-symbols-outlined btn">settings</span>
+                            <span className="material-symbols-outlined btn"
+                                onClick={() => setIsAppsOpen(prev => !prev)}
+                            >apps</span>
+                            <div className="avatar">
+                                <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
+                            </div>
+                        </div>
+                        <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
+                    </div>
+                    <nav>
+                        <NavLink to="/about" className="btn2">About</NavLink>
+                    </nav>
+                </Fragment>
+            }
+            {isNote &&
+                <div className="header-bar">
+                    <div className="header-icons">
+                    <span class="material-symbols-outlined btn">refresh</span>
+                        <span className="material-symbols-outlined btn">settings</span>
+                        <span className="material-symbols-outlined btn"
+                            onClick={() => setIsAppsOpen(prev => !prev)}
+                        >apps</span>
+                        <div className="avatar">
+                            <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
+                        </div>
+                    </div>
+                    <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
                 </div>
-                <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
-            </div>
+            }
 
-
-            <nav>
-                <NavLink to="/about" className="btn2">About</NavLink>
-            </nav>
         </header >
     )
 }
