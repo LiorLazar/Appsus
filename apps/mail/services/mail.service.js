@@ -80,7 +80,7 @@ function _createMails() {
                 removedAt: null,
                 from: 'momo@momo.com',
                 to: 'user@appsus.com',
-                folder: 'sent',
+                folder: 'inbox',
                 category: 'Primary'
             },
             {

@@ -38,6 +38,7 @@ export function MailIndex() {
     }
 
     if (!mails) return <div className="container">Loading...</div>
+    if (!mails.length) return <div className="container">Folder is Empty</div>
     const unreadCounts = {
         primary: mails.filter(mail => mail.category === 'Primary' && !mail.isRead).length,
         promotions: mails.filter(mail => mail.category === 'Promotions' && !mail.isRead).length,
