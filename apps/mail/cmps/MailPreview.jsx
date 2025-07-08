@@ -1,7 +1,8 @@
+import { mailService } from "../services/mail.service.js"
 
 const { useState } = React
 
-export function MailPreview({ mail, onRemoveMail }) {
+export function MailPreview({ mail, onRemoveMail, onArchiveMail }) {
     // console.log('mail', mail)
     const [isHovered, setIsHovered] = useState(false)
     const { from, subject, sentAt, isRead } = mail
@@ -11,6 +12,13 @@ export function MailPreview({ mail, onRemoveMail }) {
         ev.preventDefault()
         onRemoveMail(mailId)
     }
+
+    function handleArchiveMail(ev, mailId) {
+        ev.stopPropagation()
+        ev.preventDefault()
+        onArchiveMail(mailId)
+    }
+
     return (
         <section
             className="mail-preview flex space-between align-center"
@@ -23,7 +31,8 @@ export function MailPreview({ mail, onRemoveMail }) {
                 <div className="mail-actions">
                     <span
                         className="material-symbols-outlined btn"
-                        title="Archive"> archive
+                        title="Archive"
+                        onClick={(ev) => { handleArchiveMail(ev, mail.id) }}> archive
                     </span>
                     <span
                         className="material-symbols-outlined btn"
