@@ -24,12 +24,6 @@ export function MailIndex() {
 
     function loadMails() {
         mailService.query(filterBy)
-            .then(mails => setMails(mails))
-            .catch(err => console.log('err:', err))
-    }
-
-    function loadMails() {
-        mailService.query(filterBy)
             .then(setMails)
             .catch(err => {
                 console.log('err:', err)

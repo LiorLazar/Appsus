@@ -4,10 +4,9 @@ import { MailAdvancedSearch } from "./MailAdvancedSearch.jsx";
 import { MailFilter } from "./MailFilter.jsx";
 
 const { useState, useEffect } = React
-const { useLocation, useSearchParams } = ReactRouterDOM
+const {useSearchParams } = ReactRouterDOM
 
 export function MailHeader() {
-    const location = useLocation()
     const [searchParams, setSearchParams] = useSearchParams()
     const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
     const truthyFilter = utilService.getTruthyValues(filterBy)

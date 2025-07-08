@@ -139,14 +139,12 @@ function _createMails() {
 }
 
 function getFilterFromSearchParams(searchParams) {
-    if (searchParams.get('txt')) return {
-        txt: searchParams.get('txt') || ''
-    }
-    else {
-        return {
-            txt: searchParams.get('txt') || '',
-            folder: searchParams.get('folder') || '',
-            category: searchParams.get('category') || '',
-        }
+    return {
+        txt: searchParams.get('txt') || '',
+        from: searchParams.get('from') || '',
+        to: searchParams.get('to') || '',
+        subject: searchParams.get('subject') || '',
+        folder: searchParams.get('folder') || '',
+        category: searchParams.get('category') || '',
     }
 }
