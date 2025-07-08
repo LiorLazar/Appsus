@@ -109,6 +109,7 @@
 
 .create-filter-btn,
 .search-btn {
+    display: inline-flex;
     padding: 8px 16px;
     border: 1px solid #dadce0;
     border-radius: 4px;
