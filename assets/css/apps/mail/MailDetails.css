@@ -59,5 +59,8 @@
     outline: currentColor;
     padding: 0px 16px 0px 12px;
     min-width: 104px;
-    
+}
+
+.container {
+    background-color: white;
 }
