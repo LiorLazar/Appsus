@@ -4,7 +4,7 @@
   align-items: center;
   background: #fff;
   border-radius: 10px;
-  box-shadow: 0 4px 16px 0 rgba(60,64,67,0.18), 0 1.5px 4px 0 rgba(60,64,67,0.15);
+  box-shadow: 0 4px 16px 0 rgba(60, 64, 67, 0.18), 0 1.5px 4px 0 rgba(60, 64, 67, 0.15);
   margin: 0 auto 0 auto;
   direction: ltr;
   height: 50px;
@@ -56,7 +56,7 @@
   grid-template-rows: auto auto auto;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(60,64,67,.18);
+  box-shadow: 0 4px 24px rgba(60, 64, 67, .18);
   padding: 20px 40px 24px 40px;
   margin: 0 auto 0 auto;
   width: 600px;
@@ -125,9 +125,19 @@
   border: none;
   background: transparent;
   border-radius: 8px;
-  padding: 10px 32px;
-  font-size: 1.1rem;
-  color: #222;
+  box-sizing: border-box;
+  color: rgba(0, 0, 0, 0.87);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Google Sans", Roboto, Arial, sans-serif;
+  line-height: 1.25rem;
+  font-size: .875rem;
+  letter-spacing: .0178571429em;
+  font-weight: 500;
+  height: 36px;
+  padding: 8px 24px;
+  border-radius: 4px;
   transition: background 0.15s, box-shadow 0.15s;
   cursor: pointer;
   display: flex;
@@ -137,10 +147,10 @@
 
 .note-create-bar.expanded .btn-close:hover {
   background: #fafbfc;
-  box-shadow: 0 1px 4px 0 rgba(60,64,67,0.08);
+  box-shadow: 0 1px 5px 0 rgba(60, 64, 67, 0.08);
 }
 
-.note-create-bar, .note-create-bar.expanded {
+.note-create-bar,
+.note-create-bar.expanded {
   transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, height 0.2s;
 }
-

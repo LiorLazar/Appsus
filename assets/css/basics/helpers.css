@@ -25,3 +25,60 @@
 .bold {
     font-weight: bold;
 }
+
+.btn {
+    background: transparent;
+    /* Clear/transparent background */
+    color: #5f6368;
+    /* Subtle gray text color */
+    border: none;
+    /* No border by default */
+    border-radius: 50%;
+    /* Perfect circle shape */
+    padding: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    white-space: nowrap;
+    /* Prevent text wrapping */
+}
+
+.btn2 {
+    background: transparent;
+    /* Clear/transparent background */
+    color: #5f6368;
+    /* Subtle gray text color */
+    border: none;
+    /* No border by default */
+    border-radius: 50%;
+    /* Perfect circle shape */
+    width: 32px;
+    /* Fixed width for circle */
+    height: 32px;
+    /* Fixed height for circle */
+    font-size: 16px;
+    /* Larger icon size */
+    padding: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    white-space: nowrap;
+}
+
+.btn:hover {
+    background: rgba(60, 64, 67, 0.08);
+}
+
+.btn2:hover {
+    background: rgba(60, 64, 67, 0.08);
+}
+
+.btn-small {
+    font-size: 18px !important;
+}

@@ -126,7 +126,7 @@ export function NoteCreateBar() {
                         onChange={e => setInputValue(e.target.value)}
                     />
                     <div className="note-create-actions">
-                        <button type="button" className="btn2"><span className="material-symbols-outlined">format_size</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined btn-small">format_size</span></button>
                         <div style={{ display: 'inline-block', position: 'relative' }}>
                             <button
                                 type="button"
@@ -144,16 +144,16 @@ export function NoteCreateBar() {
                                     setIsColorModalOpen(prev => !prev);
                                 }}
                             >
-                                <span className="material-symbols-outlined">palette</span>
+                                <span className="material-symbols-outlined btn-small">palette</span>
                             </button>
                         </div>
-                        <button type="button" className="btn2"><span className="material-symbols-outlined">notifications</span></button>
-                        <button type="button" className="btn2"><span className="material-symbols-outlined">person_add</span></button>
-                        <button type="button" className="btn2" onClick={handleImagebtn2Click}><span className="material-symbols-outlined">image</span></button>
-                        <button type="button" className="btn2"><span className="material-symbols-outlined">file_download</span></button>
-                        <button type="button" className="btn2"><span className="material-symbols-outlined">more_vert</span> </button>
-                        <button type="button" className="btn2" disabled><span className="material-symbols-outlined">undo</span></button>
-                        <button type="button" className="btn2" disabled><span className="material-symbols-outlined">redo</span></button>
+                        <button type="button" className="btn2 "><span className="material-symbols-outlined btn-small">notifications</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined btn-small">person_add</span></button>
+                        <button type="button" className="btn2" onClick={handleImagebtn2Click}><span className="material-symbols-outlined btn-small">image</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined btn-small">file_download</span></button>
+                        <button type="button" className="btn2"><span className="material-symbols-outlined btn-small">more_vert</span> </button>
+                        <button type="button" className="btn2" disabled><span className="material-symbols-outlined btn-small">undo</span></button>
+                        <button type="button" className="btn2" disabled><span className="material-symbols-outlined btn-small">redo</span></button>
                         <button type="button" className="btn2 btn-close" onClick={closeBar}>Close</button>
                     </div>
                     {/* Render the modal OUTSIDE the button row to avoid layout shift */}
