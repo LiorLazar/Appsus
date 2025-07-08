@@ -1,3 +1,4 @@
+import { MailAdvancedSearch } from "../apps/mail/cmps/MailAdvancedSearch.jsx";
 import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
 import { NoteHeader } from "../apps/note/cmps/NoteHeader.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
