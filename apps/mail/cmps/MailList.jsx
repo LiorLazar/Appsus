@@ -5,13 +5,29 @@ import { MailPreview } from "./MailPreview.jsx"
 const { Link } = ReactRouterDOM
 
 export function MailList({ mails, setMails }) {
-    function onRemoveMail(emailId) {
-        mailService.remove(emailId)
-            .then(() => {
-                showSuccessMsg('Mail Removed Successfully')
-                setMails(mails => mails.filter(email => email.id !== emailId))
+
+    function onRemoveMail(mailId) {
+        mailService.get(mailId)
+            .then(mail => {
+                console.log(mail)
+                if (mail.folder === 'bin') {
+                    mailService.remove(mailId)
+                        .then(() => {
+                            showSuccessMsg('Mail Removed Successfully')
+                            setMails(mails => mails.filter(mail => mail.id !== mailId))
+                        })
+                        .catch(err => console.log('err:', err))
+                }
+                else {
+                    mail.folder = 'bin'
+                    return mailService.save(mail)
+                        .then(() => {
+                            showSuccessMsg('Mail Moved to Trash folder')
+                            setMails(mails => mails.filter(mail => mail.id !== mailId))
+                        }
+                        )
+                }
             })
-            .catch(err => console.log('err:', err))
     }
 
     function onArchiveMail(mailId) {
@@ -38,7 +54,7 @@ export function MailList({ mails, setMails }) {
             })
             .then(updatedMail => {
                 showSuccessMsg(`Mail marked as ${updatedMail.isRead ? 'read' : 'unread'}`)
-                setMails(mails => mails.map(mail => 
+                setMails(mails => mails.map(mail =>
                     mail.id === mailId ? { ...mail, isRead: updatedMail.isRead } : mail
                 ))
             })
