@@ -87,6 +87,7 @@ export function NoteList() {
                 top = btnRect.bottom - containerRect.top + 200;
                 left = btnRect.left - containerRect.left + 75;
             }
+            setPendingColor(note.style && note.style.backgroundColor ? note.style.backgroundColor : null);
             setModalPos({
                 top,
                 left
