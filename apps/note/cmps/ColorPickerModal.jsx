@@ -51,6 +51,7 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
         <div className="color-picker-modal">
           <div className="color-picker-row">
             <button
+              type="button"
               className={`color-circle color-default${selectedColor === '#ffffff' || !selectedColor ? ' selected' : ''}`}
               style={{ backgroundColor: '#ffffff', border: selectedColor === '#ffffff' ? '2.5px solid #e0e0e0' : undefined }}
               onClick={() => onColorSelect('#ffffff')}
@@ -63,6 +64,7 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
             </button>
             {COLORS.slice(1).map((color, idx) => (
               <button
+                type="button"
                 key={color}
                 className={`color-circle${selectedColor === color ? ' selected' : ''}`}
                 style={{ backgroundColor: color }}

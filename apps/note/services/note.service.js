@@ -13,6 +13,7 @@ export const noteService = {
     getFilterFromSearchParams,
     addNote,
     getEmbedUrl,
+    formatDateTime,
 }
 
 function query(filterBy = {}) {
@@ -337,5 +338,9 @@ function getEmbedUrl(url) {
     return url
 }
 
-
+function formatDateTime(ts) {
+    if (!ts) return ''
+    const d = new Date(ts)
+    return d.toLocaleString()
+}
 

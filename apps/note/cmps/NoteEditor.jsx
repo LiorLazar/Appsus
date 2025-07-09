@@ -1,9 +1,9 @@
 import { noteService } from '../services/note.service.js'
 import { utilService } from '../../../services/util.service.js'
 
-const { useState, useEffect, useImperativeHandle, forwardRef } = React
+const { useState, useImperativeHandle, forwardRef } = React
 const debouncedSave = utilService.debounce((note, onSave) => {
-    console.log('Saving note:', note);
+    note.createdAt = Date.now()
 
     noteService.save(note).then(saved => {
         if (onSave) onSave(saved)
@@ -29,15 +29,15 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
     function handleRemoveMedia() {
         setEditNote(prev => ({
             ...prev,
+            type: 'NoteTxt',
             info: { ...prev.info, url: undefined }
         }))
-        debouncedSave({ ...editNote, info: { ...editNote.info, url: undefined } }, onSave)
+        debouncedSave({ ...editNote, type: 'NoteTxt', info: { ...editNote.info, url: undefined } }, onSave)
     }
 
     function handleAddTodo(newTodoTxt) {
-        console.log('Adding todo:', newTodoTxt);
-
         if (!newTodoTxt.trim()) return
+
         setEditNote(prev => {
             const newTodos = Array.isArray(prev.info.todos)
                 ? [...prev.info.todos, { txt: newTodoTxt, doneAt: null, id: (Date.now() + Math.random()).toString(36) }]
@@ -58,7 +58,6 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
         }
     }
 
-    // Add a callback to save and close when requested from parent (e.g., backdrop click)
     useImperativeHandle(ref, () => ({
         saveAndClose: () => {
             console.log('Saving and closing note editor');
@@ -66,13 +65,6 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
             if (onClose) onClose()
         }
     }))
-
-    // Helper to format date/time
-    function formatDateTime(ts) {
-        if (!ts) return ''
-        const d = new Date(ts)
-        return d.toLocaleString()
-    }
 
     // Only show add-todo input and hide txt textarea if editing a todos note
     const isTodosNote = Array.isArray(editNote.info.todos)
@@ -93,12 +85,11 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
             {editNote.info.url && (editNote.type === 'NoteImg' || editNote.type === 'NoteVideo') && (
                 <div className="note-media-preview">
                     <button
-                        type="button"
                         onClick={handleRemoveMedia}
                         className="note-media-remove-btn"
                         aria-label="Remove media"
                     >
-                        <span className="material-symbols-outlined">close</span>
+                        <span class="material-symbols-outlined">delete</span>
                     </button>
                     {editNote.type === 'NoteImg' && (
                         <img
@@ -159,7 +150,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
             )}
             {editNote.createdAt && (
                 <p className="note-edited-at">
-                    Edited at {formatDateTime(editNote.createdAt)}
+                    Edited at {noteService.formatDateTime(editNote.createdAt)}
                 </p>
             )}
         </div>

@@ -67,10 +67,6 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
         }
     }, [note.info.todos])
 
-    React.useEffect(() => {
-        setTodos(note.info.todos)
-    }, [note.info.todos])
-
     return (
         <div
             ref={cardRef}

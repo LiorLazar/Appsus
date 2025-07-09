@@ -35,12 +35,6 @@ export function NoteVideo({ note, containerRef, className = 'note-card', onUpdat
         if (onCardClick) onCardClick(note, e);
     }
 
-    // Refresh title and txt if note changes
-    React.useEffect(() => {
-        setTitle(note.info.title)
-        setTxt(note.info.txt)
-    }, [note.info.title, note.info.txt])
-
     return (
         <div className={`${className} ${note.id} note-video ${className}`} style={{ backgroundColor }} onClick={handleCardClick}>
             {title && <h2 className="note-title">{title}</h2>}
