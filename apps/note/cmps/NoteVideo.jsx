@@ -1,11 +1,9 @@
 import { NoteToolBar } from './NoteToolBar.jsx'
 import { NoteAnimate } from '../services/NoteAnimate.js'
 import { noteService } from '../services/note.service.js';
-const { useNavigate } = ReactRouterDOM
 
 export function NoteVideo({ note, containerRef, className = 'note-card', onUpdate, onCardClick }) {
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
-    const navigate = useNavigate();
     const [title, setTitle] = React.useState(note.info.title);
     const [txt, setTxt] = React.useState(note.info.txt);
 
