@@ -1,38 +1,30 @@
 import { NoteEditor } from './NoteEditor.jsx'
-import { NoteTxt } from './NoteTxt.jsx'
-import { NoteImg } from './NoteImg.jsx'
-import { NoteTodos } from './NoteTodos.jsx'
-import { NoteVideo } from './NoteVideo.jsx'
 
 const { useEffect, useRef, useState } = React
 
-
 export function NoteFlyModal({ note, rect, onClose }) {
     const modalRef = useRef(null)
+    const noteRef = useRef(null)
     const [isCentered, setIsCentered] = useState(false)
+    const [modalSize, setModalSize] = useState({ width: 400, height: 300 })
+    const [measured, setMeasured] = useState(false)
 
-    // Calculate modal size and position
-    const modalWidth = 400
-    const modalHeight = 300
-    const style = rect
-        ? {
-            position: 'absolute',
-            left: isCentered ? `calc(50% - ${modalWidth / 2}px)` : rect.left,
-            top: isCentered ? `calc(50% - ${modalHeight / 2}px)` : rect.top,
-            width: isCentered ? modalWidth : rect.width || modalWidth,
-            height: isCentered ? modalHeight : rect.height || modalHeight,
-            background: '#fff',
-            boxShadow: '0 4px 32px rgba(0,0,0,0.18)',
-            borderRadius: 12,
-            zIndex: 1000,
-            transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
-            overflow: 'hidden',
-        }
-        : {};
-
+    // Measure note size after first render
     useEffect(() => {
-        setTimeout(() => setIsCentered(true), 10)
-    }, [])
+        if (!measured && noteRef.current) {
+            const noteRect = noteRef.current.getBoundingClientRect()
+            setModalSize({
+                width: noteRect.width + 250,
+                height: noteRect.height + 150
+            })
+            setMeasured(true)
+        }
+    }, [measured, note])
+
+    // Center after measurement
+    useEffect(() => {
+        if (measured) setTimeout(() => setIsCentered(true), 10)
+    }, [measured])
 
     useEffect(() => {
         if (!isCentered && modalRef.current) {
@@ -55,15 +47,35 @@ export function NoteFlyModal({ note, rect, onClose }) {
     function renderNote(note) {
         if (!note) return null;
         // Render the NoteEditor for editing instead of a static preview
-        return <NoteEditor note={note} onSave={() => {}} />
+        return <div ref={noteRef} style={{ position: measured ? 'static' : 'absolute', visibility: measured ? 'visible' : 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={note} onSave={() => {}} /></div>
     }
+
+    const style = rect
+        ? {
+            position: 'absolute',
+            left: isCentered ? `calc(50% - ${modalSize.width / 2}px)` : rect.left,
+            top: isCentered ? `calc(50% - ${modalSize.height / 2}px)` : rect.top,
+            width: isCentered ? modalSize.width : rect.width || modalSize.width,
+            height: isCentered ? modalSize.height : rect.height || modalSize.height,
+            background: '#fff',
+            boxShadow: '0 4px 32px rgba(0,0,0,0.18)',
+            borderRadius: 12,
+            zIndex: 1000,
+            transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)',
+            overflow: 'hidden',
+        }
+        : {};
 
     return (
         <div ref={modalRef} style={style}>
             <button onClick={handleClose} style={{position:'absolute',top:8,right:8,zIndex:10}}>✕</button>
-            <div style={{width: modalWidth, height: modalHeight, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-                {renderNote(note)}
-            </div>
+            {/* Render the NoteEditor for measurement and then for display */}
+            {renderNote(note)}
+            {measured && (
+                <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: 0}}>
+                    <NoteEditor note={note} onSave={() => {}} />
+                </div>
+            )}
         </div>
     )
 }

@@ -38,6 +38,14 @@ export function NoteEditor({ note, onSave, onClose, className = 'note-card modal
 
     return (
         <div className={className + ' note-editor-root'} style={{ backgroundColor: (note && note.style && note.style.backgroundColor) || '#fff' }}>
+            <input
+                className="note-title"
+                type="text"
+                value={editNote.info.title || ''}
+                onChange={e => handleChange('title', e.target.value)}
+                placeholder="add title here..."
+                autoFocus={!editNote.info.title}
+            />
             {editNote.info.url && (editNote.type === 'NoteImg' || editNote.type === 'NoteVideo') && (
                 <div className="note-media-preview">
                     <button
@@ -67,14 +75,6 @@ export function NoteEditor({ note, onSave, onClose, className = 'note-card modal
                     )}
                 </div>
             )}
-            <input
-                className="note-title"
-                type="text"
-                value={editNote.info.title || ''}
-                onChange={e => handleChange('title', e.target.value)}
-                placeholder="add title here..."
-                autoFocus={!editNote.info.title}
-            />
             <textarea
                 className="note-text"
                 value={editNote.info.txt || ''}
