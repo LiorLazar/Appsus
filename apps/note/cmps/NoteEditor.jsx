@@ -11,10 +11,9 @@ const debouncedSave = utilService.debounce((note, onSave) => {
     })
 }, 400)
 
-export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose, className = 'note-card modal-note-card' }, ref) {
+export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose, className = 'note-card modal-note-card', onColorBtnClick }, ref) {
     const [editNote, setEditNote] = useState({ ...note })
     const [newTodoValue, setNewTodoValue] = useState('')
-
 
     function handleChange(field, value) {
         setEditNote(prev => {
@@ -84,10 +83,11 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
     // Only show add-todo input and hide txt textarea if editing a todos note
     const isTodosNote = Array.isArray(editNote.info.todos)
 
+    // Always use the note prop's style.backgroundColor for live updates
     return (
         <div
             className={className + ' note-editor-root'}
-            style={{ backgroundColor: (note && note.style && note.style.backgroundColor) || '#fff' }}
+            style={{ backgroundColor: note && note.style && note.style.backgroundColor ? note.style.backgroundColor : '#fff' }}
         >
             <input
                 className="note-title"
@@ -177,6 +177,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                 note={editNote}
                 onSave={() => debouncedSave(editNote, onSave)}
                 onClose={onClose}
+                onColor={e => onColorBtnClick(e, editNote)}
             />
         </div>
     )

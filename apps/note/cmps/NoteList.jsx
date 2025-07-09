@@ -103,6 +103,13 @@ export function NoteList() {
         setPendingColor(color);
         // Update the selectedNote's color for immediate UI feedback
         setSelectedNote(selectedNote ? { ...selectedNote, style: { ...selectedNote.style, backgroundColor: color } } : null);
+        // Save the color immediately
+        if (selectedNote) {
+            const updatedNote = { ...selectedNote, style: { ...selectedNote.style, backgroundColor: color } };
+            noteService.save(updatedNote).then(() => {
+                setNotes(notes => notes.map(n => n.id === updatedNote.id ? updatedNote : n));
+            });
+        }
     }
 
     function handleCloseModal() {
@@ -164,6 +171,29 @@ export function NoteList() {
         }, 750)
     }
 
+    function handleEditorColorBtn(e, note) {
+        const btnRect = e.currentTarget.getBoundingClientRect();
+        setModalPos({ top: btnRect.bottom, left: btnRect.left });
+        setSelectedNote(note);
+        setPendingColor(note.style && note.style.backgroundColor ? note.style.backgroundColor : null);
+        setIsColorModalOpen(true);
+    }
+
+    useEffect(() => {
+        // When the selectedNote or pendingColor changes, update the editor if open
+        if (modalNote && selectedNote && modalNote.id === selectedNote.id) {
+            setModalNote({
+                ...selectedNote,
+                style: {
+                    ...selectedNote.style,
+                    backgroundColor: pendingColor != null
+                        ? pendingColor
+                        : (selectedNote.style && selectedNote.style.backgroundColor)
+                }
+            });
+        }
+    }, [pendingColor, selectedNote])
+
     return (
         <section className="note-list">
             {notes.length ? (
@@ -204,6 +234,7 @@ export function NoteList() {
                     note={modalNote}
                     rect={modalRect}
                     onClose={() => handleModalClose(Promise.resolve())}
+                    onColorBtnClick={handleEditorColorBtn}
                 />
             )}
             {isColorModalOpen && (

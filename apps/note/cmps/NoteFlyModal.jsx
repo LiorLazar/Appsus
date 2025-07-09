@@ -2,7 +2,7 @@ import { NoteEditor } from './NoteEditor.jsx'
 
 const { useEffect, useState, useRef } = React
 
-export function NoteFlyModal({ note, rect, onClose }) {
+export function NoteFlyModal({ note, rect, onClose, onColorBtnClick, pendingColor, selectedNote }) {
     const modalRef = useRef(null)
     const noteRef = useRef(null)
     const noteEditorRef = useRef(null)
@@ -68,6 +68,13 @@ export function NoteFlyModal({ note, rect, onClose }) {
         return <div ref={noteRef} style={{ position: measured ? 'static' : 'absolute', visibility: measured ? 'visible' : 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={note} onSave={() => { }} /></div>
     }
 
+    const isSelected = selectedNote && note.id === selectedNote.id;
+    const liveBgColor = isSelected && pendingColor != null
+        ? pendingColor
+        : (selectedNote && selectedNote.style && selectedNote.style.backgroundColor)
+            ? selectedNote.style.backgroundColor
+            : (note.style && note.style.backgroundColor);
+
     const style = rect
         ? {
             position: 'absolute',
@@ -75,7 +82,7 @@ export function NoteFlyModal({ note, rect, onClose }) {
             top: isCentered ? `calc(50% - ${modalSize.height / 2}px)` : rect.top,
             width: isCentered ? modalSize.width : rect.width || modalSize.width,
             height: isCentered ? modalSize.height : rect.height || modalSize.height,
-            background: '#fff',
+            background: liveBgColor || '#fff', // Use liveBgColor for modal background
             boxShadow: '0 4px 32px rgba(0,0,0,0.18)',
             borderRadius: 12,
             zIndex: 1000,
@@ -91,7 +98,13 @@ export function NoteFlyModal({ note, rect, onClose }) {
                 {renderNote(note)}
                 {measured && (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: 0 }}>
-                        <NoteEditor ref={noteEditorRef} note={note} onSave={() => { }} onClose={onClose} />
+                        <NoteEditor
+                            ref={noteEditorRef}
+                            note={{ ...note, style: { ...note.style, backgroundColor: liveBgColor } }}
+                            onSave={() => { }}
+                            onClose={handleClose} // Use handleClose for animation
+                            onColorBtnClick={onColorBtnClick}
+                        />
                     </div>
                 )}
             </div>
