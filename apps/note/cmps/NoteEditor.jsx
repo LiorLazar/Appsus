@@ -1,5 +1,6 @@
 import { noteService } from '../services/note.service.js'
 import { utilService } from '../../../services/util.service.js'
+import { NoteEditorToolBar } from './NoteEditorToolBar.jsx'
 
 const { useState, useImperativeHandle, forwardRef } = React
 const debouncedSave = utilService.debounce((note, onSave) => {
@@ -56,6 +57,20 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
             handleAddTodo(newTodoValue)
             setNewTodoValue('')
         }
+    }
+
+    function handleEditTodo(idx, value) {
+        setEditNote(prev => {
+            const newTodos = prev.info.todos.map((todo, i) =>
+                i === idx ? { ...todo, txt: value } : todo
+            )
+            const updated = {
+                ...prev,
+                info: { ...prev.info, todos: newTodos }
+            }
+            debouncedSave(updated, onSave)
+            return updated
+        })
     }
 
     useImperativeHandle(ref, () => ({
@@ -123,7 +138,12 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                 <ul className="note-todos">
                     {editNote.info.todos.map((todo, idx) => (
                         <li key={idx} className="todo-item">
-                            <span className="todo-text">{todo.txt}</span>
+                            <input
+                                className="todo-text"
+                                type="text"
+                                value={todo.txt}
+                                onChange={e => handleEditTodo(idx, e.target.value)}
+                            />
                         </li>
                     ))}
                     <li className="todo-item add-todo-item">
@@ -153,6 +173,11 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                     Edited at {noteService.formatDateTime(editNote.createdAt)}
                 </p>
             )}
+            <NoteEditorToolBar
+                note={editNote}
+                onSave={() => debouncedSave(editNote, onSave)}
+                onClose={onClose}
+            />
         </div>
     )
 })
