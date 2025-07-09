@@ -11,6 +11,7 @@ export function NoteHeader() {
     const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [isAppsOpen, setIsAppsOpen] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         setSearchParams(truthyFilter)

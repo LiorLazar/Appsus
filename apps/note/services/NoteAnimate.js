@@ -14,7 +14,7 @@ export const NoteAnimate = {
 
         const {
             delay = 100,
-            gap = 8,
+            gap = 16, // Increased gap from 12 to 16
             cardWidth = 239,
             paddingOffset = 32
         } = options
@@ -34,7 +34,7 @@ export const NoteAnimate = {
         if (!container) return
 
         const {
-            gap = 8,
+            gap = 16, // Increased gap from 12 to 16
             cardWidth = 239,
             paddingOffset = 32,
             fastTransition = false

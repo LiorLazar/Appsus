@@ -12,15 +12,14 @@ export const noteService = {
     getDefaultFilter,
     getFilterFromSearchParams,
     addNote,
+    getEmbedUrl,
+    formatDateTime,
 }
 
 function query(filterBy = {}) {
     return storageService.query(NOTE_KEY)
         .then(notes => {
-            console.log('filterBy:', filterBy);
-            
             if (filterBy.txt) {
-                console.log('filterBy.txt:', filterBy.txt);
                 const regExp = new RegExp(filterBy.txt, 'i')
                 notes = notes.filter(note =>
                     (note.info.title && regExp.test(note.info.title)) ||
@@ -328,5 +327,20 @@ function _setNextPrevNoteId(note) {
     })
 }
 
+function getEmbedUrl(url) {
+    if (!url) return ''
+    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+    const match = url.match(youtubeRegex)
+    if (match && match[1]) {
+        return `https://www.youtube.com/embed/${match[1]}`
+    }
+    if (url.includes('/embed/')) return url
+    return url
+}
 
+function formatDateTime(ts) {
+    if (!ts) return ''
+    const d = new Date(ts)
+    return d.toLocaleString()
+}
 

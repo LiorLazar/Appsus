@@ -1,7 +1,8 @@
-const { useState, useRef, useEffect } = React
 import { noteService } from '../services/note.service.js'
 import { ColorPickerModal } from './ColorPickerModal.jsx';
 import { showSuccessMsg } from '../../../services/event-bus.service.js'
+
+const { useState, useRef, useEffect, Fragment } = React
 
 export function NoteCreateBar() {
     const [isExpanded, setIsExpanded] = useState(false)
@@ -111,7 +112,7 @@ export function NoteCreateBar() {
             style={isExpanded && selectedColor ? { backgroundColor: selectedColor, transition: 'background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1)' } : {}}
         >
             {isExpanded ? (
-                <React.Fragment>
+                <Fragment>
                     <input
                         className="note-create-title"
                         type="text"
@@ -132,7 +133,7 @@ export function NoteCreateBar() {
                                 type="button"
                                 className="btn2 btn-color"
                                 ref={colorbtn2Ref}
-                                onMouseDown={e => {
+                                onClick={e => {
                                     e.stopPropagation();
                                     if (!isColorModalOpen) {
                                         const rect = colorbtn2Ref.current.getBoundingClientRect();
@@ -166,9 +167,9 @@ export function NoteCreateBar() {
                             modalPos={modalPos}
                         />
                     )}
-                </React.Fragment>
+                </Fragment>
             ) : (
-                <React.Fragment>
+                <Fragment>
                     <input
                         className="note-create-input"
                         type="text"
@@ -181,7 +182,7 @@ export function NoteCreateBar() {
                         <button type="button" className="btn2"><span className="material-symbols-outlined">brush</span></button>
                         <button type="button" className="btn2" onClick={handleImagebtn2Click}><span className="material-symbols-outlined">image</span></button>
                     </div>
-                </React.Fragment>
+                </Fragment>
             )}
 
             <input
