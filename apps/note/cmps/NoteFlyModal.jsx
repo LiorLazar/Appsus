@@ -40,6 +40,23 @@ export function NoteFlyModal({ note, rect, onClose }) {
         }
     }, [isCentered])
 
+    useEffect(() => {
+        // Prevent background scrolling when modal is open
+        document.body.style.overflow = 'hidden';
+        return () => {
+            document.body.style.overflow = '';
+        };
+    }, []);
+
+    // Remove background scroll lock immediately on close
+    function handleBackdropClick() {
+        document.body.style.overflow = '';
+        // Make the backdrop transparent immediately
+        const backdrop = document.querySelector('.note-flymodal-backdrop');
+        if (backdrop) backdrop.style.background = 'transparent';
+        setIsCentered(false)
+    }
+
     function handleClose() {
         setIsCentered(false)
         // onClose will be called after transition ends
@@ -68,12 +85,7 @@ export function NoteFlyModal({ note, rect, onClose }) {
         : {};
 
     return (
-        <div className="note-flymodal-backdrop" onClick={() => {
-            setIsCentered(false)
-            if (noteEditorRef.current && noteEditorRef.current.saveAndClose) {
-                noteEditorRef.current.saveAndClose()
-            }
-        }}>
+        <div className="note-flymodal-backdrop" onClick={handleBackdropClick}>
             <div ref={modalRef} style={style} onClick={e => e.stopPropagation()}>
                 <button onClick={handleClose} style={{ position: 'absolute', top: 8, right: 8, zIndex: 10 }}>✕</button>
                 {/* Render the NoteEditor for measurement and then for display */}

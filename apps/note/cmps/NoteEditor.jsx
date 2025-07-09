@@ -66,8 +66,18 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
         }
     }))
 
+    // Helper to format date/time
+    function formatDateTime(ts) {
+        if (!ts) return ''
+        const d = new Date(ts)
+        return d.toLocaleString()
+    }
+
     return (
-        <div className={className + ' note-editor-root'} style={{ backgroundColor: (note && note.style && note.style.backgroundColor) || '#fff' }}>
+        <div
+            className={className + ' note-editor-root'}
+            style={{ backgroundColor: (note && note.style && note.style.backgroundColor) || '#fff' }}
+        >
             <input
                 className="note-title"
                 type="text"
@@ -96,7 +106,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                     {editNote.type === 'NoteVideo' && (
                         <iframe
                             className="video-player note-media-video"
-                            src={getEmbedUrl(editNote.info.url)}
+                            src={noteService.getEmbedUrl(editNote.info.url)}
                             title={editNote.info.title || "Video"}
                             frameBorder="0"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -141,18 +151,11 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                     placeholder="Image/Video URL"
                 />
             )}
+            {editNote.createdAt && (
+                <p className="note-edited-at">
+                    Edited at {formatDateTime(editNote.createdAt)}
+                </p>
+            )}
         </div>
     )
 })
-
-// Helper for video embed
-function getEmbedUrl(url) {
-    if (!url) return ''
-    const youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
-    const match = url.match(youtubeRegex)
-    if (match && match[1]) {
-        return `https://www.youtube.com/embed/${match[1]}`
-    }
-    if (url.includes('/embed/')) return url
-    return url
-}

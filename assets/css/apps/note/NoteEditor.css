@@ -65,3 +65,16 @@
   align-items: center;
   justify-content: center;
 }
+
+.note-editor-root {
+  position: relative;
+}
+
+.note-edited-at {
+  position: absolute;
+  right: 16px;
+  bottom: 8px;
+  font-size: 0.85em;
+  color: #888;
+  margin: 0;
+}
