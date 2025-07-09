@@ -18,7 +18,7 @@ export function MailFilter({ defaultFilter, onSetFilterBy }) {
     const [isAdvancedSearchOpen, setIsAdvancedSearchOpen] = useState(false)
 
     function handleChange({ target }) {
-        console.log('handleChange target:', target)
+        // console.log('handleChange target:', target)
         const field = target.name
         let value = target.value
         switch (target.type) {
@@ -35,18 +35,16 @@ export function MailFilter({ defaultFilter, onSetFilterBy }) {
     }
 
     function handleAdvancedSearch(advancedFilter) {
-        console.log('handleAdvancedSearch filter:', advancedFilter)
-        // For advanced search, we want to search across all folders and categories
-        // So we clear the folder and category filters and only use the advanced search fields
+        // console.log('handleAdvancedSearch filter:', advancedFilter)
         const globalSearchFilter = {
             txt: advancedFilter.txt || '',
             from: advancedFilter.from || '',
             to: advancedFilter.to || '',
             subject: advancedFilter.subject || '',
-            folder: '', // Clear folder filter to search all folders
-            category: '' // Clear category filter to search all categories
+            folder: '',
+            category: ''
         }
-        console.log('Global search filter:', globalSearchFilter)
+        // console.log('Global search filter:', globalSearchFilter)
         setFilterByToEdit(globalSearchFilter)
     }
     return (
