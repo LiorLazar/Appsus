@@ -28,10 +28,8 @@ export function NoteList() {
         noteService.query(filterBy)
             .then(notes => {
                 setNotes(notes)
-                console.log('Notes loaded:', notes)
             })
             .catch(err => {
-                console.error('Failed to load notes', err)
                 setError('Failed to load notes')
             })
     }
@@ -46,7 +44,7 @@ export function NoteList() {
     }, [searchParams])
 
     useEffect(() => {
-        loadNotes()
+        // loadNotes(filterBy)
 
         function handleRefreshNotes() {
             loadNotes(filterBy)
@@ -141,7 +139,6 @@ export function NoteList() {
         }
     }
 
-    // Refresh all notes without animation
     function refreshAllNotes() {
         noteService.query(filterBy).then(freshNotes => {
             setNotes(freshNotes)
@@ -161,6 +158,9 @@ export function NoteList() {
                 refreshAllNotes()
             }, 500)
         })
+        setTimeout(() => {
+            refreshAllNotes()
+        }, 750)
     }
 
     return (

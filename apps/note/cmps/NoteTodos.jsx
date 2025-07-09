@@ -11,8 +11,10 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
     const cardRef = useRef(null)
     const navigate = useNavigate();
 
-    function toggleTodo(idx) {
-        const newTodos = todos.map((todo, i) => i === idx ? { ...todo, doneAt: todo.doneAt ? null : Date.now() } : todo)
+    function toggleTodo(todoId) {
+        const newTodos = todos.map(todo =>
+            todo.id === todoId ? { ...todo, doneAt: todo.doneAt ? null : Date.now() } : todo
+        )
         setTodos(newTodos)
         if (onHeightChange) onHeightChange()
 
@@ -51,6 +53,21 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
     }, [showCompleted])
 
     useEffect(() => {
+        // Ensure each todo has a unique id (fallback if utilService.makeId is missing)
+        if (Array.isArray(note.info.todos)) {
+            const todosWithId = note.info.todos.map(todo =>
+                todo.id ? todo : { ...todo, id: (Date.now() + Math.random()).toString(36) }
+            )
+            if (JSON.stringify(todosWithId) !== JSON.stringify(note.info.todos)) {
+                noteService.save({ ...note, info: { ...note.info, todos: todosWithId } })
+            }
+            setTodos(todosWithId)
+        } else {
+            setTodos([])
+        }
+    }, [note.info.todos])
+
+    React.useEffect(() => {
         setTodos(note.info.todos)
     }, [note.info.todos])
 
@@ -64,8 +81,8 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
             {note.info.title && <h2 className="note-title">{note.info.title}</h2>}
             <div className={`note-todos`}>
                 <ul className="note-todos">
-                    {activeTodos.map((todo, idx) => (
-                        <li key={idx} className={`todo-item`}>
+                    {activeTodos.map((todo) => (
+                        <li key={todo.id} className={`todo-item`}>
                             <label className="custom-checkbox-label">
                                 <input
                                     type="checkbox"
@@ -77,7 +94,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                                 <span
                                     className={`custom-checkbox${todo.doneAt ? ' checked' : ''}`}
                                     style={{ backgroundColor: backgroundColor, borderColor: '#444' }}
-                                    onClick={() => toggleTodo(idx)}
+                                    onClick={() => toggleTodo(todo.id)}
                                 >
                                     {!!todo.doneAt && (
                                         <svg width="14" height="14" viewBox="0 0 14 14">
@@ -99,13 +116,13 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
             )}
             {showCompleted && (
                 <ul className="note-todos">
-                    {completedTodos.map((todo, idx) => (
-                        <li key={idx} className={`todo-item done`}>
+                    {completedTodos.map((todo) => (
+                        <li key={todo.id} className={`todo-item done`}>
                             <input
                                 type="checkbox"
                                 className="todo-checkbox"
                                 checked={!!todo.doneAt}
-                                onChange={() => toggleTodo(todos.indexOf(todo))}
+                                onChange={() => toggleTodo(todo.id)}
                             />
                             <span className="todo-text">{todo.txt}</span>
                         </li>

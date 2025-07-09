@@ -31,6 +31,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
             ...prev,
             info: { ...prev.info, url: undefined }
         }))
+        debouncedSave({ ...editNote, info: { ...editNote.info, url: undefined } }, onSave)
     }
 
     function handleAddTodo(newTodoTxt) {
@@ -39,8 +40,8 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
         if (!newTodoTxt.trim()) return
         setEditNote(prev => {
             const newTodos = Array.isArray(prev.info.todos)
-                ? [...prev.info.todos, { txt: newTodoTxt, doneAt: null }]
-                : [{ txt: newTodoTxt, doneAt: null }]
+                ? [...prev.info.todos, { txt: newTodoTxt, doneAt: null, id: (Date.now() + Math.random()).toString(36) }]
+                : [{ txt: newTodoTxt, doneAt: null, id: (Date.now() + Math.random()).toString(36) }]
             const updated = {
                 ...prev,
                 info: { ...prev.info, todos: newTodos }
@@ -72,6 +73,9 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
         const d = new Date(ts)
         return d.toLocaleString()
     }
+
+    // Only show add-todo input and hide txt textarea if editing a todos note
+    const isTodosNote = Array.isArray(editNote.info.todos)
 
     return (
         <div
@@ -115,14 +119,16 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                     )}
                 </div>
             )}
-            <textarea
-                className="note-text"
-                value={editNote.info.txt || ''}
-                onChange={e => handleChange('txt', e.target.value)}
-                placeholder="add txt note here..."
-                rows={2}
-            />
-            {Array.isArray(editNote.info.todos) && (
+            {!isTodosNote && (
+                <textarea
+                    className="note-text"
+                    value={editNote.info.txt || ''}
+                    onChange={e => handleChange('txt', e.target.value)}
+                    placeholder="add txt note here..."
+                    rows={2}
+                />
+            )}
+            {isTodosNote && (
                 <ul className="note-todos">
                     {editNote.info.todos.map((todo, idx) => (
                         <li key={idx} className="todo-item">

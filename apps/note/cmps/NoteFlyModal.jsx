@@ -87,8 +87,7 @@ export function NoteFlyModal({ note, rect, onClose }) {
     return (
         <div className="note-flymodal-backdrop" onClick={handleBackdropClick}>
             <div ref={modalRef} style={style} onClick={e => e.stopPropagation()}>
-                <button onClick={handleClose} style={{ position: 'absolute', top: 8, right: 8, zIndex: 10 }}>✕</button>
-                {/* Render the NoteEditor for measurement and then for display */}
+                {/* Removed the close (✕) button from the modal */}
                 {renderNote(note)}
                 {measured && (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: 0 }}>
