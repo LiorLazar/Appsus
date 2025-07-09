@@ -17,7 +17,7 @@ export function MailAdvancedSearch({ isOpen, onSetFilterBy }) {
 
 
     useEffect(() => {
-        console.log(truthyFilter)
+        // console.log(truthyFilter)
         setSearchParams(truthyFilter)
     }, [filterByToEdit])
 
@@ -43,14 +43,9 @@ export function MailAdvancedSearch({ isOpen, onSetFilterBy }) {
     }
 
     function handleSearch() {
-        // Only send non-empty filter fields
         const truthyFilter = utilService.getTruthyValues(filterByToEdit)
         console.log('Advanced search filter:', truthyFilter)
-
-        // Update URL search params
         setSearchParams(truthyFilter)
-
-        // Call parent filter update
         onSetFilterBy(truthyFilter)
     }
 
