@@ -50,6 +50,10 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
         }, 50)
     }, [showCompleted])
 
+    useEffect(() => {
+        setTodos(note.info.todos)
+    }, [note.info.todos])
+
     return (
         <div
             ref={cardRef}
@@ -73,6 +77,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                                 <span
                                     className={`custom-checkbox${todo.doneAt ? ' checked' : ''}`}
                                     style={{ backgroundColor: backgroundColor, borderColor: '#444' }}
+                                    onClick={() => toggleTodo(idx)}
                                 >
                                     {!!todo.doneAt && (
                                         <svg width="14" height="14" viewBox="0 0 14 14">
@@ -87,7 +92,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                 </ul>
             </div>
             {completedTodos.length > 0 && (
-                <div className="completed-section">
+                <div className="completed-section" onClick={e => { e.stopPropagation(); handleCompletedSectionClick(); }}>
                     <span className="material-symbols-outlined">{showCompleted ? 'expand_more' : 'chevron_right'}</span>
                     {completedTodos.length} completed item{completedTodos.length > 1 ? 's' : ''}
                 </div>
@@ -100,7 +105,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                                 type="checkbox"
                                 className="todo-checkbox"
                                 checked={!!todo.doneAt}
-                                readOnly
+                                onChange={() => toggleTodo(todos.indexOf(todo))}
                             />
                             <span className="todo-text">{todo.txt}</span>
                         </li>

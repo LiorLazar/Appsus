@@ -6,7 +6,6 @@ import { noteService } from '../services/note.service.js'
 import { NoteAnimate } from '../services/NoteAnimate.js'
 import { utilService } from '../../../services/util.service.js'
 import { ColorPickerModal } from './ColorPickerModal.jsx'
-import { NoteEditor } from './NoteEditor.jsx'
 import { NoteFlyModal } from './NoteFlyModal.jsx'
 
 const { useState, useEffect, useRef } = React
@@ -142,51 +141,75 @@ export function NoteList() {
         }
     }
 
-    return (
-        <section className="note-list">
-            {notes.length ? (
-                <div className="note-container" ref={containerRef}>
-                    {notes.map(note => {
-                        let noteClass = `note-item ${note.id}`
-                        if (modalNote && modalNote.id === note.id) noteClass += ' note-hidden-for-modal'
-                        // Create a ref for each note-item
-                        const noteItemRef = React.createRef();
-                        return (
-                            <div
-                                key={note.id}
-                                className={noteClass}
-                                ref={noteItemRef}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                {renderNote(note, (noteArg, e) => {
-                                    // Get the bounding rect from the note-item div
-                                    const rect = noteItemRef.current.getBoundingClientRect();
-                                    setModalRect({
-                                        left: rect.left,
-                                        top: rect.top,
-                                        width: rect.width,
-                                        height: rect.height,
-                                        noteId: noteArg.id
-                                    });
-                                    setModalNote(noteArg);
-                                })}
-                            </div>
-                        )
-                    })}
-                </div>
-            ) : (
-                <p className="no-notes-message">No notes available</p>
-            )}
-            {modalNote && modalRect && (
-                <NoteFlyModal
-                    note={modalNote}
-                    rect={modalRect}
-                    onClose={() => {
+    // Refresh all notes without animation
+    function refreshAllNotes() {
+        noteService.query(filterBy).then(freshNotes => {
+            setNotes(freshNotes)
+        })
+    }
+
+    function handleModalClose(savedNotePromise) {
+                // Wait for the save promise to resolve before refreshing
+                Promise.resolve(savedNotePromise).then(() => {
+                    setTimeout(() => {
+                        refreshAllNotes()
                         setModalNote(null)
                         setModalRect(null)
-                    }}
-                />
-            )}
-        </section>
-    )
-}
+                    }, 700)
+                })
+            }
+
+    return (
+            <section className="note-list">
+                {notes.length ? (
+                    <div className="note-container" ref={containerRef}>
+                        {notes.map(note => {
+                            let noteClass = `note-item ${note.id}`
+                            if (modalNote && modalNote.id === note.id) noteClass += ' note-hidden-for-modal'
+                            // Create a ref for each note-item
+                            const noteItemRef = React.createRef();
+                            return (
+                                <div
+                                    key={note.id}
+                                    className={noteClass}
+                                    ref={noteItemRef}
+                                    style={{ cursor: 'pointer' }}
+                                >
+                                    {renderNote(note, (noteArg, e) => {
+                                        // Get the bounding rect from the note-item div
+                                        const rect = noteItemRef.current.getBoundingClientRect();
+                                        setModalRect({
+                                            left: rect.left,
+                                            top: rect.top,
+                                            width: rect.width,
+                                            height: rect.height,
+                                            noteId: noteArg.id
+                                        });
+                                        setModalNote(noteArg);
+                                    })}
+                                </div>
+                            )
+                        })}
+                    </div>
+                ) : (
+                    <p className="no-notes-message">No notes available</p>
+                )}
+                {modalNote && modalRect && (
+                    <NoteFlyModal
+                        note={modalNote}
+                        rect={modalRect}
+                        onClose={() => handleModalClose(Promise.resolve())}
+                    />
+                )}
+                {isColorModalOpen && (
+                    <ColorPickerModal
+                        isOpen={isColorModalOpen}
+                        onClose={handleCloseModal}
+                        onColorSelect={handleColorSelect}
+                        selectedColor={pendingColor}
+                        modalPos={modalPos}
+                    />
+                )}
+            </section>
+        )
+    }

@@ -55,3 +55,13 @@
   color: #888;
   opacity: 1;
 }
+
+.note-flymodal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(60,60,60,0.35);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

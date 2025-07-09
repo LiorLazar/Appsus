@@ -1,10 +1,11 @@
 import { NoteEditor } from './NoteEditor.jsx'
 
-const { useEffect, useRef, useState } = React
+const { useEffect, useState, useRef } = React
 
 export function NoteFlyModal({ note, rect, onClose }) {
     const modalRef = useRef(null)
     const noteRef = useRef(null)
+    const noteEditorRef = useRef(null)
     const [isCentered, setIsCentered] = useState(false)
     const [modalSize, setModalSize] = useState({ width: 400, height: 300 })
     const [measured, setMeasured] = useState(false)
@@ -47,7 +48,7 @@ export function NoteFlyModal({ note, rect, onClose }) {
     function renderNote(note) {
         if (!note) return null;
         // Render the NoteEditor for editing instead of a static preview
-        return <div ref={noteRef} style={{ position: measured ? 'static' : 'absolute', visibility: measured ? 'visible' : 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={note} onSave={() => {}} /></div>
+        return <div ref={noteRef} style={{ position: measured ? 'static' : 'absolute', visibility: measured ? 'visible' : 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={note} onSave={() => { }} /></div>
     }
 
     const style = rect
@@ -67,15 +68,22 @@ export function NoteFlyModal({ note, rect, onClose }) {
         : {};
 
     return (
-        <div ref={modalRef} style={style}>
-            <button onClick={handleClose} style={{position:'absolute',top:8,right:8,zIndex:10}}>✕</button>
-            {/* Render the NoteEditor for measurement and then for display */}
-            {renderNote(note)}
-            {measured && (
-                <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: 0}}>
-                    <NoteEditor note={note} onSave={() => {}} />
-                </div>
-            )}
+        <div className="note-flymodal-backdrop" onClick={() => {
+            setIsCentered(false)
+            if (noteEditorRef.current && noteEditorRef.current.saveAndClose) {
+                noteEditorRef.current.saveAndClose()
+            }
+        }}>
+            <div ref={modalRef} style={style} onClick={e => e.stopPropagation()}>
+                <button onClick={handleClose} style={{ position: 'absolute', top: 8, right: 8, zIndex: 10 }}>✕</button>
+                {/* Render the NoteEditor for measurement and then for display */}
+                {renderNote(note)}
+                {measured && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: 0 }}>
+                        <NoteEditor ref={noteEditorRef} note={note} onSave={() => { }} onClose={onClose} />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

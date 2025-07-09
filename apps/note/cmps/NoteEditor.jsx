@@ -1,23 +1,29 @@
 import { noteService } from '../services/note.service.js'
+import { utilService } from '../../../services/util.service.js'
 
-const { useState, useEffect } = React
+const { useState, useEffect, useImperativeHandle, forwardRef } = React
+const debouncedSave = utilService.debounce((note, onSave) => {
+    console.log('Saving note:', note);
 
-export function NoteEditor({ note, onSave, onClose, className = 'note-card modal-note-card' }) {
+    noteService.save(note).then(saved => {
+        if (onSave) onSave(saved)
+    })
+}, 400)
+
+export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose, className = 'note-card modal-note-card' }, ref) {
     const [editNote, setEditNote] = useState({ ...note })
+    const [newTodoValue, setNewTodoValue] = useState('')
+
 
     function handleChange(field, value) {
-        setEditNote(prev => ({
-            ...prev,
-            info: { ...prev.info, [field]: value }
-        }))
-    }
-
-    function handleTodoChange(idx, value) {
-        const newTodos = editNote.info.todos.map((todo, i) => i === idx ? { ...todo, txt: value } : todo)
-        setEditNote(prev => ({
-            ...prev,
-            info: { ...prev.info, todos: newTodos }
-        }))
+        setEditNote(prev => {
+            const updated = {
+                ...prev,
+                info: { ...prev.info, [field]: value }
+            }
+            debouncedSave(updated, onSave)
+            return updated
+        })
     }
 
     function handleRemoveMedia() {
@@ -27,14 +33,38 @@ export function NoteEditor({ note, onSave, onClose, className = 'note-card modal
         }))
     }
 
-    // Auto-save on unmount or when onClose is called
-    useEffect(() => {
-        return () => {
-            noteService.save(editNote).then(saved => {
-                if (onSave) onSave(saved)
-            })
+    function handleAddTodo(newTodoTxt) {
+        console.log('Adding todo:', newTodoTxt);
+
+        if (!newTodoTxt.trim()) return
+        setEditNote(prev => {
+            const newTodos = Array.isArray(prev.info.todos)
+                ? [...prev.info.todos, { txt: newTodoTxt, doneAt: null }]
+                : [{ txt: newTodoTxt, doneAt: null }]
+            const updated = {
+                ...prev,
+                info: { ...prev.info, todos: newTodos }
+            }
+            debouncedSave(updated, onSave)
+            return updated
+        })
+    }
+
+    function handleAddTodoInput(e) {
+        if ((e.key === 'Enter' || e.type === 'blur') && newTodoValue.trim()) {
+            handleAddTodo(newTodoValue)
+            setNewTodoValue('')
         }
-    }, [editNote])
+    }
+
+    // Add a callback to save and close when requested from parent (e.g., backdrop click)
+    useImperativeHandle(ref, () => ({
+        saveAndClose: () => {
+            console.log('Saving and closing note editor');
+            console.log('Note to save:', editNote);
+            if (onClose) onClose()
+        }
+    }))
 
     return (
         <div className={className + ' note-editor-root'} style={{ backgroundColor: (note && note.style && note.style.backgroundColor) || '#fff' }}>
@@ -86,15 +116,20 @@ export function NoteEditor({ note, onSave, onClose, className = 'note-card modal
                 <ul className="note-todos">
                     {editNote.info.todos.map((todo, idx) => (
                         <li key={idx} className="todo-item">
-                            <input
-                                className="todo-text"
-                                type="text"
-                                value={todo.txt}
-                                onChange={e => handleTodoChange(idx, e.target.value)}
-                                placeholder="add todo..."
-                            />
+                            <span className="todo-text">{todo.txt}</span>
                         </li>
                     ))}
+                    <li className="todo-item add-todo-item">
+                        <input
+                            className="todo-text add-todo-input"
+                            type="text"
+                            value={newTodoValue}
+                            onChange={e => setNewTodoValue(e.target.value)}
+                            onKeyDown={handleAddTodoInput}
+                            onBlur={handleAddTodoInput}
+                            placeholder="Add new todo and press Enter..."
+                        />
+                    </li>
                 </ul>
             )}
             {editNote.info.url && !['NoteImg', 'NoteVideo'].includes(editNote.type) && (
@@ -108,7 +143,7 @@ export function NoteEditor({ note, onSave, onClose, className = 'note-card modal
             )}
         </div>
     )
-}
+})
 
 // Helper for video embed
 function getEmbedUrl(url) {
