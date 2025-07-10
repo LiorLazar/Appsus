@@ -12,8 +12,28 @@
     flex-direction: column;
 
     >.header {
-        background-color: #f2f6fc;
-        padding: 12px 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        height: auto;
+        line-height: 20px;
+        padding-left: 0;
+        padding-right: 0;
+        font-weight: 500;
+        color: #041e49;
+        background-position: left center;
+        background-repeat: no-repeat;
+        display: block;
+        unicode-bidi: isolate;
+        border-collapse: collapse;
+        text-indent: initial;
+        border-spacing: 2px;
+
+        >span {
+            margin-left: 14px;
+        }
+
+        /* background-color: #f2f6fc; */
+        /* padding: 12px 20px; */
         border-top-left-radius: 8px;
         border-top-right-radius: 8px;
         font-weight: 500;
@@ -63,6 +83,7 @@
             padding: 10px 0;
             outline: none;
             margin-bottom: 12px;
+            resize: none;
         }
 
         >.compose-textarea:focus {

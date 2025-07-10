@@ -32,12 +32,12 @@ export function MailCompose() {
     }
 
     function onBack() {
-        navigate('/mail')
+        navigate('/mail/inbox')
     }
 
     return (
         <section className="mail-compose">
-            <div className="header flex align-center space-between">
+            <div className="header">
                 <span>New Message</span>
                 <button className="close-btn" onClick={onBack}>×</button>
             </div>
