@@ -1,7 +1,23 @@
-img {
+.mail-header-bar {
+    min-width: 238px;
+    padding-right: 30px;
+    box-sizing: border-box;
+    flex: 1 0 auto;
+    height: 48px;
+    vertical-align: middle;
+    white-space: nowrap;
+    align-items: center;
+    display: flex;
+}
+
+.mail-logo {
+    width: 109px;
     height: 40px;
-    width: 40px;
-    margin-right: 8px;
+    margin-bottom: 4px;
+    border: 0;
+    vertical-align: middle;
+    overflow: clip;
+    overflow-clip-margin: content-box;
 }
 
 .mail-header-bar {
@@ -10,4 +26,23 @@ img {
     justify-content: space-between;
     align-items: center;
     margin: 0 2em;
+}
+
+.mail-search-input {
+    border: none;
+    background: transparent;
+    outline: none;
+    flex: 1;
+    font-size: 1rem;
+    color: #202124;
+    padding: 12px 0;
+    margin-left: 8px;
+}
+
+.mail-search-bar .material-symbols-outlined {
+    color: #5f6368;
+    font-size: 24px;
+    cursor: pointer;
+    user-select: none;
+    margin-right: 8px;
 }

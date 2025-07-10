@@ -1,6 +1,5 @@
 import { utilService } from "../../../services/util.service.js";
 import { mailService } from "../services/mail.service.js";
-import { MailAdvancedSearch } from "./MailAdvancedSearch.jsx";
 import { MailFilter } from "./MailFilter.jsx";
 
 const { useState, useEffect } = React
@@ -22,7 +21,7 @@ export function MailHeader() {
 
     return (
         <section className="mail-header-bar">
-            <img src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
+            <img className="mail-logo" src="https://ssl.gstatic.com/ui/v1/icons/mail/rfr/logo_gmail_lockup_default_1x_r5.png" />
             <MailFilter
                 defaultFilter={filterBy}
                 onSetFilterBy={onSetFilterBy}
