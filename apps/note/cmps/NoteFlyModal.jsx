@@ -2,13 +2,15 @@ import { NoteEditor } from './NoteEditor.jsx'
 
 const { useEffect, useState, useRef } = React
 
-export function NoteFlyModal({ note, rect, onClose }) {
+export function NoteFlyModal({ note, rect, onClose, onColorBtnClick }) {
     const modalRef = useRef(null)
     const noteRef = useRef(null)
     const noteEditorRef = useRef(null)
     const [isCentered, setIsCentered] = useState(false)
     const [modalSize, setModalSize] = useState({ width: 400, height: 300 })
     const [measured, setMeasured] = useState(false)
+
+    const liveBgColor = (note && note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#fff';
 
     // Measure note size after first render
     useEffect(() => {
@@ -64,8 +66,8 @@ export function NoteFlyModal({ note, rect, onClose }) {
 
     function renderNote(note) {
         if (!note) return null;
-        // Render the NoteEditor for editing instead of a static preview
-        return <div ref={noteRef} style={{ position: measured ? 'static' : 'absolute', visibility: measured ? 'visible' : 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={note} onSave={() => { }} /></div>
+        // Render the NoteEditor for measuring, but keep it absolutely positioned and hidden from layout
+        return <div ref={noteRef} style={{ position: 'absolute', top: 0, left: 0, width: 'auto', height: 'auto', visibility: 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={note} onSave={() => { }} onColorBtnClick={() => {}} /></div>
     }
 
     const style = rect
@@ -87,14 +89,20 @@ export function NoteFlyModal({ note, rect, onClose }) {
     return (
         <div className="note-flymodal-backdrop" onClick={handleBackdropClick}>
             <div ref={modalRef} style={style} onClick={e => e.stopPropagation()}>
-                {/* Removed the close (✕) button from the modal */}
                 {renderNote(note)}
                 {measured && (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'absolute', top: 0, left: 0 }}>
-                        <NoteEditor ref={noteEditorRef} note={note} onSave={() => { }} onClose={onClose} />
+                        <NoteEditor
+                            ref={noteEditorRef}
+                            note={{ ...note, style: { ...note.style, backgroundColor: liveBgColor } }}
+                            onSave={() => { }}
+                            onClose={handleClose}
+                            onColorBtnClick={onColorBtnClick}
+                        />
                     </div>
                 )}
             </div>
         </div>
     )
 }
+

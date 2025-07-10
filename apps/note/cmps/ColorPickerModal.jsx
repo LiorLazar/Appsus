@@ -10,28 +10,33 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
 
   React.useLayoutEffect(() => {
     if (!isOpen || !modalPos) return;
-    const modal = modalRef.current;
-    if (!modal) return;
-    const { innerWidth, innerHeight } = window;
-    const rect = modal.getBoundingClientRect();
     let top = modalPos.top;
     let left = modalPos.left;
-    // Adjust right overflow
-    if (left + rect.width > innerWidth) {
-      left = Math.max(0, innerWidth - rect.width - 8); // 8px margin
-    }
-    // Adjust bottom overflow
-    if (top + rect.height > innerHeight) {
-      top = Math.max(0, innerHeight - rect.height - 8); // 8px margin
+    const modal = modalRef.current;
+    if (modal) {
+      const { innerWidth, innerHeight } = window;
+      const rect = modal.getBoundingClientRect();
+      // Adjust right overflow
+      if (left + rect.width > innerWidth) {
+        left = Math.max(0, innerWidth - rect.width - 8); // 8px margin
+      }
+      // Adjust left overflow
+      if (left < 0) {
+        left = 8; // 8px margin from left
+      }
+      // Do not adjust top overflow
     }
     setAdjustedPos({ top, left });
   }, [isOpen, modalPos]);
 
   if (!isOpen) return null;
 
+  
   const style = adjustedPos
     ? { position: 'absolute', top: adjustedPos.top, left: adjustedPos.left, zIndex: 10001 }
-    : { position: 'absolute', top: '40px', left: '0', zIndex: 10001 };
+    : { position: 'absolute', top: '100px', left: '100px', zIndex: 10001 };
+
+  console.log('ColorPickerModal rendered at:', adjustedPos);
 
   return (
     <div>

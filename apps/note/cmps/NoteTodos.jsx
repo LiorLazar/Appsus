@@ -4,7 +4,7 @@ import { noteService } from '../services/note.service.js'
 const { useNavigate } = ReactRouterDOM
 const { useState, useEffect, useRef } = React
 
-export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpdate, onCardClick }) {
+export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpdate, onCardClick, noteItemRef }) {
     const [todos, setTodos] = useState(note.info.todos)
     const [showCompleted, setShowCompleted] = useState(false)
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff'
@@ -77,8 +77,8 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
             {note.info.title && <h2 className="note-title">{note.info.title}</h2>}
             <div className={`note-todos`}>
                 <ul className="note-todos">
-                    {activeTodos.map((todo) => (
-                        <li key={todo.id} className={`todo-item`}>
+                    {activeTodos.map((todo, idx) => (
+                        <li key={todo.id || idx} className={`todo-item`}>
                             <label className="custom-checkbox-label">
                                 <input
                                     type="checkbox"
@@ -112,8 +112,8 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
             )}
             {showCompleted && (
                 <ul className="note-todos">
-                    {completedTodos.map((todo) => (
-                        <li key={todo.id} className={`todo-item done`}>
+                    {completedTodos.map((todo, idx) => (
+                        <li key={todo.id || idx} className={`todo-item done`}>
                             <input
                                 type="checkbox"
                                 className="todo-checkbox"
@@ -125,7 +125,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
                     ))}
                 </ul>
             )}
-            <NoteToolBar note={note} />
+            <NoteToolBar note={note} noteItemRef={noteItemRef} />
         </div>
     )
 }

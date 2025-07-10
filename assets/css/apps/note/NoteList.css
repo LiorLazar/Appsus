@@ -3,7 +3,7 @@
     width: 100%; /* Use full available width */
     box-sizing: border-box; /* Include padding in the layout */
     min-height: 200px; /* Minimum height to prevent layout jumps */
-    margin-top: 32px; /* Margin to separate from other content */
+    margin-top: 16px; /* Margin to separate from other content */
 }
 
 /* Responsive breakpoints */
@@ -178,19 +178,14 @@
                 transform 0.2s ease;
 }
 
-/* Fast transitions during resize for immediate response */
-.note-item.fast-transition {
-    transition: left 0.2s ease-out, 
-                top 0.2s ease-out,
-                transform 0.2s ease !important;
-}
-
-.modal-note-card {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  /* Inherit all other .note-card styles (border-radius, shadow, etc) */
+.notes-section-title {
+    color: rgb(95, 99, 104);
+    font-family: Roboto, Arial, sans-serif;
+    line-height: 1rem;
+    font-size: .6875rem;
+    letter-spacing: .0727272727em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding-inline-start: 85px;
+    margin-top: 32px;
 }

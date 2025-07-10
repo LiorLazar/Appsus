@@ -2,7 +2,7 @@ import { NoteToolBar } from './NoteToolBar.jsx'
 import { NoteAnimate } from '../services/NoteAnimate.js'
 import { noteService } from '../services/note.service.js';
 
-export function NoteVideo({ note, containerRef, className = 'note-card', onUpdate, onCardClick }) {
+export function NoteVideo({ note, containerRef, className = 'note-card', onUpdate, onCardClick, noteItemRef }) {
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
     const [title, setTitle] = React.useState(note.info.title);
     const [txt, setTxt] = React.useState(note.info.txt);
@@ -29,7 +29,7 @@ export function NoteVideo({ note, containerRef, className = 'note-card', onUpdat
                 onError={() => NoteAnimate.handleImageLoad(containerRef && containerRef.current)}
             />
             {txt && <p className="note-content">{txt.length > 100 ? txt.slice(0, 100) + '\u2026' : txt}</p>}
-            <NoteToolBar note={note} />
+            <NoteToolBar note={note} noteItemRef={noteItemRef} />
         </div>
     )
 }

@@ -3,7 +3,7 @@ import { NoteImg } from './NoteImg.jsx'
 import { NoteTodos } from './NoteTodos.jsx'
 import { NoteVideo } from './NoteVideo.jsx'
 import { noteService } from '../services/note.service.js'
-import { NoteAnimate } from '../services/NoteAnimate.js'
+import { notelistService } from '../services/notelist.service.js'
 import { utilService } from '../../../services/util.service.js'
 import { ColorPickerModal } from './ColorPickerModal.jsx'
 import { NoteFlyModal } from './NoteFlyModal.jsx'
@@ -22,21 +22,14 @@ export function NoteList() {
     const [pendingColor, setPendingColor] = useState(null)
     const [modalNote, setModalNote] = useState(null)
     const [modalRect, setModalRect] = useState(null)
+    const [error, setError] = useState(null)
     const containerRef = useRef(null)
-
-    function loadNotes(filterBy) {
-        noteService.query(filterBy)
-            .then(notes => {
-                setNotes(notes)
-            })
-            .catch(err => {
-                setError('Failed to load notes')
-            })
-    }
+    const pinnedContainerRef = useRef(null)
+    const unpinnedContainerRef = useRef(null)
 
     useEffect(() => {
         setSearchParams(truthyFilter)
-        loadNotes(filterBy)
+        notelistService.loadNotes(filterBy, setNotes, setError)
     }, [filterBy])
 
     useEffect(() => {
@@ -44,12 +37,9 @@ export function NoteList() {
     }, [searchParams])
 
     useEffect(() => {
-        // loadNotes(filterBy)
-
         function handleRefreshNotes() {
-            loadNotes(filterBy)
+            notelistService.loadNotes(filterBy, setNotes, setError)
         }
-
         window.addEventListener('refreshNotes', handleRefreshNotes)
         return () => {
             window.removeEventListener('refreshNotes', handleRefreshNotes)
@@ -57,144 +47,136 @@ export function NoteList() {
     }, [])
 
     useEffect(() => {
-        // Only run NoteAnimate when modal is fully closed
-        if (modalNote) return;
-        if (!containerRef.current) return;
-
-        // Initialize masonry layout
-        NoteAnimate.initMasonry(containerRef.current);
-
-        // Setup image load listeners
-        const cleanupImages = NoteAnimate.setupImageListeners(containerRef.current);
-
-        // Setup resize listener
-        const cleanupResize = NoteAnimate.setupResizeListener(containerRef.current);
-
-        return () => {
-            if (cleanupImages) cleanupImages();
-            if (cleanupResize) cleanupResize();
-        };
+        notelistService.setupMasonryAndListeners(pinnedContainerRef, notes, modalNote)
+        notelistService.setupMasonryAndListeners(unpinnedContainerRef, notes, modalNote)
     }, [notes, modalNote])
 
     useEffect(() => {
         function handleOpenColorPickerModal(e) {
             const { note, btnRect } = e.detail;
-            let top = btnRect.bottom;
-            let left = btnRect.left;
-            if (containerRef.current) {
-                const containerRect = containerRef.current.getBoundingClientRect();
-                // Move modal down by 200px and right by 75px
-                top = btnRect.bottom - containerRect.top + 200;
-                left = btnRect.left - containerRect.left + 75;
-            }
             setPendingColor(note.style && note.style.backgroundColor ? note.style.backgroundColor : null);
             setModalPos({
-                top,
-                left
+                top: btnRect.top,
+                left: btnRect.left
             });
             setSelectedNote(note);
             setIsColorModalOpen(true);
+            console.log('ColorPickerModal open position:', btnRect);
         }
+        
         window.addEventListener('openColorPickerModal', handleOpenColorPickerModal);
         return () => window.removeEventListener('openColorPickerModal', handleOpenColorPickerModal);
     }, []);
 
     function handleColorSelect(color) {
-        setPendingColor(color);
-        // Update the selectedNote's color for immediate UI feedback
-        setSelectedNote(selectedNote ? { ...selectedNote, style: { ...selectedNote.style, backgroundColor: color } } : null);
+        notelistService.handleColorSelect(color, selectedNote, setPendingColor, setSelectedNote, setNotes);
     }
 
     function handleCloseModal() {
-        setIsColorModalOpen(false);
-        // Save the color only when modal closes
-        if (pendingColor !== null && selectedNote) {
-            const updatedNote = { ...selectedNote, style: { ...selectedNote.style, backgroundColor: pendingColor } };
-            noteService.save(updatedNote).then(() => {
-                setNotes(notes => notes.map(n => n.id === updatedNote.id ? updatedNote : n));
-                setSelectedNote(updatedNote);
-            });
-            setPendingColor(null);
-        }
+        notelistService.handleCloseColorModal(pendingColor, selectedNote, setIsColorModalOpen, setNotes, setSelectedNote, setPendingColor);
     }
 
-    function renderNote(note, onCardClick) {
-        // If this is the selected note, show the pending color immediately
+    // Move renderNote back here so it can use React components directly
+    function renderNote(note, onCardClick, noteItemRef) {
         const isSelected = selectedNote && note.id === selectedNote.id;
         const color = isSelected && pendingColor !== null
             ? pendingColor
             : (note.style && note.style.backgroundColor) || null;
         switch (note.type) {
-            case 'NoteTxt': return (<NoteTxt note={{ ...note, style: { ...note.style, backgroundColor: color } }} onCardClick={e => onCardClick(note, e)} />)
-            case 'NoteImg': return (<NoteImg note={{ ...note, style: { ...note.style, backgroundColor: color } }} containerRef={containerRef} onCardClick={e => onCardClick(note, e)} />)
-            case 'NoteTodos': return (<NoteTodos note={{ ...note, style: { ...note.style, backgroundColor: color } }} onHeightChange={handleNoteHeightChange} onCardClick={e => onCardClick(note, e)} />)
-            case 'NoteVideo': return (<NoteVideo note={{ ...note, style: { ...note.style, backgroundColor: color } }} containerRef={containerRef} onCardClick={e => onCardClick(note, e)} />)
+            case 'NoteTxt': return (<NoteTxt note={note} onCardClick={e => onCardClick(note, e)} noteItemRef={noteItemRef} />)
+            case 'NoteImg': return (<NoteImg note={note} containerRef={containerRef} onCardClick={e => onCardClick(note, e)} noteItemRef={noteItemRef} />)
+            case 'NoteTodos': return (<NoteTodos note={note} onHeightChange={() => notelistService.handleNoteHeightChange(containerRef)} onCardClick={e => onCardClick(note, e)} noteItemRef={noteItemRef} />)
+            case 'NoteVideo': return (<NoteVideo note={note} containerRef={containerRef} onCardClick={e => onCardClick(note, e)} noteItemRef={noteItemRef} />)
             default:
                 return null;
         }
     }
 
-    function handleNoteHeightChange() {
-        if (containerRef.current && typeof NoteAnimate.initMasonry === 'function') {
-            NoteAnimate.initMasonry(containerRef.current)
-        }
+    function renderNoteItem(note) {
+        let noteClass = `note-item ${note.id}`
+        if (modalNote && modalNote.id === note.id) noteClass += ' note-hidden-for-modal'
+        const noteItemRef = React.createRef();
+        return (
+            <div
+                key={note.id}
+                className={noteClass}
+                ref={noteItemRef}
+                style={{ cursor: 'pointer' }}
+            >
+                {renderNote(note, (noteArg, e) => {
+                    const rect = noteItemRef.current.getBoundingClientRect();
+                    setModalRect({
+                        left: rect.left,
+                        top: rect.top,
+                        width: rect.width,
+                        height: rect.height,
+                        noteId: noteArg.id
+                    });
+                    setModalNote(noteArg);
+                }, noteItemRef)}
+            </div>
+        )
     }
 
-    function refreshAllNotes() {
-        noteService.query(filterBy).then(freshNotes => {
-            setNotes(freshNotes)
-        })
-    }
+    const pinnedNotes = notelistService.getPinnedNotes(notes)
+    const unpinnedNotes = notelistService.getUnpinnedNotes(notes)
 
     function handleModalClose(savedNotePromise) {
-        Promise.resolve(savedNotePromise).then(() => {
-            setTimeout(() => {
-                refreshAllNotes()
-                setModalNote(null)
-                setModalRect(null)
-            }, 50)
-        })
-        Promise.resolve(savedNotePromise).then(() => {
-            setTimeout(() => {
-                refreshAllNotes()
-            }, 500)
-        })
-        setTimeout(() => {
-            refreshAllNotes()
-        }, 750)
+        notelistService.handleModalClose(savedNotePromise, filterBy, setNotes, setModalNote, setModalRect)
     }
+
+    function handleEditorColorBtn(e, note, pos = null) {
+        const btnRect = e.currentTarget.getBoundingClientRect();
+
+        if (pos) {
+            setModalPos({ top: pos.top, left: pos.left });
+        } else {
+            // If no position is provided, use the button's position
+            setModalPos({ top: btnRect.top, left: btnRect.left });
+        }
+
+        setSelectedNote(note);
+        setPendingColor(note.style && note.style.backgroundColor ? note.style.backgroundColor : null);
+        setIsColorModalOpen(true);
+    }
+
+    useEffect(() => {
+        // When the selectedNote or pendingColor changes, update the editor if open
+        if (modalNote && selectedNote && modalNote.id === selectedNote.id) {
+            setModalNote({
+                ...selectedNote,
+                style: {
+                    ...selectedNote.style,
+                    backgroundColor: pendingColor != null
+                        ? pendingColor
+                        : (selectedNote.style && selectedNote.style.backgroundColor)
+                }
+            });
+        }
+    }, [pendingColor, selectedNote])
+
+    // Add log before rendering ColorPickerModal
 
     return (
         <section className="note-list">
             {notes.length ? (
-                <div className="note-container" ref={containerRef}>
-                    {notes.map(note => {
-                        let noteClass = `note-item ${note.id}`
-                        if (modalNote && modalNote.id === note.id) noteClass += ' note-hidden-for-modal'
-                        // Create a ref for each note-item
-                        const noteItemRef = React.createRef();
-                        return (
-                            <div
-                                key={note.id}
-                                className={noteClass}
-                                ref={noteItemRef}
-                                style={{ cursor: 'pointer' }}
-                            >
-                                {renderNote(note, (noteArg, e) => {
-                                    // Get the bounding rect from the note-item div
-                                    const rect = noteItemRef.current.getBoundingClientRect();
-                                    setModalRect({
-                                        left: rect.left,
-                                        top: rect.top,
-                                        width: rect.width,
-                                        height: rect.height,
-                                        noteId: noteArg.id
-                                    });
-                                    setModalNote(noteArg);
-                                })}
+                <div>
+                    {pinnedNotes.length > 0 && (
+                        <div>
+                            <div className="notes-section-title">PINNED</div>
+                            <div className="note-container pinned-notes-container" ref={pinnedContainerRef}>
+                                {pinnedNotes.map(renderNoteItem)}
                             </div>
-                        )
-                    })}
+                        </div>
+                    )}
+                    {unpinnedNotes.length > 0 && (
+                        <div>
+                            <div className="notes-section-title">OTHERS</div>
+                            <div className="note-container unpinned-notes-container" ref={unpinnedContainerRef}>
+                                {unpinnedNotes.map(renderNoteItem)}
+                            </div>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <p className="no-notes-message">No notes available</p>
@@ -204,6 +186,7 @@ export function NoteList() {
                     note={modalNote}
                     rect={modalRect}
                     onClose={() => handleModalClose(Promise.resolve())}
+                    onColorBtnClick={handleEditorColorBtn}
                 />
             )}
             {isColorModalOpen && (
