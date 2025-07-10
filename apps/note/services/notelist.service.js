@@ -6,9 +6,10 @@ function handleColorSelect(color, selectedNote, setPendingColor, setSelectedNote
     if (selectedNote) {
         const updatedNote = { ...selectedNote, style: { ...selectedNote.style, backgroundColor: color } };
         setSelectedNote(updatedNote);
-        noteService.save(updatedNote).then(() => {
-            setNotes(notes => notes.map(n => n.id === updatedNote.id ? updatedNote : n));
-        });
+        // Optimistically update the notes array immediately
+        setNotes(notes => notes.map(n => n.id === updatedNote.id ? updatedNote : n));
+        // Save in the background
+        noteService.save(updatedNote);
     }
 }
 

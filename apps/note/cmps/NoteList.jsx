@@ -148,9 +148,6 @@ export function NoteList() {
     }, [pendingColor, selectedNote])
 
     // Add log before rendering ColorPickerModal
-    if (isColorModalOpen) {
-        console.log('NoteList rendering ColorPickerModal with modalPos:', modalPos);
-    }
 
     return (
         <section className="note-list">
