@@ -1,84 +1,28 @@
 import { noteService } from '../services/note.service.js'
-import { utilService } from '../../../services/util.service.js'
 import { NoteEditorToolBar } from './NoteEditorToolBar.jsx'
+import { editorService } from '../services/editor.service.js';
 
-const { useState, useImperativeHandle, forwardRef } = React
-const debouncedSave = utilService.debounce((note, onSave) => {
-    note.createdAt = Date.now()
-
-    noteService.save(note).then(saved => {
-        if (onSave) onSave(saved)
-    })
-}, 400)
+const { useState, useImperativeHandle, forwardRef } = React;
 
 export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose, className = 'note-card modal-note-card', onColorBtnClick }, ref) {
     const [editNote, setEditNote] = useState({ ...note })
     const [newTodoValue, setNewTodoValue] = useState('')
+    const fileInputRef = React.useRef(null);
 
-    function handleChange(field, value) {
-        setEditNote(prev => {
-            const updated = {
-                ...prev,
-                info: { ...prev.info, [field]: value }
-            }
-            debouncedSave(updated, onSave)
-            return updated
-        })
-    }
+    const handleChange = editorService.handleChange(setEditNote, editorService.debouncedSave, onSave);
+    const handleRemoveMedia = editorService.handleRemoveMedia(setEditNote, editNote, editorService.debouncedSave, onSave);
+    const handleAddTodo = editorService.handleAddTodo(setEditNote, editorService.debouncedSave, onSave);
+    const handleEditTodo = editorService.handleEditTodo(setEditNote, editorService.debouncedSave, onSave);
+    const handleImgBtnClick = editorService.handleImgBtnClick(fileInputRef, editNote);
+    const handleFileChange = editorService.handleFileChange(setEditNote, editorService.debouncedSave, onSave);
 
-    function handleRemoveMedia() {
-        setEditNote(prev => ({
-            ...prev,
-            type: 'NoteTxt',
-            info: { ...prev.info, url: undefined }
-        }))
-        debouncedSave({ ...editNote, type: 'NoteTxt', info: { ...editNote.info, url: undefined } }, onSave)
-    }
-
-    function handleAddTodo(newTodoTxt) {
-        if (!newTodoTxt.trim()) return
-
-        setEditNote(prev => {
-            const newTodos = Array.isArray(prev.info.todos)
-                ? [...prev.info.todos, { txt: newTodoTxt, doneAt: null, id: (Date.now() + Math.random()).toString(36) }]
-                : [{ txt: newTodoTxt, doneAt: null, id: (Date.now() + Math.random()).toString(36) }]
-            const updated = {
-                ...prev,
-                info: { ...prev.info, todos: newTodos }
-            }
-            debouncedSave(updated, onSave)
-            return updated
-        })
-    }
-
-    function handleAddTodoInput(e) {
-        if ((e.key === 'Enter' || e.type === 'blur') && newTodoValue.trim()) {
-            handleAddTodo(newTodoValue)
-            setNewTodoValue('')
-        }
-    }
-
-    function handleEditTodo(idx, value) {
-        setEditNote(prev => {
-            const newTodos = prev.info.todos.map((todo, i) =>
-                i === idx ? { ...todo, txt: value } : todo
-            )
-            const updated = {
-                ...prev,
-                info: { ...prev.info, todos: newTodos }
-            }
-            debouncedSave(updated, onSave)
-            return updated
-        })
-    }
-
-    useImperativeHandle(ref, () => ({
-        saveAndClose: () => {
-            console.log('Saving and closing note editor');
-            console.log('Note to save:', editNote);
-            if (onClose) onClose()
-        }
-    }))
+    // useImperativeHandle(ref, () => ({
+    //     saveAndClose: () => {
+    //         console.log('Saving and closing note editor');
+    //         console.log('Note to save:', editNote);
+    //         if (onClose) onClose()
+    //     }
+    // }))
 
     // Only show add-todo input and hide txt textarea if editing a todos note
     const isTodosNote = Array.isArray(editNote.info.todos)
@@ -104,7 +48,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                         className="note-media-remove-btn"
                         aria-label="Remove media"
                     >
-                        <span class="material-symbols-outlined">delete</span>
+                        <span className="material-symbols-outlined">delete</span>
                     </button>
                     {editNote.type === 'NoteImg' && (
                         <img
@@ -175,10 +119,25 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
             )}
             <NoteEditorToolBar
                 note={editNote}
-                onSave={() => debouncedSave(editNote, onSave)}
+                onSave={() => editorService.debouncedSave(editNote, onSave)}
                 onClose={onClose}
                 onColor={e => onColorBtnClick(e, editNote)}
+                onImg={handleImgBtnClick}
+            />
+            <input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={fileInputRef}
+                onChange={handleFileChange}
             />
         </div>
     )
+
+    function handleAddTodoInput(e) {
+        if ((e.key === 'Enter' || e.type === 'blur') && newTodoValue.trim()) {
+            handleAddTodo(newTodoValue)
+            setNewTodoValue('')
+        }
+    }
 })
