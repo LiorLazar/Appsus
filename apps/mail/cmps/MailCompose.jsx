@@ -1,4 +1,4 @@
-import { showErrorMsg } from "../../../services/event-bus.service.js"
+import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 import { mailService } from "../services/mail.service.js"
 
 const { useState } = React
@@ -11,10 +11,12 @@ export function MailCompose() {
     function onSaveMail(ev) {
         ev.preventDefault()
         const sentMail = { ...mail, folder: 'sent' }
+        const user = mailService.getLoggedInUser()
+        sentMail.from = user.email
+        sentMail.sentAt = Date.now()
         mailService.save(sentMail)
             .then(() => {
-                const { subject, body, from, to } = mail
-                if (!subject || !body || !from || !to) navigate('/mail/sent')
+                showSuccessMsg('Mail Sent Successfully')
             })
             .catch(err => {
                 console.log('Cannot save mail:', err)

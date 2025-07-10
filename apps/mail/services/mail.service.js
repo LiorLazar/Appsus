@@ -11,7 +11,17 @@ export const mailService = {
     save,
     getEmptyMail,
     getDefaultFilter,
-    getFilterFromSearchParams
+    getFilterFromSearchParams,
+    getLoggedInUser
+}
+
+const loggedinUser = {
+    email: 'user@appsus.com',
+    fullname: 'Mahatma Appsus'
+}
+
+function getLoggedInUser() {
+    return loggedinUser
 }
 
 function query(filterBy = {}) {
