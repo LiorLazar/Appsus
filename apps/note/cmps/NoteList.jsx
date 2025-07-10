@@ -54,7 +54,6 @@ export function NoteList() {
     useEffect(() => {
         function handleOpenColorPickerModal(e) {
             const { note, btnRect } = e.detail;
-            console.log('ColorPickerModal open position:', btnRect);
             setPendingColor(note.style && note.style.backgroundColor ? note.style.backgroundColor : null);
             setModalPos({
                 top: btnRect.top,
@@ -62,7 +61,9 @@ export function NoteList() {
             });
             setSelectedNote(note);
             setIsColorModalOpen(true);
+            console.log('ColorPickerModal open position:', btnRect);
         }
+        
         window.addEventListener('openColorPickerModal', handleOpenColorPickerModal);
         return () => window.removeEventListener('openColorPickerModal', handleOpenColorPickerModal);
     }, []);
@@ -124,9 +125,16 @@ export function NoteList() {
         notelistService.handleModalClose(savedNotePromise, filterBy, setNotes, setModalNote, setModalRect)
     }
 
-    function handleEditorColorBtn(e, note) {
+    function handleEditorColorBtn(e, note, pos = null) {
         const btnRect = e.currentTarget.getBoundingClientRect();
-        setModalPos({ top: btnRect.bottom, left: btnRect.left });
+
+        if (pos) {
+            setModalPos({ top: pos.top, left: pos.left });
+        } else {
+            // If no position is provided, use the button's position
+            setModalPos({ top: btnRect.top, left: btnRect.left });
+        }
+
         setSelectedNote(note);
         setPendingColor(note.style && note.style.backgroundColor ? note.style.backgroundColor : null);
         setIsColorModalOpen(true);

@@ -9,6 +9,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
     const [editNote, setEditNote] = useState({ ...note })
     const [newTodoValue, setNewTodoValue] = useState('')
     const fileInputRef = React.useRef(null);
+    const paletteBtnRef = React.useRef(null);
 
     const handleChange = editorService.handleChange(setEditNote, editorService.debouncedSave, onSave);
     const handleRemoveMedia = editorService.handleRemoveMedia(setEditNote, editNote, editorService.debouncedSave, onSave);
@@ -112,10 +113,21 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                 note={editNote}
                 onSave={() => editorService.debouncedSave(editNote, onSave)}
                 onClose={onClose}
-                onColor={e => onColorBtnClick(e, editNote)}
+                onColor={e => {
+                    if (onColorBtnClick) {
+                        let pos = null;
+                        if (paletteBtnRef.current) {
+                            const rect = paletteBtnRef.current.getBoundingClientRect();
+                            pos = { top: rect.top + window.scrollY + 35, left: rect.left + window.scrollX };
+                            console.log('NoteEditor color button position:', pos);
+                        }
+                        onColorBtnClick(e, editNote, pos);
+                    }
+                }}
                 onImg={handleImgBtnClick}
                 onDuplicate={handleDuplicate}
                 onDelete={handleDelete}
+                paletteBtnRef={paletteBtnRef}
             />
             <input
                 type="file"
