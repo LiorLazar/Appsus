@@ -31,12 +31,12 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
 
   if (!isOpen) return null;
 
+  
   const style = adjustedPos
-    ? { position: 'absolute', top: adjustedPos.top, left: adjustedPos.left, zIndex: 10001 }
-    : { position: 'absolute', top: '100px', left: '100px', zIndex: 10001 };
-
-  console.log('ColorPickerModal rendered at:', adjustedPos);
-
+  ? { position: 'absolute', top: adjustedPos.top, left: adjustedPos.left, zIndex: 10001 }
+  : { position: 'absolute', top: '100px', left: '100px', zIndex: 10001 };
+  
+  console.log('ColorPickerModal render', adjustedPos);
   return (
     <div>
       <div
