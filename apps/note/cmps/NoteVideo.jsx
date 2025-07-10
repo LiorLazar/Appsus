@@ -2,8 +2,12 @@ import { NoteToolBar } from './NoteToolBar.jsx'
 import { NoteAnimate } from '../services/NoteAnimate.js'
 import { noteService } from '../services/note.service.js';
 
+function getDefaultNoteBgColor() {
+    return 'transparent';
+}
+
 export function NoteVideo({ note, containerRef, className = 'note-card', onUpdate, onCardClick, noteItemRef }) {
-    const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
+    const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : getDefaultNoteBgColor();
     const [title, setTitle] = React.useState(note.info.title);
     const [txt, setTxt] = React.useState(note.info.txt);
 
@@ -12,8 +16,19 @@ export function NoteVideo({ note, containerRef, className = 'note-card', onUpdat
         if (onCardClick) onCardClick(note, e);
     }
 
+    // Utility to get the correct border color for default notes
+    function getDefaultBorderColor() {
+        if (backgroundColor === 'transparent' || !backgroundColor) {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem('darkMode') === 'true') {
+                return '1px solid #5f6367';
+            }
+            return '1px solid #e0e0e0';
+        }
+        return 'none';
+    }
+
     return (
-        <div className={`${className} ${note.id} note-video ${className}`} style={{ backgroundColor }} onClick={handleCardClick}>
+        <div className={`${className} ${note.id} note-video ${className}`} style={{ backgroundColor, border: (backgroundColor === 'transparent' || !backgroundColor) ? getDefaultBorderColor() : undefined, borderRadius: 12 }} onClick={handleCardClick}>
             {title && <h2 className="note-title">{title}</h2>}
             <iframe
                 className="video-player"

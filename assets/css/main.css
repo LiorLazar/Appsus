@@ -8,6 +8,7 @@
 @import './cmps/AppHeader.css';
 @import './cmps/AppsMenu.css';
 @import './cmps/SideMenu.css';
+@import './cmps/Settings.css';
 
 @import './apps/note/NoteIndex.css';
 @import './apps/note/NoteCreateBar.css';

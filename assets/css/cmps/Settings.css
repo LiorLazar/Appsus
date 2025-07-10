@@ -1,0 +1,118 @@
+.settings-menu {
+    position: fixed;
+    top: 60px;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, .2);
+    z-index: 1000;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+.settings-menu-grid {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(60, 64, 67, .3);
+    padding: 1em;
+    display: grid;
+    grid-template-columns: repeat(3, 80px);
+    gap: 1em;
+    width: max-content;
+    margin: 2em 2em 0 0;
+}
+
+.settings-menu-grid a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #222;
+    font-size: 0.9em;
+    transition: background 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+    padding: 0.5em 0.2em;
+    width: 80px;
+    min-height: 90px;
+}
+
+.settings-menu-grid a:hover {
+    background: #f1f3f4;
+    box-shadow: 0 2px 8px rgba(60, 64, 67, .1);
+}
+
+.settings-menu-grid .material-symbols-outlined {
+    font-size: 32px;
+    margin-bottom: 0.3em;
+    display: block;
+}
+
+.settings-menu-grid a span,
+.settings-menu-grid a div {
+    text-align: center;
+    width: 100%;
+    word-break: break-word;
+}
+
+.switch-label {
+    display: flex;
+    align-items: center;
+    gap: 0.7em;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+.switch-label input[type="checkbox"] {
+    display: none;
+}
+.switch-label .slider {
+    width: 40px;
+    height: 22px;
+    background: #ccc;
+    border-radius: 22px;
+    position: relative;
+    transition: background 0.2s;
+    margin-left: 0.5em;
+}
+.switch-label .slider:before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+}
+.switch-label input[type="checkbox"]:checked + .slider {
+    background: #222;
+}
+.switch-label input[type="checkbox"]:checked + .slider:before {
+    transform: translateX(18px);
+}
+
+/* Dark mode styles */
+body.dark-mode {
+    background: #181818;
+    color: #f1f1f1;
+}
+body.dark-mode .note-header-bar,
+body.dark-mode .mail-header-bar,
+body.dark-mode .app-header {
+    background: #202124 !important;
+    color: #f1f1f1 !important;
+}
+body.dark-mode .settings-menu-grid {
+    background: #fff;
+    color: #222;
+}
+body.dark-mode .apps-menu-grid {
+    background: #fff;
+    color: #222;
+}
+body.dark-mode .main-content {
+    background: #202124 !important;
+    color: #f1f1f1 !important;
+}

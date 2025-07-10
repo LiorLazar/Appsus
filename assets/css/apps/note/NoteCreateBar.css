@@ -66,6 +66,7 @@
   height: 135px;
   min-height: 135px;
   max-height: 135px;
+  margin-top: 65px;
   transition: background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s, height 0.2s;
   box-sizing: border-box;
 }

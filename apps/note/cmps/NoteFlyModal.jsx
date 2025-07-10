@@ -10,7 +10,19 @@ export function NoteFlyModal({ note, rect, onClose, onColorBtnClick }) {
     const [modalSize, setModalSize] = useState({ width: 400, height: 300 })
     const [measured, setMeasured] = useState(false)
 
-    const liveBgColor = (note && note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#fff';
+    // Utility to get the correct background color
+    function getBgColor() {
+        if (note && note.style && note.style.backgroundColor && note.style.backgroundColor !== 'transparent') {
+            return note.style.backgroundColor;
+        }
+        // If transparent, check dark mode
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('darkMode') === 'true') {
+            return '#202124';
+        }
+        return '#fff';
+    }
+
+    const liveBgColor = getBgColor();
 
     // Measure note size after first render
     useEffect(() => {
@@ -67,7 +79,7 @@ export function NoteFlyModal({ note, rect, onClose, onColorBtnClick }) {
     function renderNote(note) {
         if (!note) return null;
         // Render the NoteEditor for measuring, but keep it absolutely positioned and hidden from layout
-        return <div ref={noteRef} style={{ position: 'absolute', top: 0, left: 0, width: 'auto', height: 'auto', visibility: 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={note} onSave={() => { }} onColorBtnClick={() => {}} /></div>
+        return <div ref={noteRef} style={{ position: 'absolute', top: 0, left: 0, width: 'auto', height: 'auto', visibility: 'hidden', pointerEvents: 'none', zIndex: -1 }}><NoteEditor note={{...note, style: {...note.style, backgroundColor: liveBgColor}}} onSave={() => { }} onColorBtnClick={() => {}} /></div>
     }
 
     const style = rect

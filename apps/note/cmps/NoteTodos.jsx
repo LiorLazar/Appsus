@@ -4,10 +4,14 @@ import { noteService } from '../services/note.service.js'
 const { useNavigate } = ReactRouterDOM
 const { useState, useEffect, useRef } = React
 
+function getDefaultNoteBgColor() {
+    return 'transparent';
+}
+
 export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpdate, onCardClick, noteItemRef }) {
     const [todos, setTodos] = useState(note.info.todos)
     const [showCompleted, setShowCompleted] = useState(false)
-    const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff'
+    const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : getDefaultNoteBgColor();
     const cardRef = useRef(null)
     const navigate = useNavigate();
 
@@ -67,11 +71,22 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
         }
     }, [note.info.todos])
 
+    // Utility to get the correct border color for default notes
+    function getDefaultBorderColor() {
+        if (backgroundColor === 'transparent' || !backgroundColor) {
+            if (typeof localStorage !== 'undefined' && localStorage.getItem('darkMode') === 'true') {
+                return '1px solid #5f6367';
+            }
+            return '1px solid #e0e0e0';
+        }
+        return 'none';
+    }
+
     return (
         <div
             ref={cardRef}
             className={`${className} ${note.id} ${className} ${showCompleted ? 'expanded-completed' : ''}`}
-            style={{ backgroundColor, minHeight: showCompleted && completedTodos.length ? 180 : 120, '--note-bg': backgroundColor }}
+            style={{ backgroundColor, border: (backgroundColor === 'transparent' || !backgroundColor) ? getDefaultBorderColor() : undefined, borderRadius: 12, minHeight: showCompleted && completedTodos.length ? 180 : 120, '--note-bg': backgroundColor }}
             onClick={handleCardClick}
         >
             {note.info.title && <h2 className="note-title">{note.info.title}</h2>}
