@@ -1,3 +1,27 @@
+.mail-search-bar-container {
+    padding-right: 30px;
+    max-width: 100%;
+    flex: 1 1 auto;
+}
+
+.mail-search-bar {
+    margin-left: 0;
+    margin-right: 0;
+    background-color: #e9eef6;
+    border-radius: 24px;
+    border: none;
+    box-sizing: border-box;
+    min-height: 48px;
+    max-width: 720px;
+    position: relative;
+    display: block;
+    margin-top: 0em;
+    unicode-bidi: isolate;
+    white-space: nowrap;
+    color: black;
+    font: 13px / 27px Roboto, Arial, sans-serif;
+}
+
 .mail-search-bar {
     display: flex;
     align-items: center;
