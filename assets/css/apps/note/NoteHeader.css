@@ -1,4 +1,6 @@
 .note-header-bar {
+    height: 48px;
+    padding: 8px; 
     display: flex;
 }
 
@@ -14,7 +16,9 @@
 .note-header {
     justify-content: start;
     gap: 0px;
+    padding: 0;
 }
+
 .header-bar.note-header-ba {
     display: flex;
     justify-content: flex-end;

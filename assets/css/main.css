@@ -48,14 +48,14 @@
     border-radius: 0 24px 24px 0;
     background: #fff;
     box-shadow: 0 2px 8px rgba(60, 64, 67, 0.08);
-    background: #f6f8fc;
+    background: #ffffff;
     transition: margin-left 0.3s;
 }
 
 .main-content {
     flex: 1;
     min-width: 0;
-    background: #f6f8fc;
+    background: #ffffff;
     transition: margin-left 0.3s;
 }
 
