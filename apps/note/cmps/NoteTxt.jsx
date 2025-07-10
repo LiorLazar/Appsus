@@ -1,8 +1,8 @@
-import { NoteToolBar } from './NoteToolBar.jsx'
+import { NoteToolBar } from './NoteToolBar.jsx';
 
-const { useNavigate } = ReactRouterDOM
+const { useNavigate } = ReactRouterDOM;
 
-export function NoteTxt({ note, className = 'note-card', onCardClick }) {
+export function NoteTxt({ note, className = 'note-card', onCardClick, noteItemRef }) {
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
     const navigate = useNavigate();
 
@@ -17,7 +17,7 @@ export function NoteTxt({ note, className = 'note-card', onCardClick }) {
             <div className={`note-txt`}>
                 {note.info.txt && <p className="note-text">{note.info.txt.length > 100 ? note.info.txt.slice(0, 100) + '\u2026' : note.info.txt}</p>}
             </div>
-            <NoteToolBar note={note} />
+            <NoteToolBar note={note} noteItemRef={noteItemRef} />
         </div>
     )
 }
