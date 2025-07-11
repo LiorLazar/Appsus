@@ -27,9 +27,9 @@
 }
 
 .note-header {
-    border-bottom: 0.2px solid #5f6367;
+    border-bottom: 1px solid #dadce0;
 }
 
 body.dark-mode .note-header {
-    border-bottom: 0.2px solid #dadce0;
+    border-bottom: 1px solid rgb(95, 99, 103);
 }

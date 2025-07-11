@@ -98,21 +98,39 @@ body.dark-mode {
     background: #181818;
     color: #f1f1f1;
 }
+
 body.dark-mode .note-header-bar,
 body.dark-mode .mail-header-bar,
 body.dark-mode .app-header {
     background: #202124 !important;
     color: #f1f1f1 !important;
 }
+
 body.dark-mode .settings-menu-grid {
     background: #fff;
     color: #222;
 }
+
 body.dark-mode .apps-menu-grid {
     background: #fff;
     color: #222;
 }
+
 body.dark-mode .main-content {
     background: #202124 !important;
     color: #f1f1f1 !important;
+}
+
+body.dark-mode .note-card[style*="background-color: transparent"] .note-title,
+body.dark-mode .note-card[style*="background-color: transparent"] .note-text,
+body.dark-mode .note-card[style*="background-color: transparent"] .todo-item,
+body.dark-mode .note-card[style*="background-color: transparent"] .todo-text {
+    color: #fff !important;
+}
+
+body.dark-mode .note-card[style*="background-color: rgb(32, 33, 36)"] .note-title,
+body.dark-mode .note-card[style*="background-color: rgb(32, 33, 36)"] .note-text,
+body.dark-mode .note-card[style*="background-color: rgb(32, 33, 36)"] .todo-item,
+body.dark-mode .note-card[style*="background-color: rgb(32, 33, 36)"] .todo-text {
+    color: #fff !important;
 }
