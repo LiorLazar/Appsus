@@ -347,7 +347,7 @@ function formatDateTime(ts) {
 }
 
 function getDefaultBorderColor(backgroundColor) {
-    if (backgroundColor === 'transparent' || !backgroundColor) {
+    if (backgroundColor === 'transparent' || backgroundColor === '#202124' || !backgroundColor) {
         if (typeof localStorage !== 'undefined' && localStorage.getItem('darkMode') === 'true') {
             return '1px solid #5f6367';
         }

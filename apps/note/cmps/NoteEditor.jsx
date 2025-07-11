@@ -159,6 +159,8 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
     }
 
     function handleDuplicate() {
+        console.log('Duplicating note:', editNote);
+        
         const { id, createdAt, ...rest } = editNote;
         const newNote = {
             ...rest,

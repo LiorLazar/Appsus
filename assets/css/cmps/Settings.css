@@ -67,6 +67,7 @@
     margin: 0.5em 0;
     justify-content: center;
     width: 100%;
+    pointer-events: none;
 }
 .switch-label input[type="checkbox"] {
     display: none;
@@ -79,6 +80,7 @@
     position: relative;
     transition: background 0.2s;
     margin-left: 0.5em;
+    pointer-events: auto;
 }
 .switch-label .slider:before {
     content: '';
