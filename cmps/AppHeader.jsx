@@ -4,7 +4,7 @@ import { NoteHeader } from "../apps/note/cmps/NoteHeader.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
 import { Settings } from "./Settings.jsx";
 
-const { useState, Fragment} = React
+const { useState, Fragment } = React
 const { Link, NavLink, useLocation } = ReactRouterDOM
 
 export function AppHeader({ onToggleMenu }) {
@@ -21,8 +21,9 @@ export function AppHeader({ onToggleMenu }) {
                 <span className="material-symbols-outlined burger-manu btn" onClick={onToggleMenu} style={{ cursor: 'pointer' }}>dehaze</span>
             }
             <Link to="/" className="logo">
-                <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
+                <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="assets/css/img/appsus.png" alt="Appsus logo" />
             </Link>
+            
             {isMail && <MailHeader />}
             {isNote && <NoteHeader />}
             {!isNote && (
