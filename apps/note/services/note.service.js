@@ -14,6 +14,8 @@ export const noteService = {
     addNote,
     getEmbedUrl,
     formatDateTime,
+    getDefaultBorderColor,
+    getDefaultNoteBgColor,
 }
 
 function query(filterBy = {}) {
@@ -344,3 +346,16 @@ function formatDateTime(ts) {
     return d.toLocaleString()
 }
 
+function getDefaultBorderColor(backgroundColor) {
+    if (backgroundColor === 'transparent' || !backgroundColor) {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('darkMode') === 'true') {
+            return '1px solid #5f6367';
+        }
+        return '1px solid #e0e0e0';
+    }
+    return 'none';
+}
+
+function getDefaultNoteBgColor() {
+    return 'transparent';
+}

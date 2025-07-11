@@ -10,6 +10,10 @@
     margin-left: 80px;
 }
 
+body.dark-mode .note-search-bar {
+    background: #524f56;
+}
+
 .note-search-bar .material-symbols-outlined {
     color: #5f6368;
     font-size: 24px;
@@ -26,6 +30,7 @@
     font-size: 1rem;
     color: #202124;
 }
+
 
 .note-search-bar .search-icon {
     margin-left: 11px;
@@ -46,4 +51,12 @@
     outline: none;
     width: 100%;
     box-sizing: border-box;
+}
+
+body.dark-mode .note-search-input::placeholder {
+    color: #e9e9e9;
+}
+
+body.dark-mode .note-search-bar .material-symbols-outlined {
+    color: #e9e9e9;
 }
