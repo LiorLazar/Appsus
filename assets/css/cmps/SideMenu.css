@@ -84,3 +84,11 @@
 .compose-btn:hover {
     background: #b3e0ff;
 }
+
+.menu-item.active.side-open {
+    background: #41331c;
+    color: #fff;
+    border-radius: 24px;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(65, 51, 28, 0.15);
+}

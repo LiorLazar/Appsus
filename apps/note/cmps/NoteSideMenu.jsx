@@ -1,5 +1,5 @@
 import { NoteAnimate } from '../services/NoteAnimate.js';
-const { useEffect } = React
+const { useEffect, useState } = React
 
 window.NoteAnimate = NoteAnimate;
 
@@ -9,8 +9,8 @@ const menuItems = [
     { name: 'Bin', icon: 'delete', filter: { folder: 'bin' } }
 ];
 
-export function NoteSideMenu({ isOpen, filterBy = {}, setFilterBy }) {
-    const folder = filterBy.folder || 'notes';
+export function NoteSideMenu({ isOpen, setFilterBy }) {
+    const [folder, setFolder] = useState('notes');
 
     useEffect(() => {
         setTimeout(() => {
@@ -24,6 +24,7 @@ export function NoteSideMenu({ isOpen, filterBy = {}, setFilterBy }) {
     }, [isOpen]);
 
     function handleMenuClick(item) {
+        setFolder(item.filter.folder);
         const event = new CustomEvent('note-folder-selected', { detail: { folder: item.filter.folder } });
         window.dispatchEvent(event);
         window.dispatchEvent(new Event('refreshNotes'));
@@ -34,7 +35,7 @@ export function NoteSideMenu({ isOpen, filterBy = {}, setFilterBy }) {
             {menuItems.map(item => (
                 <div
                     key={item.name}
-                    className={`menu-item${folder === item.filter.folder ? ' active' : ''}`}
+                    className={`menu-item${folder === item.filter.folder ? ' active' : ''} ${isOpen ? ' side-open' : ''}`}
                     onClick={() => handleMenuClick(item)}
                 >
                     <span className="material-symbols-outlined menu-item">{item.icon}</span>
