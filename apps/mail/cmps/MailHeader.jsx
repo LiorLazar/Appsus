@@ -1,3 +1,6 @@
+import { AppsMenu } from "../../../cmps/AppsMenu.jsx";
+import { Settings } from "../../../cmps/Settings.jsx";
+import { UserProfile } from "../../../cmps/UserProfile.jsx";
 import { utilService } from "../../../services/util.service.js";
 import { mailService } from "../services/mail.service.js";
 import { MailFilter } from "./MailFilter.jsx";
@@ -10,6 +13,8 @@ export function MailHeader() {
     const [filterBy, setFilterBy] = useState(mailService.getFilterFromSearchParams(searchParams))
     const truthyFilter = utilService.getTruthyValues(filterBy)
 
+    const [isAppsOpen, setIsAppsOpen] = useState(false)
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
     useEffect(() => {
         setSearchParams(truthyFilter)
@@ -26,9 +31,18 @@ export function MailHeader() {
                 defaultFilter={filterBy}
                 onSetFilterBy={onSetFilterBy}
             />
-            <div className="header-icons flex">
-              
-            </div>
+            <UserProfile />
+            {/* <div className="avatar">
+                <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
+            </div> */}
+            <span className="material-symbols-outlined btn"
+                onClick={() => setIsAppsOpen(prev => !prev)}
+            >apps</span>
+            <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
+            <span className="material-symbols-outlined btn"
+                onClick={() => setIsSettingsOpen(prev => !prev)}
+            >settings</span>
+            <Settings isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
         </section >
     )
 }
