@@ -28,7 +28,7 @@ export function NoteVideo({ note, containerRef, className = 'note-card', onUpdat
                 onLoad={() => NoteAnimate.handleImageLoad(containerRef && containerRef.current)}
                 onError={() => NoteAnimate.handleImageLoad(containerRef && containerRef.current)}
             />
-            {txt && <p className="note-content">{txt.length > 100 ? txt.slice(0, 100) + '\u2026' : txt}</p>}
+            {txt && <p className="note-text">{txt.length > 100 ? txt.slice(0, 100) + '\u2026' : txt}</p>}
             <NoteToolBar note={note} noteItemRef={noteItemRef} />
         </div>
     )
