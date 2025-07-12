@@ -12,9 +12,6 @@ export function AppHeader({ onToggleMenu }) {
     const isMail = location.pathname.includes("/mail")
     const isNote = location.pathname.includes("/note")
 
-    const [isAppsOpen, setIsAppsOpen] = useState(false)
-    const [isSettingsOpen, setIsSettingsOpen] = useState(false)
-
     if (!isMail && !isNote) return null
     return (
         <header className={isNote ? "note-header app-header" : "app-header"}>
@@ -24,29 +21,8 @@ export function AppHeader({ onToggleMenu }) {
             <Link to="/" className="logo">
                 <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="assets/img/appsus.png" alt="Appsus logo" />
             </Link>
-
             {isMail && <MailHeader />}
             {isNote && <NoteHeader />}
-            {!isNote && (
-                <Fragment>
-                    <div className="header-bar">
-                        <div className="avatar">
-                            <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
-                        </div>
-                        <span className="material-symbols-outlined btn"
-                            onClick={() => setIsAppsOpen(prev => !prev)}
-                        >apps</span>
-                        <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
-                        <span className="material-symbols-outlined btn"
-                            onClick={() => setIsSettingsOpen(prev => !prev)}
-                        >settings</span>
-                        <Settings isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
-                    </div>
-                    <nav>
-                        <NavLink to="/about" className="btn2">About</NavLink>
-                    </nav>
-                </Fragment>
-            )}
         </header >
     )
 }
