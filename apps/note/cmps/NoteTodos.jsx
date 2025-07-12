@@ -9,17 +9,11 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onCar
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : noteService.getDefaultNoteBgColor();
     const cardRef = useRef(null)
 
-    // Only update todos if note.id changes (not on every note.info.todos change)
-    useEffect(() => {
-        setTodos(note.info.todos)
-    }, [note.id])
-
     function toggleTodo(todoId) {
         const newTodos = todos.map(todo =>
             todo.id === todoId ? { ...todo, doneAt: todo.doneAt ? null : Date.now() } : todo
         )
         setTodos(newTodos)
-
         if (onHeightChange) onHeightChange()
 
         // Update the note in the service
@@ -48,8 +42,6 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onCar
 
     useEffect(() => {
         // Wait for DOM update before triggering masonry
-        console.log('NoteTodos useEffect triggered');
-        
         setTimeout(() => {
             const container = document.querySelector('.note-container')
             if (window.NoteAnimate && typeof window.NoteAnimate.initMasonry === 'function' && container) {
@@ -57,6 +49,21 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onCar
             }
         }, 100)
     }, [showCompleted])
+
+    useEffect(() => {
+        // Ensure each todo has a unique id (fallback if utilService.makeId is missing)
+        if (Array.isArray(note.info.todos)) {
+            const todosWithId = note.info.todos.map(todo =>
+                todo.id ? todo : { ...todo, id: (Date.now() + Math.random()).toString(36) }
+            )
+            if (JSON.stringify(todosWithId) !== JSON.stringify(note.info.todos)) {
+                noteService.save({ ...note, info: { ...note.info, todos: todosWithId } }).then(() => {setTodos(todosWithId)})
+            }
+            setTodos(todosWithId)
+        } else {
+            setTodos([])
+        }
+    }, [note.info.todos])
 
     return (
         <div

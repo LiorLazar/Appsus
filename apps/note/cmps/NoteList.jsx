@@ -13,7 +13,14 @@ const { useSearchParams } = ReactRouterDOM;
 
 export function NoteList({ isOpen }) {
     const [searchParams, setSearchParams] = useSearchParams();
-    const filterBy = noteService.getFilterFromSearchParams(searchParams);
+    // Custom getSearchParams to extract folder and txt
+    function getSearchParams(params) {
+        const folder = params.get('folder') || '';
+        const txt = params.get('txt') || '';
+        return { folder, txt };
+    }
+    const customParams = getSearchParams(searchParams);
+    const filterBy = { ...noteService.getFilterFromSearchParams(searchParams), ...customParams };
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [notes, setNotes] = useState([])
     const [isColorModalOpen, setIsColorModalOpen] = useState(false)
@@ -29,6 +36,16 @@ export function NoteList({ isOpen }) {
 
     useEffect(() => {
         notelistService.loadNotes(filterBy, setNotes, setError);
+        function handleRefreshNotes() {
+  
+            // notelistService.loadNotes(filterBy, setNotes, setError)
+        }
+        
+        window.addEventListener('refreshNotes', handleRefreshNotes)
+        return () => {
+            window.removeEventListener('refreshNotes', handleRefreshNotes)
+        }
+ 
     }, [filterBy])
 
     useEffect(() => {

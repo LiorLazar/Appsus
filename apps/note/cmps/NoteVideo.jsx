@@ -7,6 +7,11 @@ export function NoteVideo({ note, containerRef, className = 'note-card', onUpdat
     const [title, setTitle] = React.useState(note.info.title);
     const [txt, setTxt] = React.useState(note.info.txt);
 
+    React.useEffect(() => {
+        setTitle(note.info.title);
+        setTxt(note.info.txt);
+    }, [note.info.title, note.info.txt]);
+
     function handleCardClick(e) {
         if (e.target.closest('button, [role="button"], a, input, textarea, select, label')) return;
         if (onCardClick) onCardClick(note, e);
