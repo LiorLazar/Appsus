@@ -20,6 +20,8 @@ export function NoteHeader() {
     }, [filterBy])
 
     function onSetFilterBy(filterBy) {
+        console.log('Setting filterBy:', filterBy);
+        
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
 

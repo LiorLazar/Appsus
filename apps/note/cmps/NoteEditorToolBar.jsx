@@ -35,9 +35,9 @@ export function NoteEditorToolBar({ note, onClose, className = 'note-editor-tool
             {showDeleteModal && (
                 <div className="delete-modal-backdrop">
                     <div className="delete-modal">
-                        <h2>Delete Note?</h2>
-                        <p>Are you sure you want to delete this note? This action cannot be undone.</p>
-                        <button onClick={confirmDelete}>Delete</button>
+                        <h2>{note.folder !== 'bin' ? 'Bin' : 'Delete'} Note?</h2>
+                        {note.folder === 'bin' && <p>Are you sure you want to delete this note? This action cannot be undone.</p>}
+                        <button onClick={confirmDelete}>{note.folder !== 'bin' ? 'Bin' : 'Delete'}</button>
                         <button onClick={cancelDelete}>Cancel</button>
                     </div>
                 </div>

@@ -181,10 +181,23 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
 
     function handleDelete() {
         if (!editNote.id) return;
-        noteService.remove(editNote.id).then(() => {
+
+        if (editNote.folder === 'bin') {
+            noteService.remove(editNote.id).then(() => {
+                if (onClose) onClose();
+                window.dispatchEvent(new Event('refreshNotes'));
+                showSuccessMsg('Note deleted successfully');
+            });
+            return;
+        }
+
+        // Move to bin
+        editNote.folder = 'bin';
+        noteService.save(editNote).then(() => {
             if (onClose) onClose();
             window.dispatchEvent(new Event('refreshNotes'));
-            showSuccessMsg('Note deleted successfully');
-        });
+            showSuccessMsg('Note moved to bin successfully');
+        }
+        );
     }
 })
