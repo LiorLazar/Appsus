@@ -138,6 +138,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                 }}
                 onImg={handleImgBtnClick}
                 onDuplicate={handleDuplicate}
+                onArchice={handleArchive}
                 onDelete={handleDelete}
                 paletteBtnRef={paletteBtnRef}
             />
@@ -177,6 +178,14 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
             noteService.save(newNote);
         }
         showSuccessMsg('Note duplicated successfully');
+    }
+    function handleArchive() {
+        editNote.folder = 'archive';
+        noteService.save(editNote).then(() => {
+            if (onClose) onClose();
+            window.dispatchEvent(new Event('refreshNotes'));
+            showSuccessMsg('Note archived successfully');
+        });
     }
 
     function handleDelete() {

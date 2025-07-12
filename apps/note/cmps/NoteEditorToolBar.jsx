@@ -1,6 +1,6 @@
 const { useState } = React
 
-export function NoteEditorToolBar({ note, onClose, className = 'note-editor-toolbar', onColor, onImg, onDuplicate, onDelete, paletteBtnRef }) {
+export function NoteEditorToolBar({ note, onClose, className = 'note-editor-toolbar', onColor, onImg, onDuplicate, onArchice, onDelete, paletteBtnRef }) {
     const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     function handleDeleteClick() {
@@ -27,6 +27,10 @@ export function NoteEditorToolBar({ note, onClose, className = 'note-editor-tool
                 <button className="btn btn-duplicate" type="button">
                     <span className="material-symbols-outlined btn-small" onClick={onDuplicate}>content_copy</span>
                 </button>
+                { note.folder !== 'archive' &&
+                <button className="btn btn-archive" type="button">
+                    <span className="material-symbols-outlined btn-small" onClick={onArchice}>archive</span>
+                </button>}
                 <button className="btn btn-delete" type="button" onClick={handleDeleteClick}>
                     <span className="material-symbols-outlined btn-small">delete</span>
                 </button>
