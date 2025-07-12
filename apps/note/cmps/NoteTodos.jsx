@@ -13,14 +13,12 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onCar
         const newTodos = todos.map(todo =>
             todo.id === todoId ? { ...todo, doneAt: todo.doneAt ? null : Date.now() } : todo
         )
-        setTodos(newTodos)
         if (onHeightChange) onHeightChange()
 
         // Update the note in the service
         noteService.save({ ...note, info: { ...note.info, todos: newTodos } })
             .then(() => {
                 console.log('Note updated successfully')
-
             })
     }
 
