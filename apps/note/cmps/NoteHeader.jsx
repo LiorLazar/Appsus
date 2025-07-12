@@ -65,7 +65,7 @@ export function NoteHeader() {
                     {isRefreshing ? (
                         <span className="material-symbols-outlined btn loading-spinner" style={{ animation: 'spin 1.2s linear infinite' }}>progress_activity</span>
                     ) : showCheckIcon ? (
-                        <span className="material-symbols-outlined btn" style={{ color: 'green' }}>cloud_done</span>
+                        <span className="material-symbols-outlined btn">cloud_done</span>
                     ) : (
                         <span className="material-symbols-outlined btn" onClick={handleRefresh}>refresh</span>
                     )}

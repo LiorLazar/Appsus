@@ -36,7 +36,6 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
     ? { position: 'absolute', top: adjustedPos.top, left: adjustedPos.left, zIndex: 10001 }
     : { position: 'absolute', top: '100px', left: '100px', zIndex: 10001 };
 
-  console.log('ColorPickerModal rendered at:', adjustedPos);
 
   return (
     <div>

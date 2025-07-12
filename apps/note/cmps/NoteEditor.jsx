@@ -131,7 +131,6 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
                         if (paletteBtnRef.current) {
                             const rect = paletteBtnRef.current.getBoundingClientRect();
                             pos = { top: rect.top + window.scrollY + 35, left: rect.left + window.scrollX };
-                            console.log('NoteEditor color button position:', pos);
                         }
                         onColorBtnClick(e, editNote, pos);
                     }
@@ -177,6 +176,7 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
         } else {
             noteService.save(newNote);
         }
+        onClose && onClose();
         showSuccessMsg('Note duplicated successfully');
     }
     function handleArchive() {
