@@ -32,6 +32,8 @@ function query(filterBy = {}) {
 
             if (filterBy.folder) {
                 notes = notes.filter(note => note.folder === filterBy.folder)
+            } else {
+                notes = notes.filter(note => note.folder === 'notes')
             }
             // if (filterBy.minNoteTxt) {
             //     notes = notes.filter(note => note.notetxt >= filterBy.minNoteTxt)
