@@ -19,6 +19,7 @@
     display: none;
 }
 .note-side-menu.open .item-name {
+    font-size: 16px;
     display: block;
 }
 .note-side-menu.open {
@@ -66,7 +67,6 @@
 }
 .menu-item.active span:last-child {
     color: #fff;
-    font-weight: 600;
 }
 .menu-item:not(.active):hover {
     background: #292a2d;
