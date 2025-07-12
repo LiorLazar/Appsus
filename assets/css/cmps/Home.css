@@ -1,33 +1,59 @@
- /* home */
+/* home */
+.home h1 {
+    font-size: 6rem;
+}
 
 .home {
-    background-color: var(--bg2);
+    text-align: center;
 }
 
-.home .box-container {
-    padding: 1em 0;
+/* Make both logos the same size as Gmail logo */
+.home .mail-logo,
+.home .keep-logo {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    /* Maintains aspect ratio while fitting within the size */
 }
 
-.home .box1 {
-    background-color: var(--color1);
-    min-height: 10em;
+.home .apps-container {
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
-.home .box2 {
-    background-color: var(--color2);
-    min-height: 10em;
+.home h4 {
+    font-size: 1.5rem;
+    color: grey;
+    margin-top: 10px;
+    font-style: 18px;
 }
 
- @media (min-width: 750px) {
-    .home .box-container {
-        display: flex;
-        flex-direction: row-reverse;
-    }
-    .home .box1 {
-        flex: 1
-    }
-    .home .box2 {
-        width: 30vw;
-    }
-    
+/* Style the About link */
+.home .about {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 12px 24px;
+    background: linear-gradient(45deg, #4285f4, #34a853);
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 1.2rem;
+    font-weight: 500;
+    font-family: 'Product Sans', Arial, sans-serif;
+    box-shadow: 0 4px 12px rgba(66, 133, 244, 0.3);
+    transition: all 0.3s ease;
+}
+
+.home .about:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(66, 133, 244, 0.4);
+    background: linear-gradient(45deg, #3367d6, #2d8f47);
+}
+
+.home .about:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
 }

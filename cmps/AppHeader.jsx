@@ -15,13 +15,14 @@ export function AppHeader({ onToggleMenu }) {
     const [isAppsOpen, setIsAppsOpen] = useState(false)
     const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
+    if (!isMail && !isNote) return null
     return (
         <header className={isNote ? "note-header app-header" : "app-header"}>
             {(isMail || isNote) &&
                 <span className="material-symbols-outlined burger-manu btn" onClick={onToggleMenu} style={{ cursor: 'pointer' }}>dehaze</span>
             }
             <Link to="/" className="logo">
-                <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="assets/css/img/appsus.png" alt="Appsus logo" />
+                <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="assets/img/appsus.png" alt="Appsus logo" />
             </Link>
 
             {isMail && <MailHeader />}
