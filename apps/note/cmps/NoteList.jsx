@@ -32,19 +32,6 @@ export function NoteList({ isOpen }) {
     }, [filterBy])
 
     useEffect(() => {
-        console.log('refreshNotes event listener added');
-        
-        function handleRefreshNotes() {
-            
-            notelistService.loadNotes(filterBy, setNotes, setError)
-        }
-        window.addEventListener('refreshNotes', handleRefreshNotes)
-        return () => {
-            window.removeEventListener('refreshNotes', handleRefreshNotes)
-        }
-    }, [])
-
-    useEffect(() => {
         notelistService.setupMasonryAndListeners(pinnedContainerRef, notes, modalNote)
         notelistService.setupMasonryAndListeners(unpinnedContainerRef, notes, modalNote)
     }, [notes, modalNote])
