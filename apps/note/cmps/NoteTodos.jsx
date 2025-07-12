@@ -3,7 +3,7 @@ import { noteService } from '../services/note.service.js'
 
 const { useState, useEffect, useRef } = React
 
-export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpdate, onCardClick, noteItemRef }) {
+export function NoteTodos({ note, onHeightChange, className = 'note-card', onCardClick, noteItemRef }) {
     const [todos, setTodos] = useState(note.info.todos)
     const [showCompleted, setShowCompleted] = useState(false)
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : noteService.getDefaultNoteBgColor();
@@ -47,7 +47,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onUpd
             if (window.NoteAnimate && typeof window.NoteAnimate.initMasonry === 'function' && container) {
                 window.NoteAnimate.initMasonry(container)
             }
-        }, 50)
+        }, 100)
     }, [showCompleted])
 
     useEffect(() => {
