@@ -1,12 +1,18 @@
-import { showSuccessMsg } from '../services/event-bus.service.js'
+
+const { Link } = ReactRouterDOM
 
 export function Home() {
-    return <section className="container home">
-        <h1>Welcome home</h1>
-        <button onClick={() => showSuccessMsg('Yep, that works')}>Show Msg</button>
-        <div className="box-container">
-            <div className="box1"></div>
-            <div className="box2"></div>
+    return <section className="home">
+        <h1>Appsus</h1>
+        <h4>Center All Your Everyday Apps Into One Location</h4>
+        <div className='apps-container'>
+            <Link to='mail/inbox'>
+                <img className="mail-logo" src="../assets/img/gmail-logo.webp" alt="Gmail" />
+            </Link>
+            <Link to="note">
+                <img className="keep-logo" src="../assets/img/keep-logo.png" alt="Google Keep" />
+            </Link>
         </div>
-    </section>
+        <Link className="about" to='/about'>About</Link>
+    </section >
 }
