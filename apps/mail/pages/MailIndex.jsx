@@ -1,6 +1,7 @@
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 import { utilService } from "../../../services/util.service.js"
 import { MailList } from "../cmps/MailList.jsx"
+import { MailSort } from "../cmps/MailSort.jsx"
 import { mailService } from "../services/mail.service.js"
 
 const { useState, useEffect } = React
@@ -40,6 +41,7 @@ export function MailIndex() {
     }
     return (
         <section className="mail-index">
+            <MailSort />
             {
                 (filterBy.folder === 'inbox' || !filterBy.folder) && (
                     <div className="categories">
