@@ -10,6 +10,7 @@
 @import './cmps/SideMenu.css';
 @import './cmps/Settings.css';
 @import './cmps/About.css';
+@import './cmps/UserProfile.css';
 
 @import './apps/note/NoteIndex.css';
 @import './apps/note/NoteCreateBar.css';

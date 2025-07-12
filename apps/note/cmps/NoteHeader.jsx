@@ -3,6 +3,7 @@ import { noteService } from "../services/note.service.js"
 import { NoteFilter } from "./NoteFilter.jsx"
 import { AppsMenu } from "../../../cmps/AppsMenu.jsx";
 import { Settings } from "../../../cmps/Settings.jsx"
+import { UserProfile } from '../../../cmps/UserProfile.jsx';
 
 const { useState, useEffect, Fragment } = React
 const { useSearchParams, useNavigate } = ReactRouterDOM
@@ -64,7 +65,7 @@ export function NoteHeader() {
                     {isRefreshing ? (
                         <span className="material-symbols-outlined btn loading-spinner" style={{ animation: 'spin 1.2s linear infinite' }}>progress_activity</span>
                     ) : showCheckIcon ? (
-                        <span className="material-symbols-outlined btn">cloud_done</span>
+                        <span className="material-symbols-outlined btn" style={{ color: 'green' }}>cloud_done</span>
                     ) : (
                         <span className="material-symbols-outlined btn" onClick={handleRefresh}>refresh</span>
                     )}
@@ -74,9 +75,7 @@ export function NoteHeader() {
                     <span className="material-symbols-outlined btn apps-btn"
                         onClick={() => setIsAppsOpen(prev => !prev)}
                     >apps</span>
-                    <div className="avatar">
-                        <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
-                    </div>
+                    <UserProfile />
                 </div>
                 <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
                 <Settings isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
