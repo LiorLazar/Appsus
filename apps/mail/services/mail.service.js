@@ -195,15 +195,22 @@ function _createMails() {
     let mails = utilService.loadFromStorage(MAIL_KEY)
     if (!mails || !mails.length) {
 
+        const now = Date.now()
+        const oneHour = 1000 * 60 * 60
+        const oneDay = oneHour * 24
+        const oneWeek = oneDay * 7
+        const oneMonth = oneDay * 30
+        const oneYear = oneDay * 365
+
         const mails = [
-            // INBOX EMAILS (8 emails)
+            // INBOX EMAILS (8 emails) - Recent dates
             {
                 id: 'e101',
-                createdAt: 1551133930500,
+                createdAt: now - (2 * oneHour), // 2 hours ago
                 subject: 'Miss you!',
                 body: 'Would love to catch up sometimes. How have you been? Let\'s plan a coffee date soon!',
                 isRead: false,
-                sentAt: 1551133930594,
+                sentAt: now - (2 * oneHour),
                 removedAt: null,
                 from: 'momo@momo.com',
                 to: 'user@appsus.com',
@@ -212,11 +219,11 @@ function _createMails() {
             },
             {
                 id: 'e102',
-                createdAt: 1551134930500,
+                createdAt: now - (5 * oneHour), // 5 hours ago
                 subject: 'Project Update - Sprint 3',
                 body: 'The project is on track for next week\'s deadline. All features are implemented and testing is in progress.',
                 isRead: false,
-                sentAt: 1551134930594,
+                sentAt: now - (5 * oneHour),
                 removedAt: null,
                 from: 'team@appsus.com',
                 to: 'user@appsus.com',
@@ -225,11 +232,11 @@ function _createMails() {
             },
             {
                 id: 'e103',
-                createdAt: 1551135930500,
+                createdAt: now - oneDay, // Yesterday
                 subject: 'Annual Company Event Invitation',
                 body: 'You are invited to our annual event! Join us for networking, food, and fun activities.',
                 isRead: true,
-                sentAt: 1551135930594,
+                sentAt: now - oneDay,
                 removedAt: null,
                 from: 'events@appsus.com',
                 to: 'user@appsus.com',
@@ -238,11 +245,11 @@ function _createMails() {
             },
             {
                 id: 'e104',
-                createdAt: 1551136930500,
+                createdAt: now - (2 * oneDay), // 2 days ago
                 subject: 'Meeting Reminder: Team Standup',
                 body: 'Don\'t forget about our team standup meeting tomorrow at 9 AM. We\'ll discuss the sprint progress.',
                 isRead: false,
-                sentAt: 1551136930594,
+                sentAt: now - (2 * oneDay),
                 removedAt: null,
                 from: 'calendar@appsus.com',
                 to: 'user@appsus.com',
@@ -251,11 +258,11 @@ function _createMails() {
             },
             {
                 id: 'e105',
-                createdAt: 1551137930500,
+                createdAt: now - (3 * oneDay), // 3 days ago
                 subject: 'Your Netflix subscription is expiring',
                 body: 'Your Netflix subscription will expire in 3 days. Renew now to continue enjoying unlimited streaming.',
                 isRead: true,
-                sentAt: 1551137930594,
+                sentAt: now - (3 * oneDay),
                 removedAt: null,
                 from: 'billing@netflix.com',
                 to: 'user@appsus.com',
@@ -264,11 +271,11 @@ function _createMails() {
             },
             {
                 id: 'e106',
-                createdAt: 1551138930500,
+                createdAt: now - (5 * oneDay), // 5 days ago (this week)
                 subject: 'Weekend Plans?',
                 body: 'Hey! Want to go hiking this weekend? The weather looks perfect and I found a new trail.',
                 isRead: false,
-                sentAt: 1551138930594,
+                sentAt: now - (5 * oneDay),
                 removedAt: null,
                 from: 'alex@friends.com',
                 to: 'user@appsus.com',
@@ -277,11 +284,11 @@ function _createMails() {
             },
             {
                 id: 'e107',
-                createdAt: 1551139930500,
+                createdAt: now - (10 * oneDay), // 10 days ago
                 subject: 'Code Review Request',
                 body: 'Could you please review my pull request for the new mail component? It\'s ready for testing.',
                 isRead: false,
-                sentAt: 1551139930594,
+                sentAt: now - (10 * oneDay),
                 removedAt: null,
                 from: 'developer@appsus.com',
                 to: 'user@appsus.com',
@@ -290,11 +297,11 @@ function _createMails() {
             },
             {
                 id: 'e108',
-                createdAt: 1551140930500,
+                createdAt: now - (15 * oneDay), // 15 days ago
                 subject: 'Flash Sale: 50% Off Everything!',
                 body: 'Limited time offer! Get 50% off all items in our store. Sale ends midnight tonight!',
                 isRead: true,
-                sentAt: 1551140930594,
+                sentAt: now - (15 * oneDay),
                 removedAt: null,
                 from: 'sales@techstore.com',
                 to: 'user@appsus.com',
@@ -302,14 +309,14 @@ function _createMails() {
                 category: 'Promotions'
             },
 
-            // SENT EMAILS (5 emails)
+            // SENT EMAILS (5 emails) - Mixed dates
             {
                 id: 'e201',
-                createdAt: 1551141930500,
+                createdAt: now - (30 * 60 * 1000), // 30 minutes ago
                 subject: 'Re: Meeting Agenda',
                 body: 'Thanks for sharing the agenda. I\'ve added my topics to discuss. Looking forward to the meeting.',
                 isRead: true,
-                sentAt: 1551141930594,
+                sentAt: now - (30 * 60 * 1000),
                 removedAt: null,
                 from: 'user@appsus.com',
                 to: 'manager@appsus.com',
@@ -318,11 +325,11 @@ function _createMails() {
             },
             {
                 id: 'e202',
-                createdAt: 1551142930500,
+                createdAt: now - (6 * oneHour), // 6 hours ago
                 subject: 'Vacation Request - Next Month',
                 body: 'I would like to request vacation days from March 15-22. I\'ve completed all my current projects.',
                 isRead: true,
-                sentAt: 1551142930594,
+                sentAt: now - (6 * oneHour),
                 removedAt: null,
                 from: 'user@appsus.com',
                 to: 'hr@appsus.com',
@@ -331,11 +338,11 @@ function _createMails() {
             },
             {
                 id: 'e203',
-                createdAt: 1551143930500,
+                createdAt: now - (4 * oneDay), // 4 days ago
                 subject: 'Happy Birthday!',
                 body: 'Hope you have a wonderful birthday celebration! Can\'t wait to see you at the party tonight.',
                 isRead: true,
-                sentAt: 1551143930594,
+                sentAt: now - (4 * oneDay),
                 removedAt: null,
                 from: 'user@appsus.com',
                 to: 'sarah@friends.com',
@@ -344,11 +351,11 @@ function _createMails() {
             },
             {
                 id: 'e204',
-                createdAt: 1551144930500,
+                createdAt: now - (oneWeek), // 1 week ago
                 subject: 'Bug Report - Login Issue',
                 body: 'Found a bug in the login system. Users can\'t reset passwords. Details and screenshots attached.',
                 isRead: true,
-                sentAt: 1551144930594,
+                sentAt: now - (oneWeek),
                 removedAt: null,
                 from: 'user@appsus.com',
                 to: 'bugs@appsus.com',
@@ -357,11 +364,11 @@ function _createMails() {
             },
             {
                 id: 'e205',
-                createdAt: 1551145930500,
+                createdAt: now - (2 * oneWeek), // 2 weeks ago
                 subject: 'Thank you for the recommendation',
                 body: 'Thanks for recommending that restaurant! The food was amazing and the service was excellent.',
                 isRead: true,
-                sentAt: 1551145930594,
+                sentAt: now - (2 * oneWeek),
                 removedAt: null,
                 from: 'user@appsus.com',
                 to: 'foodie@friends.com',
@@ -369,14 +376,14 @@ function _createMails() {
                 category: 'Social'
             },
 
-            // STARRED EMAILS (4 emails)
+            // STARRED EMAILS (4 emails) - Important dates
             {
                 id: 'e301',
-                createdAt: 1551146930500,
+                createdAt: now - (45 * 60 * 1000), // 45 minutes ago - recent important
                 subject: 'Important: Server Maintenance Tonight',
                 body: 'URGENT: Servers will be down for maintenance from 11 PM to 3 AM. Please save your work.',
                 isRead: true,
-                sentAt: 1551146930594,
+                sentAt: now - (45 * 60 * 1000),
                 removedAt: null,
                 from: 'admin@appsus.com',
                 to: 'user@appsus.com',
@@ -385,11 +392,11 @@ function _createMails() {
             },
             {
                 id: 'e302',
-                createdAt: 1551147930500,
+                createdAt: now - (oneMonth), // 1 month ago
                 subject: 'Contract Renewal - Please Review',
                 body: 'Your employment contract is up for renewal. Please review the attached document and sign.',
                 isRead: false,
-                sentAt: 1551147930594,
+                sentAt: now - (oneMonth),
                 removedAt: null,
                 from: 'legal@appsus.com',
                 to: 'user@appsus.com',
@@ -398,11 +405,11 @@ function _createMails() {
             },
             {
                 id: 'e303',
-                createdAt: 1551148930500,
+                createdAt: now - (2 * oneMonth), // 2 months ago
                 subject: 'Flight Confirmation - NYC Trip',
                 body: 'Your flight to NYC is confirmed. Flight AA123 departing March 10 at 8:30 AM. Check-in online.',
                 isRead: true,
-                sentAt: 1551148930594,
+                sentAt: now - (2 * oneMonth),
                 removedAt: null,
                 from: 'bookings@airline.com',
                 to: 'user@appsus.com',
@@ -411,11 +418,11 @@ function _createMails() {
             },
             {
                 id: 'e304',
-                createdAt: 1551149930500,
+                createdAt: now - (6 * oneMonth), // 6 months ago
                 subject: 'Recipe: Grandma\'s Secret Pasta',
                 body: 'Finally sharing grandma\'s secret pasta recipe! You\'ve been asking for years. Don\'t share it!',
                 isRead: true,
-                sentAt: 1551149930594,
+                sentAt: now - (6 * oneMonth),
                 removedAt: null,
                 from: 'family@relatives.com',
                 to: 'user@appsus.com',
@@ -423,15 +430,15 @@ function _createMails() {
                 category: 'Social'
             },
 
-            // TRASH EMAILS (3 emails)
+            // TRASH EMAILS (3 emails) - Old dates
             {
                 id: 'e401',
-                createdAt: 1551150930500,
+                createdAt: now - (3 * oneMonth), // 3 months ago
                 subject: 'SPAM: You\'ve won $1,000,000!',
                 body: 'Congratulations! You\'ve won our lottery! Click here to claim your prize now!!!',
                 isRead: false,
-                sentAt: 1551150930594,
-                removedAt: 1551151930594,
+                sentAt: now - (3 * oneMonth),
+                removedAt: now - (3 * oneMonth) + oneDay,
                 from: 'scam@lottery.fake',
                 to: 'user@appsus.com',
                 folder: 'trash',
@@ -439,12 +446,12 @@ function _createMails() {
             },
             {
                 id: 'e402',
-                createdAt: 1551151930500,
+                createdAt: now - (oneYear), // 1 year ago
                 subject: 'Old Newsletter - Tech Weekly',
                 body: 'This week in tech: AI developments, new frameworks, and industry news from last month.',
                 isRead: true,
-                sentAt: 1551151930594,
-                removedAt: 1551152930594,
+                sentAt: now - (oneYear),
+                removedAt: now - (oneYear) + (2 * oneDay),
                 from: 'news@techweekly.com',
                 to: 'user@appsus.com',
                 folder: 'trash',
@@ -452,12 +459,12 @@ function _createMails() {
             },
             {
                 id: 'e403',
-                createdAt: 1551152930500,
+                createdAt: now - (2 * oneYear), // 2 years ago
                 subject: 'Expired Event Invitation',
                 body: 'Join us for the conference that already happened last week. This event is now over.',
                 isRead: true,
-                sentAt: 1551152930594,
-                removedAt: 1551153930594,
+                sentAt: now - (2 * oneYear),
+                removedAt: now - (2 * oneYear) + (3 * oneDay),
                 from: 'expired@events.com',
                 to: 'user@appsus.com',
                 folder: 'trash',
@@ -465,7 +472,7 @@ function _createMails() {
             }
         ]
 
-        console.log('Created 20 mock emails:', mails)
+        console.log('Created 20 mock emails with varied timestamps:', mails)
         utilService.saveToStorage(MAIL_KEY, mails)
     }
 }
