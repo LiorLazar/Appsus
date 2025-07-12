@@ -4,7 +4,7 @@ import { MailList } from "../cmps/MailList.jsx"
 import { mailService } from "../services/mail.service.js"
 
 const { useState, useEffect } = React
-const { useSearchParams } = ReactRouterDOM
+const { useSearchParams, Outlet } = ReactRouterDOM
 
 export function MailIndex() {
     const [mails, setMails] = useState(null)
@@ -77,6 +77,7 @@ export function MailIndex() {
                 )
             }
             <MailList mails={mails} setMails={setMails} />
+            <Outlet />
         </section >
     )
 }

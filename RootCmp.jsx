@@ -29,8 +29,10 @@ export function RootCmp() {
                         <Routes>
                             <Route path="/" element={<Home />} />
                             <Route path="/about" element={<About />} />
-                            <Route path="/mail/inbox" element={<MailIndex />} />
-                            <Route path="/mail/compose" element={<MailCompose />} />
+                            <Route path="/mail/inbox" element={<MailIndex />}>
+                                <Route path="compose" element={<MailCompose />} />
+                            </Route>
+                            {/* <Route path="/mail/compose" element={<MailCompose />} /> */}
                             <Route path="/mail/:mailId" element={<MailDetails />} />
                             <Route path="/note" element={<NoteIndex />} />
                             <Route path="*" element={<NotFound />} />
@@ -39,6 +41,6 @@ export function RootCmp() {
                 </div>
                 <UserMsg />
             </section>
-        </Router>
+        </Router >
     )
 }
