@@ -1,4 +1,5 @@
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
+import { noteService } from "../../note/services/note.service.js"
 import { mailService } from "../services/mail.service.js"
 import { MailPreview } from "./MailPreview.jsx"
 
@@ -64,6 +65,22 @@ export function MailList({ mails, setMails }) {
             })
     }
 
+    function onCreateNote(mailId) {
+        mailService.get(mailId)
+            .then(mail => {
+                const mailContent = `From: ${mail.from}\nTo: ${mail.to}\nMail Content: ${mail.body}`
+                noteService.addNote(mailContent, mail.subject)
+                    .then(() => {
+                        // setInputValue(mailContent)
+                        // setTitleValue(mail.subject)
+                        // setSelectedColor(null)
+                        // setIsExpanded(false)
+                        console.log('Note added successfully')
+                        showSuccessMsg('Note added successfully!')
+                    })
+            })
+    }
+
     return (
         <div className="mail-list container">
             {mails.map(mail => (
@@ -73,6 +90,7 @@ export function MailList({ mails, setMails }) {
                         onRemoveMail={onRemoveMail}
                         onArchiveMail={onArchiveMail}
                         onMarkMail={onMarkMail}
+                        onCreateNote={onCreateNote}
                     />
                 </Link>
             ))}

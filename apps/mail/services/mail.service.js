@@ -2,6 +2,9 @@ import { storageService } from "../../../services/async-storage.service.js"
 import { utilService } from "../../../services/util.service.js"
 
 const MAIL_KEY = 'mailDB'
+let gQueryOptions = {
+    sortBy: { sortField: '', sortDir: 0 }
+}
 _createMails()
 
 export const mailService = {
@@ -12,7 +15,9 @@ export const mailService = {
     getEmptyMail,
     getDefaultFilter,
     getFilterFromSearchParams,
-    getLoggedInUser
+    getLoggedInUser,
+    getOrderItems,
+    setSortBy
 }
 
 const loggedinUser = {
@@ -27,6 +32,7 @@ function getLoggedInUser() {
 function query(filterBy = {}) {
     return storageService.query(MAIL_KEY)
         .then(mails => {
+            // Apply filters first
             if (filterBy.txt) {
                 const regExp = new RegExp(filterBy.txt, 'i')
                 mails = mails.filter(mail =>
@@ -55,8 +61,57 @@ function query(filterBy = {}) {
                 const regExp = new RegExp(filterBy.category, 'i')
                 mails = mails.filter(mail => regExp.test(mail.category))
             }
+            if (filterBy.sortBy && filterBy.sortBy.sortField) {
+                const { sortField, sortDir } = filterBy.sortBy
+                mails.sort((first, second) => {
+                    let firstValue = first[sortField]
+                    let secondValue = second[sortField]
+
+                    // Handle different data types
+                    if (typeof firstValue === 'string' && typeof secondValue === 'string') {
+                        firstValue = firstValue.toLowerCase()
+                        secondValue = secondValue.toLowerCase()
+                    }
+
+                    // Handle dates (sentAt, createdAt)
+                    if (sortField === 'sentAt' || sortField === 'createdAt') {
+                        firstValue = new Date(firstValue).getTime()
+                        secondValue = new Date(secondValue).getTime()
+                    }
+
+                    // Sort logic
+                    if (firstValue < secondValue) return sortDir === 1 ? -1 : 1
+                    if (firstValue > secondValue) return sortDir === 1 ? 1 : -1
+                    return 0
+                })
+            } else if (gQueryOptions.sortBy && gQueryOptions.sortBy.sortField) {
+                const { sortField, sortDir } = gQueryOptions.sortBy
+                mails.sort((first, second) => {
+                    let firstValue = first[sortField]
+                    let secondValue = second[sortField]
+
+                    if (typeof firstValue === 'string' && typeof secondValue === 'string') {
+                        firstValue = firstValue.toLowerCase()
+                        secondValue = secondValue.toLowerCase()
+                    }
+
+                    if (sortField === 'sentAt' || sortField === 'createdAt') {
+                        firstValue = new Date(firstValue).getTime()
+                        secondValue = new Date(secondValue).getTime()
+                    }
+
+                    if (firstValue < secondValue) return sortDir === 1 ? -1 : 1
+                    if (firstValue > secondValue) return sortDir === 1 ? 1 : -1
+                    return 0
+                })
+            }
+
             return mails
         })
+}
+
+function setSortBy(field, dir) {
+    gQueryOptions.sortBy = { sortField: field, sortDir: dir }
 }
 
 function get(mailId) {
@@ -94,6 +149,7 @@ function getDefaultFilter() {
         subject: '',
         folder: 'inbox',
         category: '',
+        sortBy: { sortField: '', sortDir: 0 }
 
     }
 }
@@ -149,6 +205,9 @@ function _createMails() {
 }
 
 function getFilterFromSearchParams(searchParams) {
+    const sortField = searchParams.get('sortField') || ''
+    const sortDir = parseInt(searchParams.get('sortDir')) || 0
+
     return {
         txt: searchParams.get('txt') || '',
         from: searchParams.get('from') || '',
@@ -156,5 +215,14 @@ function getFilterFromSearchParams(searchParams) {
         subject: searchParams.get('subject') || '',
         folder: searchParams.get('folder') || '',
         category: searchParams.get('category') || '',
+        sortBy: { sortField, sortDir: isNaN(sortDir) ? 0 : sortDir }
     }
+}
+function getOrderItems() {
+    return Promise.resolve([
+        'subject',
+        'from',
+        'sentAt',
+        'createdAt'
+    ])
 }

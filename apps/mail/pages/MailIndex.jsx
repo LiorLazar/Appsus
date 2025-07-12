@@ -1,10 +1,11 @@
 import { showErrorMsg, showSuccessMsg } from "../../../services/event-bus.service.js"
 import { utilService } from "../../../services/util.service.js"
 import { MailList } from "../cmps/MailList.jsx"
+import { MailSort } from "../cmps/MailSort.jsx"
 import { mailService } from "../services/mail.service.js"
 
 const { useState, useEffect } = React
-const { useSearchParams } = ReactRouterDOM
+const { useSearchParams, Outlet } = ReactRouterDOM
 
 export function MailIndex() {
     const [mails, setMails] = useState(null)
@@ -31,6 +32,15 @@ export function MailIndex() {
             })
     }
 
+    function onSetSort(sortBy) {
+        // console.log('MailIndex - Received sort:', sortBy)
+        setFilterBy(prev => {
+            const newFilter = { ...prev, sortBy }
+            // console.log('MailIndex - New filter:', newFilter)
+            return newFilter
+        })
+    }
+
     if (!mails) return <div className="container">Loading...</div>
     if (!mails.length) return <div className="container">Folder is Empty</div>
     const unreadCounts = {
@@ -40,6 +50,7 @@ export function MailIndex() {
     }
     return (
         <section className="mail-index">
+            <MailSort onSetSort={onSetSort} />
             {
                 (filterBy.folder === 'inbox' || !filterBy.folder) && (
                     <div className="categories">
@@ -77,6 +88,7 @@ export function MailIndex() {
                 )
             }
             <MailList mails={mails} setMails={setMails} />
+            <Outlet />
         </section >
     )
 }

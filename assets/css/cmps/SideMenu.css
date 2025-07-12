@@ -92,3 +92,43 @@
     font-weight: 500;
     box-shadow: 0 2px 8px rgba(65, 51, 28, 0.15);
 }
+
+body.dark-mode .side-menu {
+    background: #202124;
+    border-right: 1px solid rgba(241, 241, 241, 0.1);
+}
+
+body.dark-mode .menu-item,
+body.dark-mode .compose-btn {
+    color: #f1f1f1;
+}
+
+body.dark-mode .menu-item:hover {
+    background-color: rgba(241, 241, 241, 0.1);
+}
+
+body.dark-mode .compose-btn {
+    background: #1a73e8;
+    color: #ffffff;
+}
+
+body.dark-mode .compose-btn:hover {
+    background: #1557b0;
+}
+
+body.dark-mode .categories-label {
+    color: #f1f1f1;
+}
+
+body.dark-mode .categories-label:hover {
+    background-color: rgba(241, 241, 241, 0.1);
+}
+
+body.dark-mode .menu-item.category-link:hover {
+    background-color: rgba(241, 241, 241, 0.1);
+}
+
+body.dark-mode .unread-count {
+    background: #ea4335;
+    color: #ffffff;
+}

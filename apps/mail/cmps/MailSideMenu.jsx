@@ -73,7 +73,7 @@ export function MailSideMenu({ isOpen, defaultFilter, onSetFilterBy }) {
 
     return (
         <aside className={`side-menu${isOpen ? ' open' : ' collapsed'}`}>
-            <NavLink to="/mail/compose" className="compose-btn">
+            <NavLink to="/mail/inbox/compose" className="compose-btn">
                 <span className="material-symbols-outlined">edit</span>
                 <span>Compose</span>
             </NavLink>

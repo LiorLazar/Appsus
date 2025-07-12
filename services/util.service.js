@@ -85,9 +85,17 @@ function debounce(func, delay) {
 }
 
 function getTruthyValues(obj) {
-    const res = {}
+    const result = {}
     for (const key in obj) {
-        if (obj[key]) res[key] = obj[key]
+        if (key === 'sortBy' && obj[key]) {
+            // Handle sortBy object specially - flatten it to URL parameters
+            if (obj[key].sortField) {
+                result.sortField = obj[key].sortField
+                result.sortDir = obj[key].sortDir
+            }
+        } else if (obj[key] && obj[key] !== '' && obj[key] !== 0) {
+            result[key] = obj[key]
+        }
     }
-    return res
+    return result
 }

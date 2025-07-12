@@ -3,7 +3,7 @@ import { mailService } from "../services/mail.service.js";
 import { MailFilter } from "./MailFilter.jsx";
 
 const { useState, useEffect } = React
-const {useSearchParams } = ReactRouterDOM
+const { useSearchParams } = ReactRouterDOM
 
 export function MailHeader() {
     const [searchParams, setSearchParams] = useSearchParams()
@@ -27,11 +27,7 @@ export function MailHeader() {
                 onSetFilterBy={onSetFilterBy}
             />
             <div className="header-icons flex">
-                <span className="material-symbols-outlined btn">help</span>
-                <span className="material-symbols-outlined btn">settings</span>
-                <div className="avatar">
-                    <img src="https://cdn.vectorstock.com/i/750p/51/99/user-avatar-icon-flat-style-vector-3125199.avif" alt="avatar" />
-                </div>
+              
             </div>
         </section >
     )
