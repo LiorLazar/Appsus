@@ -2,8 +2,9 @@ import { MailAdvancedSearch } from "../apps/mail/cmps/MailAdvancedSearch.jsx";
 import { MailHeader } from "../apps/mail/cmps/MailHeader.jsx";
 import { NoteHeader } from "../apps/note/cmps/NoteHeader.jsx";
 import { AppsMenu } from "./AppsMenu.jsx";
+import { Settings } from "./Settings.jsx";
 
-const { useState, Fragment} = React
+const { useState, Fragment } = React
 const { Link, NavLink, useLocation } = ReactRouterDOM
 
 export function AppHeader({ onToggleMenu }) {
@@ -12,6 +13,7 @@ export function AppHeader({ onToggleMenu }) {
     const isNote = location.pathname.includes("/note")
 
     const [isAppsOpen, setIsAppsOpen] = useState(false)
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
     return (
         <header className={isNote ? "note-header app-header" : "app-header"}>
@@ -19,8 +21,9 @@ export function AppHeader({ onToggleMenu }) {
                 <span className="material-symbols-outlined burger-manu btn" onClick={onToggleMenu} style={{ cursor: 'pointer' }}>dehaze</span>
             }
             <Link to="/" className="logo">
-                <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="https://media1.tenor.com/m/gMay0AorbjgAAAAd/a-google-style.gif"></img>
+                <img className={isNote ? "main-logo note-main-logo" : "main-logo"} src="assets/css/img/appsus.png" alt="Appsus logo" />
             </Link>
+            
             {isMail && <MailHeader />}
             {isNote && <NoteHeader />}
             {!isNote && (
@@ -30,6 +33,12 @@ export function AppHeader({ onToggleMenu }) {
                             onClick={() => setIsAppsOpen(prev => !prev)}
                         >apps</span>
                         <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
+                    </div>
+                    <div className="header-bar">
+                        <span className="material-symbols-outlined btn"
+                            onClick={() => setIsSettingsOpen(prev => !prev)}
+                        >settings</span>
+                        <Settings isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
                     </div>
                     <nav>
                         <NavLink to="/about" className="btn2">About</NavLink>

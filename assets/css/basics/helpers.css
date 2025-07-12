@@ -71,12 +71,8 @@
     white-space: nowrap;
 }
 
-.btn:hover {
-    background: rgba(60, 64, 67, 0.08);
-}
-
-.btn2:hover {
-    background: rgba(60, 64, 67, 0.08);
+.btn:hover, .btn2:hover {
+    background: rgba(83, 87, 90, 0.18);
 }
 
 .btn-small {

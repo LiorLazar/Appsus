@@ -57,13 +57,13 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
           <div className="color-picker-row">
             <button
               type="button"
-              className={`color-circle color-default${selectedColor === '#ffffff' || !selectedColor ? ' selected' : ''}`}
-              style={{ backgroundColor: '#ffffff', border: selectedColor === '#ffffff' ? '2.5px solid #e0e0e0' : undefined }}
-              onClick={() => onColorSelect('#ffffff')}
+              className={`color-circle color-default${selectedColor === getDefaultNoteBgColor() || !selectedColor ? ' selected' : ''}`}
+              style={{ backgroundColor: getDefaultNoteBgColor(), border: selectedColor === getDefaultNoteBgColor() ? '2.5px solid #e0e0e0' : undefined }}
+              onClick={() => onColorSelect(getDefaultNoteBgColor())}
               aria-label="Default color"
             >
               <span className="material-symbols-outlined color-default-icon">format_color_reset</span>
-              {(selectedColor === '#ffffff' || !selectedColor) && (
+              {(selectedColor === getDefaultNoteBgColor() || !selectedColor) && (
                 <span className="color-check">✔</span>
               )}
             </button>
@@ -86,4 +86,8 @@ export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor
       </div>
     </div>
   );
+}
+
+function getDefaultNoteBgColor() {
+  return 'transparent';
 }

@@ -2,6 +2,7 @@ import { utilService } from "../../../services/util.service.js"
 import { noteService } from "../services/note.service.js"
 import { NoteFilter } from "./NoteFilter.jsx"
 import { AppsMenu } from "../../../cmps/AppsMenu.jsx";
+import { Settings } from "../../../cmps/Settings.jsx"
 
 const { useState, useEffect, Fragment } = React
 const { useSearchParams, useNavigate } = ReactRouterDOM
@@ -11,6 +12,7 @@ export function NoteHeader() {
     const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [isAppsOpen, setIsAppsOpen] = useState(false)
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -36,7 +38,9 @@ export function NoteHeader() {
             <div className="header-bar note-header-ba flex">
                 <div className="header-icons note-header-icons">
                     <span className="material-symbols-outlined btn">refresh</span>
-                    <span className="material-symbols-outlined btn">settings</span>
+                    <span className="material-symbols-outlined btn"
+                        onClick={() => setIsSettingsOpen(prev => !prev)}
+                    >settings</span>
                     <span className="material-symbols-outlined btn apps-btn"
                         onClick={() => setIsAppsOpen(prev => !prev)}
                     >apps</span>
@@ -45,6 +49,7 @@ export function NoteHeader() {
                     </div>
                 </div>
                 <AppsMenu isOpen={isAppsOpen} onClose={() => setIsAppsOpen(false)} />
+                <Settings isOpen={isSettingsOpen} onClose={() => setIsSettingsOpen(false)} />
             </div>
         </Fragment>
     )

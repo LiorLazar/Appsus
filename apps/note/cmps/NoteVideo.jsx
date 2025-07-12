@@ -3,7 +3,7 @@ import { NoteAnimate } from '../services/NoteAnimate.js'
 import { noteService } from '../services/note.service.js';
 
 export function NoteVideo({ note, containerRef, className = 'note-card', onUpdate, onCardClick, noteItemRef }) {
-    const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : '#ffffff';
+    const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : noteService.getDefaultNoteBgColor();
     const [title, setTitle] = React.useState(note.info.title);
     const [txt, setTxt] = React.useState(note.info.txt);
 
@@ -13,7 +13,7 @@ export function NoteVideo({ note, containerRef, className = 'note-card', onUpdat
     }
 
     return (
-        <div className={`${className} ${note.id} note-video ${className}`} style={{ backgroundColor }} onClick={handleCardClick}>
+        <div className={`${className} ${note.id} note-video ${className}`} style={{ backgroundColor, border: (backgroundColor === 'transparent' || !backgroundColor) ? noteService.getDefaultBorderColor() : undefined, borderRadius: 12 }} onClick={handleCardClick}>
             {title && <h2 className="note-title">{title}</h2>}
             <iframe
                 className="video-player"

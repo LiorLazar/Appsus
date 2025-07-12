@@ -20,10 +20,22 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
 
     const isTodosNote = Array.isArray(editNote.info.todos)
 
+    // Utility to get the correct background color
+    function getBgColor() {
+        if (note && note.style && note.style.backgroundColor && note.style.backgroundColor !== 'transparent') {
+            return note.style.backgroundColor;
+        }
+        // If transparent, check dark mode
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('darkMode') === 'true') {
+            return '#202124';
+        }
+        return '#fff';
+    }
+
     return (
         <div
             className={className + ' note-editor-root'}
-            style={{ backgroundColor: note && note.style && note.style.backgroundColor ? note.style.backgroundColor : '#fff' }}
+            style={{ backgroundColor: getBgColor() }}
         >
             <input
                 className="note-title"
@@ -147,6 +159,8 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
     }
 
     function handleDuplicate() {
+        console.log('Duplicating note:', editNote);
+        
         const { id, createdAt, ...rest } = editNote;
         const newNote = {
             ...rest,

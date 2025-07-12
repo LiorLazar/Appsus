@@ -18,11 +18,18 @@
     padding-left: 16px;
     padding-right: 16px;
     z-index: 99999;
-    
 }
 
 .header-bar.note-header-ba {
     display: flex;
     justify-content: flex-end;
     width: 100%;
+}
+
+.note-header {
+    border-bottom: 1px solid #dadce0;
+}
+
+body.dark-mode .note-header {
+    border-bottom: 1px solid rgb(95, 99, 103);
 }
