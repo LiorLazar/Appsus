@@ -33,3 +33,8 @@
 body.dark-mode .note-header {
     border-bottom: 1px solid rgb(95, 99, 103);
 }
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

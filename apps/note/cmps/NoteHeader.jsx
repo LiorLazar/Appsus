@@ -13,6 +13,8 @@ export function NoteHeader() {
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [isAppsOpen, setIsAppsOpen] = useState(false)
     const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+    const [isRefreshing, setIsRefreshing] = useState(false)
+    const [showCheckIcon, setShowCheckIcon] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -34,6 +36,17 @@ export function NoteHeader() {
         return () => window.removeEventListener('note-folder-selected', handleFolderSelected);
     }, [onSetFilterBy]);
 
+    function handleRefresh() {
+        setIsRefreshing(true)
+        setShowCheckIcon(false)
+        window.dispatchEvent(new Event('refreshNotes'))
+        setTimeout(() => {
+            setIsRefreshing(false)
+            setShowCheckIcon(true)
+            setTimeout(() => setShowCheckIcon(false), 1200)
+        }, 1200)
+    }
+
     return (
         <Fragment>
             <div className="keep-logo" onClick={() => navigate('/note')}>
@@ -48,7 +61,13 @@ export function NoteHeader() {
             </section >
             <div className="header-bar note-header-ba flex">
                 <div className="header-icons note-header-icons">
-                    <span className="material-symbols-outlined btn">refresh</span>
+                    {isRefreshing ? (
+                        <span className="material-symbols-outlined btn loading-spinner" style={{ animation: 'spin 1.2s linear infinite' }}>progress_activity</span>
+                    ) : showCheckIcon ? (
+                        <span className="material-symbols-outlined btn">cloud_done</span>
+                    ) : (
+                        <span className="material-symbols-outlined btn" onClick={handleRefresh}>refresh</span>
+                    )}
                     <span className="material-symbols-outlined btn"
                         onClick={() => setIsSettingsOpen(prev => !prev)}
                     >settings</span>
@@ -65,3 +84,10 @@ export function NoteHeader() {
         </Fragment>
     )
 }
+
+/* Add this CSS to your NoteHeader.css or main.css for the spinner effect:
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+*/

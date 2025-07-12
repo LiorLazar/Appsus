@@ -20,15 +20,18 @@ export function NoteEditorToolBar({ note, onClose, className = 'note-editor-tool
                 <button className="btn btn-color" type="button" onClick={onColor} ref={paletteBtnRef}>
                     <span className="material-symbols-outlined btn-small">palette</span>
                 </button>
-                { note.type === 'NoteTxt' &&
-                <button className="btn btn-img" type="button">
-                    <span className="material-symbols-outlined btn-small" onClick={onImg}>image</span>
-                </button>}
+                {note.type === 'NoteTxt' &&
+                    <button className="btn btn-img" type="button">
+                        <span className="material-symbols-outlined btn-small" onClick={onImg}>image</span>
+                    </button>}
                 <button className="btn btn-duplicate" type="button">
                     <span className="material-symbols-outlined btn-small" onClick={onDuplicate}>content_copy</span>
                 </button>
                 <button className="btn btn-archive" type="button">
-                    <span className="material-symbols-outlined btn-small" onClick={onArchice}>archive</span>
+                    {note.folder === 'notes' &&
+                        <span className="material-symbols-outlined btn-small" onClick={onArchice}>archive</span>}
+                    {note.folder === 'archive' &&
+                        <span className="material-symbols-outlined btn-small" onClick={onArchice}>unarchive</span>}
                 </button>
                 <button className="btn btn-delete" type="button" onClick={handleDeleteClick}>
                     <span className="material-symbols-outlined btn-small">delete</span>
