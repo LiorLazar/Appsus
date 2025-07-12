@@ -29,6 +29,10 @@ function query(filterBy = {}) {
                     (note.info.todos && note.info.todos.some(todo => regExp.test(todo.txt)))
                 )
             }
+
+            if (filterBy.folder) {
+                notes = notes.filter(note => note.folder === filterBy.folder)
+            }
             // if (filterBy.minNoteTxt) {
             //     notes = notes.filter(note => note.notetxt >= filterBy.minNoteTxt)
             // }
@@ -56,7 +60,7 @@ function save(note) {
 }
 
 function getDefaultFilter() {
-    return { txt: '' }
+    return { txt: '', folder: 'notes' }
 }
 
 function _createNotes() {
@@ -73,7 +77,8 @@ function _createNotes() {
                 },
                 info: {
                     txt: 'Fullstack Me Baby!'
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n102',
@@ -86,7 +91,8 @@ function _createNotes() {
                 },
                 style: {
                     backgroundColor: '#faafa8' // google keep peach
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n103',
@@ -99,7 +105,8 @@ function _createNotes() {
                         { txt: 'Driving license', doneAt: null },
                         { txt: 'Coding power', doneAt: 187111111 }
                     ]
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n104',
@@ -111,7 +118,8 @@ function _createNotes() {
                 },
                 info: {
                     txt: 'Learn React!'
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n105',
@@ -124,7 +132,8 @@ function _createNotes() {
                 },
                 style: {
                     backgroundColor: '#fff8b8' // google keep yellow
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n106',
@@ -138,7 +147,8 @@ function _createNotes() {
                         { txt: 'Eggs', doneAt: null },
                         { txt: 'Bread', doneAt: 187111111 }
                     ]
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n107',
@@ -150,7 +160,8 @@ function _createNotes() {
                 },
                 info: {
                     txt: 'Master JavaScript!'
-                }
+                },
+                folder: 'archive'
             },
             {
                 id: 'n108',
@@ -163,7 +174,8 @@ function _createNotes() {
                 },
                 style: {
                     backgroundColor: '#f39f76' // google keep orange
-                }
+                },
+                folder: 'bin'
             },
             {
                 id: 'n109',
@@ -177,7 +189,8 @@ function _createNotes() {
                         { txt: 'Yoga', doneAt: null },
                         { txt: 'Strength Training', doneAt: 187111111 }
                     ]
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n110',
@@ -189,7 +202,8 @@ function _createNotes() {
                 },
                 info: {
                     txt: 'Plan a trip!'
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n111',
@@ -201,7 +215,8 @@ function _createNotes() {
                 },
                 info: {
                     txt: 'Read a book!'
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n112',
@@ -214,7 +229,8 @@ function _createNotes() {
                 },
                 style: {
                     backgroundColor: '#d4e4ed' // google keep light blue
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n113',
@@ -228,7 +244,8 @@ function _createNotes() {
                         { txt: 'Meditate', doneAt: null },
                         { txt: 'Work on project', doneAt: 187111111 }
                     ]
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n114',
@@ -240,7 +257,8 @@ function _createNotes() {
                 },
                 info: {
                     txt: 'Start a new hobby!'
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n115',
@@ -253,7 +271,8 @@ function _createNotes() {
                 },
                 style: {
                     backgroundColor: '#e9e3d4' // google keep light beige
-                }
+                },
+                folder: 'notes'
             },
             {
                 id: 'n116',
@@ -266,7 +285,8 @@ function _createNotes() {
                 info: {
                     title: 'Austin MAJOR 2025',
                     url: 'https://www.youtube.com/watch?v=WdO-CyDFKeI'
-                }
+                },
+                folder: 'notes'
             }
         ]
         utilService.saveToStorage(NOTE_KEY, notes)
@@ -312,9 +332,11 @@ function addNote(txt = '', title = '', isPinned = false, imgDataUrl = null, sele
 
 function getFilterFromSearchParams(searchParams) {
     const txt = searchParams.get('txt') || ''
+    const folder = searchParams.get('folder') || ''
 
     return {
-        txt
+        txt,
+        folder
     }
 }
 

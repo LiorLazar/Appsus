@@ -8,7 +8,7 @@ const { useState, useEffect, Fragment } = React
 const { useSearchParams, useNavigate } = ReactRouterDOM
 
 export function NoteHeader() {
-    const [searchParams, setSearchParams] = useSearchParams()
+    const [searchParams, setSearchParams] = useSearchParams();
     const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [isAppsOpen, setIsAppsOpen] = useState(false)
@@ -22,6 +22,17 @@ export function NoteHeader() {
     function onSetFilterBy(filterBy) {
         setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
     }
+
+    useEffect(() => {
+        function handleFolderSelected(e) {
+            const folder = e.detail.folder || 'notes';
+            if (typeof onSetFilterBy === 'function') {
+                onSetFilterBy({ folder });
+            }
+        }
+        window.addEventListener('note-folder-selected', handleFolderSelected);
+        return () => window.removeEventListener('note-folder-selected', handleFolderSelected);
+    }, [onSetFilterBy]);
 
     return (
         <Fragment>

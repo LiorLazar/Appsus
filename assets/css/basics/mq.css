@@ -16,6 +16,7 @@
 /* SMALL */
 @media (max-width: 900px) and (min-width: 0px) {
     .note-search-bar, .note-header-bar {
+        width: 100vw;
         max-width: 300px;
         margin-left: 10px;
         transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1);

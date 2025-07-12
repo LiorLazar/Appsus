@@ -9,11 +9,11 @@ import { ColorPickerModal } from './ColorPickerModal.jsx'
 import { NoteFlyModal } from './NoteFlyModal.jsx'
 
 const { useState, useEffect, useRef } = React
-const { useSearchParams } = ReactRouterDOM
+const { useSearchParams } = ReactRouterDOM;
 
-export function NoteList() {
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
+export function NoteList({ isOpen }) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const filterBy = noteService.getFilterFromSearchParams(searchParams);
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [notes, setNotes] = useState([])
     const [isColorModalOpen, setIsColorModalOpen] = useState(false)
@@ -28,16 +28,13 @@ export function NoteList() {
     const unpinnedContainerRef = useRef(null)
 
     useEffect(() => {
-        setSearchParams(truthyFilter)
-        notelistService.loadNotes(filterBy, setNotes, setError)
+        notelistService.loadNotes(filterBy, setNotes, setError);
     }, [filterBy])
 
     useEffect(() => {
-        setFilterBy(noteService.getFilterFromSearchParams(searchParams))
-    }, [searchParams])
-
-    useEffect(() => {
         function handleRefreshNotes() {
+            console.log(filterBy);
+            
             notelistService.loadNotes(filterBy, setNotes, setError)
         }
         window.addEventListener('refreshNotes', handleRefreshNotes)
@@ -61,7 +58,6 @@ export function NoteList() {
             });
             setSelectedNote(note);
             setIsColorModalOpen(true);
-            console.log('ColorPickerModal open position:', btnRect);
         }
         
         window.addEventListener('openColorPickerModal', handleOpenColorPickerModal);
@@ -155,10 +151,8 @@ export function NoteList() {
         }
     }, [pendingColor, selectedNote])
 
-    // Add log before rendering ColorPickerModal
-
     return (
-        <section className="note-list">
+        <section className={`note-list${isOpen ? ' side-open' : ''}`}>
             {notes.length ? (
                 <div>
                     {pinnedNotes.length > 0 && (
