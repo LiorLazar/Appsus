@@ -17,12 +17,49 @@ export const mailService = {
     getFilterFromSearchParams,
     getLoggedInUser,
     getOrderItems,
-    setSortBy
+    setSortBy,
+    formatDate
 }
 
 const loggedinUser = {
     email: 'user@appsus.com',
     fullname: 'Mahatma Appsus'
+}
+
+function formatDate(timestamp) {
+    const date = new Date(timestamp)
+    const now = new Date()
+    const diffInMs = now - date
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24))
+
+    if (diffInDays === 0) {
+        return date.toLocaleTimeString('en-US', {
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true
+        })
+    }
+
+    if (diffInDays === 1) {
+        return 'Yesterday'
+    }
+
+    if (diffInDays < 7) {
+        return date.toLocaleDateString('en-US', { weekday: 'long' })
+    }
+
+    if (date.getFullYear() === now.getFullYear()) {
+        return date.toLocaleDateString('en-US', {
+            month: 'short',
+            day: 'numeric'
+        })
+    }
+
+    return date.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    })
 }
 
 function getLoggedInUser() {

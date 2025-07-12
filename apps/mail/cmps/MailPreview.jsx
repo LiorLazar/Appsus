@@ -81,7 +81,7 @@ export function MailPreview({ mail, onRemoveMail, onArchiveMail, onMarkMail, onC
                     </span>
                 </div>
             ) :
-                <div className={`mail-date ${!isRead ? 'bold' : ''}`}>{sentAt}</div>
+                <div className={`mail-date ${!isRead ? 'bold' : ''}`}>{mailService.formatDate(sentAt)}</div>
             }
         </section >
     )
