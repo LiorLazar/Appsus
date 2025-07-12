@@ -2,7 +2,7 @@ import { mailService } from "../services/mail.service.js"
 
 const { useState } = React
 
-export function MailPreview({ mail, onRemoveMail, onArchiveMail, onMarkMail }) {
+export function MailPreview({ mail, onRemoveMail, onArchiveMail, onMarkMail, onCreateNote }) {
     // console.log('mail', mail)
     const [isHovered, setIsHovered] = useState(false)
     const { from, subject, sentAt, isRead } = mail
@@ -24,6 +24,12 @@ export function MailPreview({ mail, onRemoveMail, onArchiveMail, onMarkMail }) {
         ev.stopPropagation()
         ev.preventDefault()
         onMarkMail(mailId)
+    }
+
+    function onHandleCreateNote(ev, mailId) {
+        ev.stopPropagation()
+        ev.preventDefault()
+        onCreateNote(mailId)
     }
 
     return (
@@ -69,7 +75,9 @@ export function MailPreview({ mail, onRemoveMail, onArchiveMail, onMarkMail }) {
                     }
                     <span
                         className="material-symbols-outlined btn"
-                        title="Snooze">schedule
+                        title="Create Note with Mail Info"
+                        onClick={ev => onHandleCreateNote(ev, mail.id)}
+                    >convert_to_text
                     </span>
                 </div>
             ) :
