@@ -26,3 +26,24 @@
 .category.active .material-symbols-outlined {
     color: #0b57d0;
 }
+
+body.dark-mode .categories {
+    color: #f1f1f1;
+}
+
+body.dark-mode .category {
+    color: #f1f1f1;
+}
+
+body.dark-mode .category:hover {
+    background-color: rgba(241, 241, 241, 0.1);
+}
+
+body.dark-mode .category.active {
+    border-bottom: 3px solid #8ab4f8;
+}
+
+body.dark-mode .category-icon.active,
+body.dark-mode .category.active .material-symbols-outlined {
+    color: #8ab4f8;
+}
