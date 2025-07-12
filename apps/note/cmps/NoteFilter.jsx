@@ -1,5 +1,4 @@
 import { utilService } from "../../../services/util.service.js"
-
 const { useState, useEffect, useRef } = React
 
 export function NoteFilter({ defaultFilter, onSetFilterBy = () => {} }) {

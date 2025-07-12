@@ -12,9 +12,8 @@ const { useState, useEffect, useRef } = React
 const { useSearchParams } = ReactRouterDOM;
 
 export function NoteList({ isOpen }) {
-    const [filterBy, setFilterBy] = useState(noteService.getDefaultFilter());
     const [searchParams, setSearchParams] = useSearchParams();
-    const [txt, setTxt] = useState(searchParams.get('txt') || '');
+    const filterBy = noteService.getFilterFromSearchParams(searchParams);
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [notes, setNotes] = useState([])
     const [isColorModalOpen, setIsColorModalOpen] = useState(false)
@@ -29,22 +28,13 @@ export function NoteList({ isOpen }) {
     const unpinnedContainerRef = useRef(null)
 
     useEffect(() => {
-        console.log();
-        
-        setSearchParams({
-            ...Object.fromEntries(searchParams.entries()), // preserve all current params
-            truthyFilter // only update txt
-        });
-        setSearchParams(truthyFilter)
-        notelistService.loadNotes(filterBy, setNotes, setError)
+        notelistService.loadNotes(filterBy, setNotes, setError);
     }, [filterBy])
 
     useEffect(() => {
-        setFilterBy(noteService.getFilterFromSearchParams(searchParams))
-    }, [searchParams])
-
-    useEffect(() => {
         function handleRefreshNotes() {
+            console.log(filterBy);
+            
             notelistService.loadNotes(filterBy, setNotes, setError)
         }
         window.addEventListener('refreshNotes', handleRefreshNotes)
@@ -68,7 +58,6 @@ export function NoteList({ isOpen }) {
             });
             setSelectedNote(note);
             setIsColorModalOpen(true);
-            console.log('ColorPickerModal open position:', btnRect);
         }
         
         window.addEventListener('openColorPickerModal', handleOpenColorPickerModal);
@@ -161,8 +150,6 @@ export function NoteList({ isOpen }) {
             });
         }
     }, [pendingColor, selectedNote])
-
-    // Add log before rendering ColorPickerModal
 
     return (
         <section className={`note-list${isOpen ? ' side-open' : ''}`}>
