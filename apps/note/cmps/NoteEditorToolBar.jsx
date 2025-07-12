@@ -27,10 +27,9 @@ export function NoteEditorToolBar({ note, onClose, className = 'note-editor-tool
                 <button className="btn btn-duplicate" type="button">
                     <span className="material-symbols-outlined btn-small" onClick={onDuplicate}>content_copy</span>
                 </button>
-                { note.folder !== 'archive' &&
                 <button className="btn btn-archive" type="button">
                     <span className="material-symbols-outlined btn-small" onClick={onArchice}>archive</span>
-                </button>}
+                </button>
                 <button className="btn btn-delete" type="button" onClick={handleDeleteClick}>
                     <span className="material-symbols-outlined btn-small">delete</span>
                 </button>

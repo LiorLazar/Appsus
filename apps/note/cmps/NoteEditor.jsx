@@ -180,11 +180,11 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
         showSuccessMsg('Note duplicated successfully');
     }
     function handleArchive() {
-        editNote.folder = 'archive';
+        editNote.folder === 'archive' ? editNote.folder = 'notes' : editNote.folder = 'archive';
         noteService.save(editNote).then(() => {
             if (onClose) onClose();
             window.dispatchEvent(new Event('refreshNotes'));
-            showSuccessMsg('Note archived successfully');
+            showSuccessMsg(`Note moved to ${editNote.folder} successfully`);
         });
     }
 

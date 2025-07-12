@@ -32,8 +32,9 @@ export function NoteList({ isOpen }) {
     }, [filterBy])
 
     useEffect(() => {
+        console.log('refreshNotes event listener added');
+        
         function handleRefreshNotes() {
-            console.log(filterBy);
             
             notelistService.loadNotes(filterBy, setNotes, setError)
         }

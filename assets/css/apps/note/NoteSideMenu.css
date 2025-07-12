@@ -90,6 +90,11 @@ body.dark-mode .menu-item:not(.side-open).active .material-symbols-outlined {
     font-size: 1em;
     font-family: inherit;
 }
+
+body.dark-mode .menu-item span:last-child {
+    color: #e8eaed;
+}
+
 .menu-item.active span:last-child {
     color: #5f6367
 }
