@@ -1,5 +1,6 @@
 import { NoteAnimate } from '../services/NoteAnimate.js';
-const { useEffect, useState } = React
+const { useEffect } = React
+const { useSearchParams } = ReactRouterDOM
 
 window.NoteAnimate = NoteAnimate;
 
@@ -9,8 +10,9 @@ const menuItems = [
     { name: 'Bin', icon: 'delete', filter: { folder: 'bin' } }
 ];
 
-export function NoteSideMenu({ isOpen, setFilterBy }) {
-    const [folder, setFolder] = useState('notes');
+export function NoteSideMenu({ isOpen }) {
+    const [searchParams] = useSearchParams();
+    const folder = searchParams.get('folder') || 'notes';
 
     useEffect(() => {
         setTimeout(() => {
@@ -24,7 +26,6 @@ export function NoteSideMenu({ isOpen, setFilterBy }) {
     }, [isOpen]);
 
     function handleMenuClick(item) {
-        setFolder(item.filter.folder);
         const event = new CustomEvent('note-folder-selected', { detail: { folder: item.filter.folder } });
         window.dispatchEvent(event);
         window.dispatchEvent(new Event('refreshNotes'));
