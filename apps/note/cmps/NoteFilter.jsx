@@ -24,7 +24,10 @@ export function NoteFilter({ defaultFilter, onSetFilterBy = () => {} }) {
                 value = target.checked
                 break
         }
-        setFilterByToEdit(prevFilter => ({ ...prevFilter, [field]: value }))
+        // Only send txt value, not the whole filter object
+        if (field === 'txt' && typeof onSetFilterBy === 'function') {
+            setFilterByToEdit({ txt: value })
+        }
     }
 
     return (
