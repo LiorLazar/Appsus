@@ -10,9 +10,9 @@ export function Home() {
                 <img className="mail-logo" src="../assets/img/gmail-logo.webp" alt="Gmail" />
             </Link>
             <Link to="note">
-                <img className="keep-logo" src="../assets/img/keep-logo.png" alt="Google Keep" />
+                <img className="keep-logo-home" src="../assets/img/keep-logo.png" alt="Google Keep" />
             </Link>
         </div>
-        <Link className="about" to='/about'>About</Link>
+        <Link className="about-btn" to='/about'>About</Link>
     </section >
 }
