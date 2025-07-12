@@ -302,7 +302,7 @@ function addNote(txt = '', title = '', isPinned = false, imgDataUrl = null, sele
     note.info.txt = txt
     note.isPinned = isPinned
     note.style = note.style || {}
-    note.style.backgroundColor = selectedColor || '#fff' // Default to white if no color
+    note.style.backgroundColor = selectedColor || null // Default to white if no color
     note.createdAt = Date.now()
     const youtubeRegex = /(https?:\/\/(www\.)?(youtube\.com|youtu\.be)\/[\w\-?&=%.]+)/gi
     const matches = txt.match(youtubeRegex)
@@ -322,6 +322,8 @@ function addNote(txt = '', title = '', isPinned = false, imgDataUrl = null, sele
     } else {
         note.type = 'NoteTxt'
     }
+
+    note.folder = 'notes'
 
     return save(note)
         .then(() => {
