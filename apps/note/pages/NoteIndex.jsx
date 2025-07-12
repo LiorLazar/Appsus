@@ -3,12 +3,12 @@ import { NoteList } from "../cmps/NoteList.jsx";
 
 const { Fragment } = React;
 
-export function NoteIndex() {
+export function NoteIndex({ isOpen }) {
 
     return (
         <Fragment>
-            <NoteCreateBar />
-            <NoteList />
+            <NoteCreateBar isOpen={isOpen}/>
+            <NoteList isOpen={isOpen}/>
         </Fragment>
     );
 }

@@ -9,11 +9,12 @@ import { ColorPickerModal } from './ColorPickerModal.jsx'
 import { NoteFlyModal } from './NoteFlyModal.jsx'
 
 const { useState, useEffect, useRef } = React
-const { useSearchParams } = ReactRouterDOM
+const { useSearchParams } = ReactRouterDOM;
 
-export function NoteList() {
-    const [searchParams, setSearchParams] = useSearchParams()
-    const [filterBy, setFilterBy] = useState(noteService.getFilterFromSearchParams(searchParams))
+export function NoteList({ isOpen }) {
+    const [filterBy, setFilterBy] = useState(noteService.getDefaultFilter());
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [txt, setTxt] = useState(searchParams.get('txt') || '');
     const truthyFilter = utilService.getTruthyValues(filterBy)
     const [notes, setNotes] = useState([])
     const [isColorModalOpen, setIsColorModalOpen] = useState(false)
@@ -28,6 +29,12 @@ export function NoteList() {
     const unpinnedContainerRef = useRef(null)
 
     useEffect(() => {
+        console.log();
+        
+        setSearchParams({
+            ...Object.fromEntries(searchParams.entries()), // preserve all current params
+            truthyFilter // only update txt
+        });
         setSearchParams(truthyFilter)
         notelistService.loadNotes(filterBy, setNotes, setError)
     }, [filterBy])
@@ -158,7 +165,7 @@ export function NoteList() {
     // Add log before rendering ColorPickerModal
 
     return (
-        <section className="note-list">
+        <section className={`note-list${isOpen ? ' side-open' : ''}`}>
             {notes.length ? (
                 <div>
                     {pinnedNotes.length > 0 && (

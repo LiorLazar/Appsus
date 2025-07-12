@@ -15,8 +15,7 @@ const Router = ReactRouterDOM.HashRouter
 
 export function RootCmp() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-
-
+    
     return (
         <Router>
             <section className="root-cmp">
@@ -32,7 +31,7 @@ export function RootCmp() {
                             <Route path="/mail/inbox" element={<MailIndex />} />
                             <Route path="/mail/compose" element={<MailCompose />} />
                             <Route path="/mail/:mailId" element={<MailDetails />} />
-                            <Route path="/note" element={<NoteIndex />} />
+                            <Route path="/note" element={<NoteIndex isOpen={isMenuOpen}/>} />
                             <Route path="*" element={<NotFound />} />
                         </Routes>
                     </div>

@@ -4,7 +4,7 @@ import { showSuccessMsg } from '../../../services/event-bus.service.js'
 
 const { useState, useRef, useEffect, Fragment } = React
 
-export function NoteCreateBar() {
+export function NoteCreateBar({ isOpen }) {
     const [isExpanded, setIsExpanded] = useState(false)
     const [inputValue, setInputValue] = useState("")
     const [titleValue, setTitleValue] = useState("")
@@ -107,7 +107,7 @@ export function NoteCreateBar() {
         <form
             ref={formRef}
             onClick={openBar}
-            className={`note-create-bar${isExpanded ? ' expanded' : ''}`}
+            className={`${isOpen ? 'side-open' : ''} note-create-bar${isExpanded ? ' expanded' : ''}`}
             dir="ltr"
             style={isExpanded && selectedColor ? { backgroundColor: selectedColor, transition: 'background-color 0.4s cubic-bezier(0.4, 0, 0.2, 1)' } : {}}
         >

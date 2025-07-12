@@ -56,7 +56,7 @@ function save(note) {
 }
 
 function getDefaultFilter() {
-    return { txt: '' }
+    return { txt: '', folder: 'notes' }
 }
 
 function _createNotes() {
