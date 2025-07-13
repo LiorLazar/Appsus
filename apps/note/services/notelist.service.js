@@ -16,6 +16,9 @@ function handleColorSelect(color, selectedNote, setPendingColor, setSelectedNote
 function handleCloseColorModal(pendingColor, selectedNote, setIsColorModalOpen, setNotes, setSelectedNote, setPendingColor) {
     setIsColorModalOpen(false);
     if (pendingColor !== null && selectedNote) {
+        console.log('Saving color:', pendingColor);
+        console.log('Selected note before saving:', selectedNote);
+        
         const updatedNote = { ...selectedNote, style: { ...selectedNote.style, backgroundColor: pendingColor } };
         noteService.save(updatedNote).then(() => {
             setNotes(notes => notes.map(n => n.id === updatedNote.id ? updatedNote : n));

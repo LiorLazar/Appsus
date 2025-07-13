@@ -159,25 +159,26 @@ export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose
     }
 
     function handleDuplicate() {
-        console.log('Duplicating note:', editNote);
-        
-        const { id, createdAt, ...rest } = editNote;
-        const newNote = {
-            ...rest,
-            info: JSON.parse(JSON.stringify(editNote.info)),
-            style: { ...editNote.style },
-            id: undefined,
-            createdAt: Date.now()
-        };
-        if (newNote.type === 'NoteTodos' && Array.isArray(newNote.info.todos)) {
-            newNote.info.todos = newNote.info.todos.map(todo => ({ ...todo, id: (Date.now() + Math.random()).toString(36) }));
-            newNote.type = 'NoteTodos';
-            noteService.save(newNote);
-        } else {
-            noteService.save(newNote);
-        }
-        onClose && onClose();
-        showSuccessMsg('Note duplicated successfully');
+        noteService.get(editNote.id).then(note => {
+            const style = note.style
+            const { id, createdAt, ...rest } = editNote;
+            const newNote = {
+                ...rest,
+                info: JSON.parse(JSON.stringify(editNote.info)),
+                style: style,
+                id: undefined,
+                createdAt: Date.now()
+            };
+            if (newNote.type === 'NoteTodos' && Array.isArray(newNote.info.todos)) {
+                newNote.info.todos = newNote.info.todos.map(todo => ({ ...todo, id: (Date.now() + Math.random()).toString(36) }));
+                newNote.type = 'NoteTodos';
+                noteService.save(newNote);
+            } else {
+                noteService.save(newNote);
+            }
+            onClose && onClose();
+            showSuccessMsg('Note duplicated successfully');
+        })
     }
     function handleArchive() {
         console.log('enter');
