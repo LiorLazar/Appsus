@@ -35,19 +35,20 @@ export function NoteList({ isOpen }) {
     const unpinnedContainerRef = useRef(null)
 
     useEffect(() => {
-        notelistService.loadNotes(filterBy, setNotes, setError);
-        function handleRefreshNotes() {
-            console.log({filterBy});
-            
-            notelistService.loadNotes(filterBy, setNotes, setError)
+        function handleRefreshNotes(e) {
+            // Compatible way to get filterBy or null
+            const filter = (e && e.detail && e.detail.filterBy) ? e.detail.filterBy : null;
+    
+            console.log({ filter });
+    
+            notelistService.loadNotes(filter, setNotes, setError);
         }
-        
-        window.addEventListener('refreshNotes', handleRefreshNotes)
+    
+        window.addEventListener('refreshNotes', handleRefreshNotes);
         return () => {
-            window.removeEventListener('refreshNotes', handleRefreshNotes)
-        }
- 
-    }, [filterBy])
+            window.removeEventListener('refreshNotes', handleRefreshNotes);
+        };
+    }, []);
 
     useEffect(() => {
         notelistService.setupMasonryAndListeners(pinnedContainerRef, notes, modalNote)

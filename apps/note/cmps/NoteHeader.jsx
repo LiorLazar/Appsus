@@ -20,6 +20,7 @@ export function NoteHeader() {
 
     useEffect(() => {
         setSearchParams(truthyFilter)
+        window.dispatchEvent(new CustomEvent('refreshNotes', { detail: { filterBy } }));
     }, [filterBy])
 
     function onSetFilterBy(filterBy) {
