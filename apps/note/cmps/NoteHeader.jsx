@@ -41,7 +41,7 @@ export function NoteHeader() {
     function handleRefresh() {
         setIsRefreshing(true)
         setShowCheckIcon(false)
-        window.dispatchEvent(new Event('refreshNotes'))
+        window.dispatchEvent(new CustomEvent('refreshNotes', { detail: { filterBy } }));
         setTimeout(() => {
             setIsRefreshing(false)
             setShowCheckIcon(true)
