@@ -4,11 +4,13 @@ const COLORS = [
   '#d4e4ed', '#aeccdc', '#d3bfdb', '#f6e2dd', '#e9e3d4', '#efeff1'
 ];
 
-export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor, modalPos }) {
-  const modalRef = React.useRef(null);
-  const [adjustedPos, setAdjustedPos] = React.useState(modalPos);
+const { useRef, useState, useLayoutEffect } = React;
 
-  React.useLayoutEffect(() => {
+export function ColorPickerModal({ isOpen, onClose, onColorSelect, selectedColor, modalPos }) {
+  const modalRef = useRef(null);
+  const [adjustedPos, setAdjustedPos] = useState(modalPos);
+
+  useLayoutEffect(() => {
     if (!isOpen || !modalPos) return;
     let top = modalPos.top;
     let left = modalPos.left;

@@ -8,7 +8,7 @@ import { utilService } from '../../../services/util.service.js'
 import { ColorPickerModal } from './ColorPickerModal.jsx'
 import { NoteFlyModal } from './NoteFlyModal.jsx'
 
-const { useState, useEffect, useRef } = React
+const { useState, useEffect, useRef, createRef } = React
 const { useSearchParams } = ReactRouterDOM;
 
 export function NoteList({ isOpen }) {
@@ -98,7 +98,7 @@ export function NoteList({ isOpen }) {
     function renderNoteItem(note) {
         let noteClass = `note-item ${note.id}`
         if (modalNote && modalNote.id === note.id) noteClass += ' note-hidden-for-modal'
-        const noteItemRef = React.createRef();
+        const noteItemRef = createRef();
         return (
             <div
                 key={note.id}

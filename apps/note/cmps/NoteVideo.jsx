@@ -2,12 +2,14 @@ import { NoteToolBar } from './NoteToolBar.jsx'
 import { NoteAnimate } from '../services/NoteAnimate.js'
 import { noteService } from '../services/note.service.js';
 
+const { useState, useEffect } = React;
+
 export function NoteVideo({ note, containerRef, className = 'note-card', onUpdate, onCardClick, noteItemRef }) {
     const backgroundColor = (note.style && note.style.backgroundColor) ? note.style.backgroundColor : noteService.getDefaultNoteBgColor();
-    const [title, setTitle] = React.useState(note.info.title);
-    const [txt, setTxt] = React.useState(note.info.txt);
+    const [title, setTitle] = useState(note.info.title);
+    const [txt, setTxt] = useState(note.info.txt);
 
-    React.useEffect(() => {
+    useEffect(() => {
         setTitle(note.info.title);
         setTxt(note.info.txt);
     }, [note.info.title, note.info.txt]);

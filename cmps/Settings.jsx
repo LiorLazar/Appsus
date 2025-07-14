@@ -1,11 +1,13 @@
+const { useState, useEffect } = React;
+
 export function Settings({ isOpen, onClose }) {
-    const [darkMode, setDarkMode] = React.useState(() => {
+    const [darkMode, setDarkMode] = useState(() => {
         return localStorage.getItem('darkMode') === 'true';
     });
 
     const defaultBgColor = darkMode ? '#202124' : '#fff';
 
-    React.useEffect(() => {
+    useEffect(() => {
         if (darkMode) {
             document.body.classList.add('dark-mode');
         } else {

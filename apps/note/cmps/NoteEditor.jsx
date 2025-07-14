@@ -3,13 +3,13 @@ import { NoteEditorToolBar } from './NoteEditorToolBar.jsx'
 import { editorService } from '../services/editor.service.js';
 import { showSuccessMsg } from '../../../services/event-bus.service.js'
 
-const { useState, forwardRef } = React;
+const { useState, forwardRef, useRef } = React;
 
 export const NoteEditor = forwardRef(function NoteEditor({ note, onSave, onClose, className = 'note-card modal-note-card', onColorBtnClick }, ref) {
     const [editNote, setEditNote] = useState({ ...note })
     const [newTodoValue, setNewTodoValue] = useState('')
-    const fileInputRef = React.useRef(null);
-    const paletteBtnRef = React.useRef(null);
+    const fileInputRef = useRef(null);
+    const paletteBtnRef = useRef(null);
 
     const handleChange = editorService.handleChange(setEditNote, editorService.debouncedSave, onSave);
     const handleRemoveMedia = editorService.handleRemoveMedia(setEditNote, editNote, editorService.debouncedSave, onSave);
