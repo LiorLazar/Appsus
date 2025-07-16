@@ -46,6 +46,7 @@ export function NoteTodos({ note, onHeightChange, className = 'note-card', onCar
             const container = document.querySelector('.note-container')
             if (window.NoteAnimate && typeof window.NoteAnimate.initMasonry === 'function' && container) {
                 window.NoteAnimate.initMasonry(container)
+                window.dispatchEvent(new CustomEvent('refreshNotesFilterBy'));
             }
         }, 100)
     }, [showCompleted])

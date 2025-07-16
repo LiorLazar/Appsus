@@ -21,6 +21,15 @@ export function NoteHeader() {
     useEffect(() => {
         setSearchParams(truthyFilter)
         window.dispatchEvent(new CustomEvent('refreshNotes', { detail: { filterBy } }));
+
+        function refreshNotesFilterBy() {
+            window.dispatchEvent(new CustomEvent('refreshNotes', { detail:  { filterBy } }));
+        }
+
+        window.addEventListener('refreshNotesFilterBy', refreshNotesFilterBy);
+        return () => {
+            window.removeEventListener('refreshNotesFilterBy', refreshNotesFilterBy);
+        };
     }, [filterBy])
 
     function onSetFilterBy(filterBy) {

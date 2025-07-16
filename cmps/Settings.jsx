@@ -15,7 +15,7 @@ export function Settings({ isOpen, onClose }) {
         }
         localStorage.setItem('darkMode', darkMode);
         // Refresh notes without animation
-        window.dispatchEvent(new CustomEvent('refreshNotes'));
+        window.dispatchEvent(new CustomEvent('refreshNotesFilterBy'));
     }, [darkMode]);
 
     if (!isOpen) return null;

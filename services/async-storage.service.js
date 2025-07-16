@@ -25,6 +25,7 @@ function post(entityType, newEntity) {
     return query(entityType).then(entities => {
         entities.push(newEntity)
         _save(entityType, entities)
+        window.dispatchEvent(new CustomEvent('refreshNotesFilterBy'));
         return newEntity
     })
 }
@@ -35,6 +36,7 @@ function put(entityType, updatedEntity) {
         if (idx < 0) throw new Error(`Update failed, cannot find entity with id: ${entityId} in: ${entityType}`)
         entities.splice(idx, 1, updatedEntity)
         _save(entityType, entities)
+        window.dispatchEvent(new CustomEvent('refreshNotesFilterBy'));
         return updatedEntity
     })
 }
